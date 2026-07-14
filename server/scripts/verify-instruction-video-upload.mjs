@@ -10,8 +10,8 @@ import fs from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 
-const VPS = String(process.env.VPS_API || 'https://api.nassanitv.com').replace(/\/$/, '')
-const RENDER = String(process.env.RENDER_API || 'https://api.nassanitv.com').replace(/\/$/, '')
+const VPS = String(process.env.VPS_API || 'https://api.nassanitv.online').replace(/\/$/, '')
+const RENDER = String(process.env.RENDER_API || 'https://api.nassanitv.online').replace(/\/$/, '')
 const TOKEN = String(
   process.env.INSTRUCTION_VIDEO_INGEST_TOKEN ||
     process.env.NOTIFICATION_IMAGE_INGEST_TOKEN ||
@@ -111,7 +111,7 @@ async function verifyPlaybackUrl(url) {
     fail('missing playback URL')
     return false
   }
-  if (!url.startsWith('https://api.nassanitv.com/uploads/videos/')) {
+  if (!url.startsWith('https://api.nassanitv.online/uploads/videos/')) {
     fail(`playback URL not VPS HTTPS: ${url}`)
     return false
   }

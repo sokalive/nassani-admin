@@ -7,9 +7,9 @@ import {
 } from '../src/lib/appUpdateTargeting.js'
 import { validateApkUploadVersionCode } from '../src/lib/appUpdateUploadValidation.js'
 
-const VPS_API = String(process.env.VPS_API || 'https://api.nassanitv.com').replace(/\/+$/, '')
+const VPS_API = String(process.env.VPS_API || 'https://api.nassanitv.online').replace(/\/+$/, '')
 const RENDER_API = String(
-  process.env.RENDER_API || 'https://api.nassanitv.com',
+  process.env.RENDER_API || 'https://api.nassanitv.online',
 ).replace(/\/+$/, '')
 
 const HOSTS = [

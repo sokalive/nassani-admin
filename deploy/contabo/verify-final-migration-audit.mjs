@@ -5,11 +5,11 @@
  *   node deploy/contabo/verify-final-migration-audit.mjs
  *   EXPECT_VPS_COMMIT=0a62176 node deploy/contabo/verify-final-migration-audit.mjs
  */
-const RENDER_API = String(process.env.RENDER_API || 'https://api.nassanitv.com').replace(/\/$/, '')
-const VPS_API = String(process.env.VPS_API || 'https://api.nassanitv.com').replace(/\/$/, '')
-const VPS_ADMIN = String(process.env.VPS_ADMIN || 'https://admin.nassanitv.com').replace(/\/$/, '')
-const RENDER_ADMIN = String(process.env.RENDER_ADMIN || 'https://admin.nassanitv.com').replace(/\/$/, '')
-const RENDER_TV = String(process.env.RENDER_TV || 'https://nassanitv.com').replace(/\/$/, '')
+const RENDER_API = String(process.env.RENDER_API || 'https://api.nassanitv.online').replace(/\/$/, '')
+const VPS_API = String(process.env.VPS_API || 'https://api.nassanitv.online').replace(/\/$/, '')
+const VPS_ADMIN = String(process.env.VPS_ADMIN || 'https://admin.nassanitv.online').replace(/\/$/, '')
+const RENDER_ADMIN = String(process.env.RENDER_ADMIN || 'https://admin.nassanitv.online').replace(/\/$/, '')
+const RENDER_TV = String(process.env.RENDER_TV || 'https://nassanitv.online').replace(/\/$/, '')
 const PROBE_DEVICE = process.env.PROBE_DEVICE || 'migration-audit-probe'
 const ADMIN_TOKEN = process.env.ADMIN_TOKEN || process.env.ADMIN_API_TOKEN || '3030'
 
@@ -296,7 +296,7 @@ async function main() {
     } else if (!VPS_API.startsWith('https://')) {
       pass('stream:vps-hosts', JSON.stringify(vh))
     } else {
-      fail('stream:vps-hosts', `expected api.nassanitv.com over HTTPS probe — ${JSON.stringify(vh)}`)
+      fail('stream:vps-hosts', `expected api.nassanitv.online over HTTPS probe — ${JSON.stringify(vh)}`)
     }
   } else {
     fail('cutover-status', 'unavailable on one or both hosts')

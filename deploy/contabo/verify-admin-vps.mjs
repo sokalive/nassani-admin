@@ -5,9 +5,9 @@
  *   node deploy/contabo/verify-admin-vps.mjs
  *   ADMIN_BASE=http://169.58.18.86 ADMIN_TOKEN=3030 node deploy/contabo/verify-admin-vps.mjs
  */
-const ADMIN_BASE = String(process.env.ADMIN_BASE || 'https://admin.nassanitv.com').replace(/\/$/, '')
+const ADMIN_BASE = String(process.env.ADMIN_BASE || 'https://admin.nassanitv.online').replace(/\/$/, '')
 const ADMIN_TOKEN = process.env.ADMIN_TOKEN || process.env.ADMIN_API_TOKEN || '3030'
-const RENDER_API = 'https://api.nassanitv.com'
+const RENDER_API = 'https://api.nassanitv.online'
 
 const checks = []
 

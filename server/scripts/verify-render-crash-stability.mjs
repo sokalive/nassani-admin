@@ -4,9 +4,9 @@
  *
  * Usage:
  *   node scripts/verify-render-crash-stability.mjs
- *   RENDER_API=https://api.nassanitv.com WATCH_MINUTES=30 node scripts/verify-render-crash-stability.mjs
+ *   RENDER_API=https://api.nassanitv.online WATCH_MINUTES=30 node scripts/verify-render-crash-stability.mjs
  */
-const RENDER = String(process.env.RENDER_API || 'https://api.nassanitv.com').replace(
+const RENDER = String(process.env.RENDER_API || 'https://api.nassanitv.online').replace(
   /\/+$/,
   '',
 )

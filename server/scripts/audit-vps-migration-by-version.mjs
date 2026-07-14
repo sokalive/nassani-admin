@@ -3,15 +3,15 @@
  *
  * Usage:
  *   ADMIN_TOKEN=3030 node scripts/audit-vps-migration-by-version.mjs
- *   VPS_API=https://api.nassanitv.com RENDER_API=https://api.nassanitv.com node scripts/audit-vps-migration-by-version.mjs
+ *   VPS_API=https://api.nassanitv.online RENDER_API=https://api.nassanitv.online node scripts/audit-vps-migration-by-version.mjs
  *
  * With DATABASE_URL set, also runs DB audit locally (same queries as /api/runtime/vps-migration-audit).
  */
 import pg from 'pg'
 
-const VPS_API = String(process.env.VPS_API || 'https://api.nassanitv.com').replace(/\/+$/, '')
+const VPS_API = String(process.env.VPS_API || 'https://api.nassanitv.online').replace(/\/+$/, '')
 const RENDER_API = String(
-  process.env.RENDER_API || 'https://api.nassanitv.com',
+  process.env.RENDER_API || 'https://api.nassanitv.online',
 ).replace(/\/+$/, '')
 const ADMIN_TOKEN = String(process.env.ADMIN_TOKEN || process.env.ADMIN_API_TOKEN || '3030').trim()
 const WINDOW_DAYS = Number(process.env.AUDIT_WINDOW_DAYS || 7)

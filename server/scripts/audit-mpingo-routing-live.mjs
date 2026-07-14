@@ -5,7 +5,7 @@
 import assert from 'node:assert/strict'
 import { parseMpingoPlayerHtml } from '../src/lib/mpingoPlayerMetadata.js'
 
-const API = (process.argv[2] || 'https://api.nassanitv.com').replace(/\/$/, '')
+const API = (process.argv[2] || 'https://api.nassanitv.online').replace(/\/$/, '')
 const UA =
   'Mozilla/5.0 (Android 13; Mobile) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Mobile Safari/537.36'
 

@@ -6,11 +6,11 @@
  *   RENDER_SERVICE_ID       nassani-admin-api service id (srv-…)
  *   BUNNY_API_KEY           Bunny account API key
  *   BUNNY_PULL_ZONE_ID      Pull zone id for  (or auto-list)
- *   API_BASE                https://api.nassanitv.com
+ *   API_BASE                https://api.nassanitv.online
  */
 import assert from 'node:assert/strict'
 
-const API = (process.env.API_BASE || 'https://api.nassanitv.com').replace(/\/$/, '')
+const API = (process.env.API_BASE || 'https://api.nassanitv.online').replace(/\/$/, '')
 const HOURS = Number(process.env.AUDIT_HOURS) || 24
 const now = Date.now()
 const startMs = now - HOURS * 3600 * 1000

@@ -2,7 +2,7 @@
  * Investigate a device_id across production API + optional DATABASE_URL.
  *
  *   node scripts/investigate-device-subscription.mjs b874581a7c265864
- *   API_BASE=https://api.nassanitv.com ADMIN_TOKEN=3030 node scripts/investigate-device-subscription.mjs <device_id>
+ *   API_BASE=https://api.nassanitv.online ADMIN_TOKEN=3030 node scripts/investigate-device-subscription.mjs <device_id>
  */
 const deviceId = String(process.argv[2] || '').trim()
 if (!deviceId) {
@@ -10,7 +10,7 @@ if (!deviceId) {
   process.exit(1)
 }
 
-const API_BASE = String(process.env.API_BASE || 'https://api.nassanitv.com').replace(/\/$/, '')
+const API_BASE = String(process.env.API_BASE || 'https://api.nassanitv.online').replace(/\/$/, '')
 const ADMIN_TOKEN = process.env.ADMIN_TOKEN || process.env.ADMIN_API_TOKEN || '3030'
 const YEARLY_PLAN_IDS = new Set([6])
 const YEARLY_AMOUNTS = new Set([40000])

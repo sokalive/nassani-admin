@@ -3,12 +3,12 @@
  * Verify banner active toggle + public API cache invalidation.
  *
  *   node server/scripts/verify-banner-toggle.mjs
- *   VPS_API=https://api.nassanitv.com ADMIN_TOKEN=... BANNER_TEST_ID=3 node server/scripts/verify-banner-toggle.mjs
+ *   VPS_API=https://api.nassanitv.online ADMIN_TOKEN=... BANNER_TEST_ID=3 node server/scripts/verify-banner-toggle.mjs
  */
 import { bannerSaveBody } from '../../src/lib/bannerSaveBody.js'
 
-const VPS = String(process.env.VPS_API || 'https://api.nassanitv.com').replace(/\/$/, '')
-const RENDER = String(process.env.RENDER_API || 'https://api.nassanitv.com').replace(/\/$/, '')
+const VPS = String(process.env.VPS_API || 'https://api.nassanitv.online').replace(/\/$/, '')
+const RENDER = String(process.env.RENDER_API || 'https://api.nassanitv.online').replace(/\/$/, '')
 const TOKEN = String(process.env.ADMIN_TOKEN || process.env.ADMIN_API_TOKEN || '').trim()
 const BANNER_ID = Number(process.env.BANNER_TEST_ID || 0)
 

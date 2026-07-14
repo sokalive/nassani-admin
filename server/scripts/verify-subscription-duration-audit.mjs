@@ -6,8 +6,8 @@
  */
 import { computeStackedExpiryIso } from '../src/lib/subscriptionStacking.js'
 
-const VPS = String(process.env.VPS_API || 'https://api.nassanitv.com').replace(/\/$/, '')
-const RENDER = String(process.env.RENDER_API || 'https://api.nassanitv.com').replace(/\/$/, '')
+const VPS = String(process.env.VPS_API || 'https://api.nassanitv.online').replace(/\/$/, '')
+const RENDER = String(process.env.RENDER_API || 'https://api.nassanitv.online').replace(/\/$/, '')
 const TOKEN = String(process.env.ADMIN_TOKEN || '3030').trim()
 const PHONE = String(process.env.INVESTIGATE_PHONE || '0625884695').trim()
 

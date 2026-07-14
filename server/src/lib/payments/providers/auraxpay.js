@@ -417,7 +417,7 @@ export function buildCreateOrderPayload(cred, { phone, amount, orderId, currency
       reference: merchantRef,
       buyer_name: String(process.env.AURAXPAY_BUYER_NAME || 'Nassani Customer').trim(),
       buyer_phone,
-      buyer_email: String(process.env.AURAXPAY_BUYER_EMAIL || 'customer@nassanitv.com').trim(),
+      buyer_email: String(process.env.AURAXPAY_BUYER_EMAIL || 'customer@nassanitv.online').trim(),
       amount: amountInt,
     }
     if (accountId) payload.account_id = accountId
@@ -447,7 +447,7 @@ export function buildCreateOrderPayload(cred, { phone, amount, orderId, currency
       currency: String(currency || 'TZS').trim() || 'TZS',
       merchant_webhook: webhookUrl,
       product_count: 1,
-      customer_email: String(process.env.AURAXPAY_BUYER_EMAIL || 'customer@nassanitv.com').trim(),
+      customer_email: String(process.env.AURAXPAY_BUYER_EMAIL || 'customer@nassanitv.online').trim(),
       customer_name: String(process.env.AURAXPAY_BUYER_NAME || 'Nassani Customer').trim(),
       customer_phone,
       customer_userid: accountId || merchantRef.slice(0, 100),
@@ -457,7 +457,7 @@ export function buildCreateOrderPayload(cred, { phone, amount, orderId, currency
 
   const buyer_phone = buyerPhone(phone)
   const payload = {
-    buyer_email: String(process.env.AURAXPAY_BUYER_EMAIL || 'customer@nassanitv.com').trim(),
+    buyer_email: String(process.env.AURAXPAY_BUYER_EMAIL || 'customer@nassanitv.online').trim(),
     buyer_name: String(process.env.AURAXPAY_BUYER_NAME || 'Nassani Customer').trim(),
     buyer_phone,
     amount: amountInt,
@@ -968,7 +968,7 @@ export async function testConnection(cred) {
           currency: 'TZS',
           merchant_webhook: webhookUrl,
           product_count: 1,
-          customer_email: 'probe@nassanitv.com',
+          customer_email: 'probe@nassanitv.online',
           customer_name: 'Nassani Probe',
           customer_phone: '255700000000',
           customer_userid: cred.accountId || 'probe',

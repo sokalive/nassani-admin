@@ -4,8 +4,8 @@
  *
  *   node scripts/verify-subscription-integrity-audit.mjs
  */
-const VPS = String(process.env.VPS_API || 'https://api.nassanitv.com').replace(/\/$/, '')
-const RENDER = String(process.env.RENDER_API || 'https://api.nassanitv.com').replace(/\/$/, '')
+const VPS = String(process.env.VPS_API || 'https://api.nassanitv.online').replace(/\/$/, '')
+const RENDER = String(process.env.RENDER_API || 'https://api.nassanitv.online').replace(/\/$/, '')
 const TOKEN = String(process.env.ADMIN_TOKEN || process.env.ADMIN_API_TOKEN || '3030').trim()
 
 const REQUIRED_VERIFY = [

@@ -4,7 +4,7 @@
  */
 import assert from 'node:assert/strict'
 
-const API = (process.env.API_BASE || 'https://api.nassanitv.com').replace(/\/$/, '')
+const API = (process.env.API_BASE || 'https://api.nassanitv.online').replace(/\/$/, '')
 const CHANNEL_ID = Number(process.argv[2]) || 16
 
 function classifyUpstream(status, ct, body) {

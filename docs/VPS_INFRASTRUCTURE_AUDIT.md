@@ -27,11 +27,11 @@ curl -fsSL https://raw.githubusercontent.com/sokalive/nassani-admin/main/deploy/
 
 | Requirement | VPS status |
 |-------------|--------------|
-| API over TLS | `https://api.nassanitv.com` (nginx TLS 1.2/1.3) |
+| API over TLS | `https://api.nassanitv.online` (nginx TLS 1.2/1.3) |
 | HTTP → HTTPS redirect | All branded hosts |
-| Stream proxy URLs | `https://api.nassanitv.com/stream-proxy?...` |
+| Stream proxy URLs | `https://api.nassanitv.online/stream-proxy?...` |
 | Thumbnails | `/uploads/...` |
-| Legacy Render APK | Unchanged — `https://api.nassanitv.com` |
+| Legacy Render APK | Unchanged — `https://api.nassanitv.online` |
 
 ## Render (do not modify)
 

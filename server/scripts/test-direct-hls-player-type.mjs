@@ -11,14 +11,14 @@ import {
 
 const req = {
   protocol: 'https',
-  get: (h) => (h === 'host' ? 'api.nassanitv.com' : ''),
+  get: (h) => (h === 'host' ? 'api.nassanitv.online' : ''),
   headers: {},
 }
 
 process.env.STREAM_DELIVERY_MODE = 'hybrid'
 process.env.DIRECT_STREAM_SIGNING_ENABLED = '1'
 process.env.DIRECT_STREAM_SIGNING_SECRET = 'test-secret-min-16-chars!!'
-process.env.BASE_URL = 'https://api.nassanitv.com'
+process.env.BASE_URL = 'https://api.nassanitv.online'
 process.env.DIRECT_STREAM_CUTOVER_ENABLED = '1'
 process.env.DIRECT_STREAM_ROLLOUT_PERCENT = '100'
 

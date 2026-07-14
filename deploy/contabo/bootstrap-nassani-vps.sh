@@ -4,10 +4,10 @@
 #
 # Usage (as root on the VPS):
 #   export NASSANI_VPS_IP='YOUR.VPS.IP'
-#   export NASSANI_ROOT_DOMAIN='nassanitv.com'          # optional until DNS ready
-#   export NASSANI_API_DOMAIN='api.nassanitv.com'       # optional
-#   export NASSANI_ADMIN_DOMAIN='admin.nassanitv.com'   # optional
-#   export CERTBOT_EMAIL='admin@nassanitv.com'          # optional
+#   export NASSANI_ROOT_DOMAIN='nassanitv.online'          # optional until DNS ready
+#   export NASSANI_API_DOMAIN='api.nassanitv.online'       # optional
+#   export NASSANI_ADMIN_DOMAIN='admin.nassanitv.online'   # optional
+#   export CERTBOT_EMAIL='admin@nassanitv.online'          # optional
 #   export BUNNY_CDN_BASE_URL='https://YOUR.b-cdn.net'  # optional for thumbs
 #   bash bootstrap-nassani-vps.sh
 #
@@ -20,7 +20,7 @@ NASSANI_ROOT="${NASSANI_ROOT:-/var/www/nassani-admin}"
 NASSANI_REPO_URL="${NASSANI_REPO_URL:-https://github.com/sokalive/nassani-admin.git}"
 NASSANI_BRANCH="${NASSANI_BRANCH:-main}"
 NASSANI_VPS_IP="${NASSANI_VPS_IP:-}"
-NASSANI_ROOT_DOMAIN="${NASSANI_ROOT_DOMAIN:-nassanitv.com}"
+NASSANI_ROOT_DOMAIN="${NASSANI_ROOT_DOMAIN:-nassanitv.online}"
 NASSANI_API_DOMAIN="${NASSANI_API_DOMAIN:-api.${NASSANI_ROOT_DOMAIN}}"
 NASSANI_ADMIN_DOMAIN="${NASSANI_ADMIN_DOMAIN:-admin.${NASSANI_ROOT_DOMAIN}}"
 CERTBOT_EMAIL="${CERTBOT_EMAIL:-admin@${NASSANI_ROOT_DOMAIN}}"

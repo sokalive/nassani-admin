@@ -12,7 +12,7 @@ import {
   resolvePublicAssetUrl,
 } from '../src/lib/cdnAssets.js'
 
-const ORIGIN = 'https://api.nassanitv.com'
+const ORIGIN = 'https://api.nassanitv.online'
 const CDN = 'https://nassani-media.b-cdn.net'
 
 process.env.BASE_URL = ORIGIN
@@ -47,7 +47,7 @@ assert.equal(fallback, `${ORIGIN}/uploads/x.png`)
 const apkFallback = resolveHostedApkDownloadUrl('/uploads/apks/x.apk', null)
 assert.equal(apkFallback, `${ORIGIN}/uploads/apks/x.apk`)
 
-assert.equal(extractUploadPath('https://api.nassanitv.com/uploads/foo.webp'), '/uploads/foo.webp')
+assert.equal(extractUploadPath('https://api.nassanitv.online/uploads/foo.webp'), '/uploads/foo.webp')
 
 assert.equal(
   isBunnyCdnOriginPullRequest({ headers: { 'user-agent': 'BunnyCDN/1.0' } }),

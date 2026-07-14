@@ -4,10 +4,10 @@
  *
  * Usage:
  *   node scripts/verify-manual-subscription-restoration.mjs
- *   VPS_API=https://api.nassanitv.com RENDER_API=https://api.nassanitv.com node scripts/verify-manual-subscription-restoration.mjs
+ *   VPS_API=https://api.nassanitv.online RENDER_API=https://api.nassanitv.online node scripts/verify-manual-subscription-restoration.mjs
  */
-const VPS = String(process.env.VPS_API || 'https://api.nassanitv.com').replace(/\/+$/, '')
-const RENDER = String(process.env.RENDER_API || 'https://api.nassanitv.com').replace(/\/+$/, '')
+const VPS = String(process.env.VPS_API || 'https://api.nassanitv.online').replace(/\/+$/, '')
+const RENDER = String(process.env.RENDER_API || 'https://api.nassanitv.online').replace(/\/+$/, '')
 const TOKEN = String(process.env.ADMIN_TOKEN || process.env.APP_UPDATE_ADMIN_TOKEN || '3030').trim()
 
 let failed = 0

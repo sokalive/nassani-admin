@@ -10,7 +10,7 @@ import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
-const API = process.env.PRODUCTION_API || 'https://api.nassanitv.com'
+const API = process.env.PRODUCTION_API || 'https://api.nassanitv.online'
 const TOKEN = process.env.ADMIN_TOKEN || '3030'
 
 const args = process.argv.slice(2)

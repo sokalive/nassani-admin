@@ -122,9 +122,9 @@ async function main() {
   }
 
   console.log('\n=== Verify production commits ===')
-  await waitForCommit('https://api.nassanitv.com', EXPECT_COMMIT)
+  await waitForCommit('https://api.nassanitv.online', EXPECT_COMMIT)
 
-  const mpyaHome = await fetch('https://admin.nassanitv.com/').then((r) => r.text())
+  const mpyaHome = await fetch('https://admin.nassanitv.online/').then((r) => r.text())
   const bundle = mpyaHome.match(/src="(\/assets\/[^"]+\.js)"/)?.[1]
   console.log('Render admin bundle:', bundle || '(unknown)')
 

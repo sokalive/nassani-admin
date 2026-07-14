@@ -84,7 +84,7 @@ Metrics: `GET /api/health/stream-delivery` → `metrics.segment_routes_by_provid
 
 Use the **same** pull zone as static assets (``) or a dedicated stream zone.
 
-1. **Origin URL:** `https://api.nassanitv.com` (no trailing path)
+1. **Origin URL:** `https://api.nassanitv.online` (no trailing path)
 2. **Host header:** forward client host or set to API host per Bunny docs
 3. **Cache:** enable caching; segment responses send `Cache-Control: public, max-age=86400`
 4. **Manifest origin responses:** `Cache-Control: no-store` (variant playlists rewritten per request)
@@ -93,7 +93,7 @@ Use the **same** pull zone as static assets (``) or a dedicated stream zone.
 Verify path mapping:
 
 - Client requests: `/hls/seg?tok=…`
-- Bunny pulls: `https://api.nassanitv.com/hls/seg?tok=…`
+- Bunny pulls: `https://api.nassanitv.online/hls/seg?tok=…`
 
 ## Enabling segment offload (production-safe)
 

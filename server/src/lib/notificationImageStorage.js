@@ -24,7 +24,7 @@ export function isNotificationImageUploadPath(value) {
 export function getNotificationImagePublicOrigin() {
   const explicit = trimSlash(process.env.NOTIFICATION_IMAGE_PUBLIC_ORIGIN)
   if (explicit) return explicit
-  return 'https://api.nassanitv.com'
+  return 'https://api.nassanitv.online'
 }
 
 /** True when this process must not write notification images to local UPLOAD_DIR. */

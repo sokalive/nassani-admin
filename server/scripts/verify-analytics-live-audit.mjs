@@ -3,10 +3,10 @@
  *
  * Usage:
  *   node scripts/verify-analytics-live-audit.mjs
- *   VPS_API=https://api.nassanitv.com RENDER_API=https://api.nassanitv.com node scripts/verify-analytics-live-audit.mjs
+ *   VPS_API=https://api.nassanitv.online RENDER_API=https://api.nassanitv.online node scripts/verify-analytics-live-audit.mjs
  */
-const VPS_API = String(process.env.VPS_API || 'https://api.nassanitv.com').replace(/\/+$/, '')
-const RENDER_API = String(process.env.RENDER_API || 'https://api.nassanitv.com').replace(
+const VPS_API = String(process.env.VPS_API || 'https://api.nassanitv.online').replace(/\/+$/, '')
+const RENDER_API = String(process.env.RENDER_API || 'https://api.nassanitv.online').replace(
   /\/+$/,
   '',
 )

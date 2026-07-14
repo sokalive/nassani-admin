@@ -86,6 +86,6 @@ async function assertPublicApi(base) {
 }
 
 assertPayloadShape()
-const base = process.argv[2] || process.env.API_BASE_URL || 'https://api.nassanitv.com'
+const base = process.argv[2] || process.env.API_BASE_URL || 'https://api.nassanitv.online'
 await assertPublicApi(base)
 console.log('Banner admin payload verification passed.')

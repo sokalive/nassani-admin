@@ -2,7 +2,7 @@
  * Verify OTA endpoints expose Bunny APK URLs when CDN is configured.
  * Usage: node scripts/verify-apk-update-cdn.mjs [API_BASE_URL]
  */
-const base = (process.argv[2] || process.env.API_BASE_URL || 'https://api.nassanitv.com').replace(
+const base = (process.argv[2] || process.env.API_BASE_URL || 'https://api.nassanitv.online').replace(
   /\/$/,
   '',
 )

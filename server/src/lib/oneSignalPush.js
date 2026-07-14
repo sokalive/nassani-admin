@@ -31,7 +31,7 @@ export function isOneSignalConfigured() {
 export function getOneSignalApiHostLabel() {
   if (isRenderRuntime()) return 'render'
   const base = String(process.env.BASE_URL || process.env.NOTIFICATION_IMAGE_PUBLIC_ORIGIN || '').toLowerCase()
-  if (base.includes('nassanitv.com') || base.includes('169.58.18.86')) return 'vps'
+  if (base.includes('nassanitv.online') || base.includes('169.58.18.86')) return 'vps'
   return 'unknown'
 }
 

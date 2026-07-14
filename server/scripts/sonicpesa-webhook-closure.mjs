@@ -2,8 +2,8 @@
 /**
  * SonicPesa real webhook + match-day closure harness (engineering probes only — no real charges).
  */
-const API = String(process.env.VPS_API || 'https://api.nassanitv.com').replace(/\/+$/, '')
-const RENDER = String(process.env.RENDER_API || 'https://api.nassanitv.com').replace(/\/+$/, '')
+const API = String(process.env.VPS_API || 'https://api.nassanitv.online').replace(/\/+$/, '')
+const RENDER = String(process.env.RENDER_API || 'https://api.nassanitv.online').replace(/\/+$/, '')
 const TOKEN = String(process.env.ADMIN_API_TOKEN || '3030').trim()
 
 const results = { checks: [], concurrency: null, readiness: null, dry_run: null }

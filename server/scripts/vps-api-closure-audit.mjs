@@ -11,7 +11,7 @@ import { fileURLToPath } from 'node:url'
 import { parseMovedTransactionId } from '../src/lib/paymentOrderRecoveryClassifier.js'
 
 const __dir = dirname(fileURLToPath(import.meta.url))
-const API = String(process.env.VPS_API || 'https://api.nassanitv.com').replace(/\/+$/, '')
+const API = String(process.env.VPS_API || 'https://api.nassanitv.online').replace(/\/+$/, '')
 const TOKEN = String(process.env.ADMIN_TOKEN || '3030').trim()
 const PREVIOUS_STRANDED = 99
 const PREVIOUS_SM = 146

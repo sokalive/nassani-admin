@@ -3,7 +3,7 @@
   "finished_at": "2026-07-03T16:38:31.119Z",
   "environments": {
     "vps": {
-      "api": "https://api.nassanitv.com/api",
+      "api": "https://api.nassanitv.online/api",
       "health": {
         "ok": true,
         "service": "nassani-admin-api",
@@ -34,7 +34,7 @@
       }
     },
     "render": {
-      "api": "https://api.nassanitv.com/api",
+      "api": "https://api.nassanitv.online/api",
       "health": {
         "ok": true,
         "service": "nassani-admin-api",

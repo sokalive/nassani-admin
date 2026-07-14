@@ -11,8 +11,8 @@ import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 const __dir = path.dirname(fileURLToPath(import.meta.url))
-const VPS = String(process.env.VPS_API || 'https://api.nassanitv.com').replace(/\/$/, '')
-const RENDER = String(process.env.RENDER_API || 'https://api.nassanitv.com').replace(/\/$/, '')
+const VPS = String(process.env.VPS_API || 'https://api.nassanitv.online').replace(/\/$/, '')
+const RENDER = String(process.env.RENDER_API || 'https://api.nassanitv.online').replace(/\/$/, '')
 const TOKEN = String(process.env.ADMIN_TOKEN || process.env.ADMIN_API_TOKEN || '3030').trim()
 const APPROVED_SENDER = 'NASSANITVMAX'
 const TEST_PHONE = String(process.env.TEST_SMS_PHONE || '').trim()

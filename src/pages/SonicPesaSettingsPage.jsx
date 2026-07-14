@@ -22,7 +22,7 @@ function defaultSettings() {
     hasApiKey: false,
     apiKeyMasked: '',
     webhookUrl: '',
-    productionWebhookUrl: 'https://api.nassanitv.com/api/payments/sonicpesa/webhook',
+    productionWebhookUrl: 'https://api.nassanitv.online/api/payments/sonicpesa/webhook',
     webhookUrlIsLegacyRender: false,
     webhookSecretConfigured: false,
     lastTestAt: null,
@@ -65,7 +65,7 @@ function SonicPesaSettingsPage() {
   const productionWebhook =
     cfg.productionWebhookUrl ||
     cfg.production_webhook_url ||
-    'https://api.nassanitv.com/api/payments/sonicpesa/webhook'
+    'https://api.nassanitv.online/api/payments/sonicpesa/webhook'
 
   const loadSettings = useCallback(async () => {
     try {
@@ -73,7 +73,7 @@ function SonicPesaSettingsPage() {
       const prodWh =
         s?.productionWebhookUrl ??
         s?.production_webhook_url ??
-        'https://api.nassanitv.com/api/payments/sonicpesa/webhook'
+        'https://api.nassanitv.online/api/payments/sonicpesa/webhook'
       const merged = {
         ...defaultSettings(),
         ...s,

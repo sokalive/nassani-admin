@@ -3,13 +3,13 @@
  *
  * Usage:
  *   node scripts/verify-app-update-v24.mjs
- *   VPS_API=https://api.nassanitv.com RENDER_API=https://api.nassanitv.com node scripts/verify-app-update-v24.mjs
+ *   VPS_API=https://api.nassanitv.online RENDER_API=https://api.nassanitv.online node scripts/verify-app-update-v24.mjs
  */
 import { applyAppUpdateClientDecision } from '../src/lib/appUpdateTargeting.js'
 
-const VPS_API = String(process.env.VPS_API || 'https://api.nassanitv.com').replace(/\/+$/, '')
+const VPS_API = String(process.env.VPS_API || 'https://api.nassanitv.online').replace(/\/+$/, '')
 const RENDER_API = String(
-  process.env.RENDER_API || 'https://api.nassanitv.com',
+  process.env.RENDER_API || 'https://api.nassanitv.online',
 ).replace(/\/+$/, '')
 
 const HOSTS = [

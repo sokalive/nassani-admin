@@ -14,7 +14,7 @@ for (const ch of [1, 2]) {
   const upBody = await upRes.text()
   const proxied = injectMpingoHtmlBaseHref(upBody, url)
 
-  const proxyUrl = `https://api.nassanitv.com/stream-proxy?url=${encodeURIComponent(url)}&origin=https%3A%2F%2Fnur.mpingotv.com&userAgent=${encodeURIComponent(UA)}`
+  const proxyUrl = `https://api.nassanitv.online/stream-proxy?url=${encodeURIComponent(url)}&origin=https%3A%2F%2Fnur.mpingotv.com&userAgent=${encodeURIComponent(UA)}`
   const liveRes = await fetch(proxyUrl, { headers: { 'User-Agent': UA } })
   const liveBody = await liveRes.text()
 

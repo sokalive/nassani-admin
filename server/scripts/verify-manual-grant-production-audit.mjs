@@ -5,12 +5,12 @@
  * Usage:
  *   ADMIN_TOKEN=3030 node server/scripts/verify-manual-grant-production-audit.mjs
  */
-const VPS_API = String(process.env.VPS_API || 'https://api.nassanitv.com').replace(/\/+$/, '')
-const RENDER_ADMIN = String(process.env.RENDER_ADMIN || 'https://admin.nassanitv.com').replace(
+const VPS_API = String(process.env.VPS_API || 'https://api.nassanitv.online').replace(/\/+$/, '')
+const RENDER_ADMIN = String(process.env.RENDER_ADMIN || 'https://admin.nassanitv.online').replace(
   /\/+$/,
   '',
 )
-const VPS_ADMIN = String(process.env.VPS_ADMIN || 'https://admin.nassanitv.com').replace(/\/+$/, '')
+const VPS_ADMIN = String(process.env.VPS_ADMIN || 'https://admin.nassanitv.online').replace(/\/+$/, '')
 const TOKEN = String(process.env.ADMIN_TOKEN || process.env.APP_UPDATE_ADMIN_TOKEN || '3030').trim()
 const TZ = process.env.PRODUCTION_TZ || 'Africa/Dar_es_Salaam'
 
@@ -90,11 +90,11 @@ async function grepAdminBundle(base, label) {
   }
   const jsUrl = `${base}${m[1]}`
   const js = await (await fetch(jsUrl, { cache: 'no-store' })).text()
-  const vpsApi = js.includes('api.nassanitv.com')
+  const vpsApi = js.includes('api.nassanitv.online')
   const renderApi = js.includes('onrender.com')
   const sameOrigin = js.includes('"/api"') || js.includes("'/api'")
   ok(
-    `${label} bundle ${m[1]} apiTarget=${vpsApi ? 'api.nassanitv.com' : renderApi ? 'onrender.com' : sameOrigin ? 'same-origin-/api' : 'unknown'}`,
+    `${label} bundle ${m[1]} apiTarget=${vpsApi ? 'api.nassanitv.online' : renderApi ? 'onrender.com' : sameOrigin ? 'same-origin-/api' : 'unknown'}`,
   )
   if (label === 'Render' && !vpsApi && renderApi) {
     fail('Render admin bundle still targets Render API — redeploy static admin')
@@ -124,7 +124,7 @@ async function main() {
   })
 
   ok(`today grants from VPS history: ${todayGrants.length} (${startIso} .. ${endIso})`)
-  ok('Render admin is static — history/read/write parity via api.nassanitv.com (bundle confirmed)')
+  ok('Render admin is static — history/read/write parity via api.nassanitv.online (bundle confirmed)')
 
   console.log('\n--- Per-device verify matrix ---\n')
   const seen = new Set()

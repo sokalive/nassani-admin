@@ -6,7 +6,7 @@
 import { execSync } from 'node:child_process'
 import { readFileSync } from 'node:fs'
 
-const API = String(process.env.API_BASE || 'https://api.nassanitv.com').replace(/\/$/, '')
+const API = String(process.env.API_BASE || 'https://api.nassanitv.online').replace(/\/$/, '')
 const TOKEN = process.env.ADMIN_TOKEN || '3030'
 
 function curlJson(url, opts = {}) {

@@ -9,8 +9,8 @@ import fs from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 
-const VPS = String(process.env.VPS_API || 'https://api.nassanitv.com').replace(/\/+$/, '')
-const RENDER = String(process.env.RENDER_API || 'https://api.nassanitv.com').replace(/\/+$/, '')
+const VPS = String(process.env.VPS_API || 'https://api.nassanitv.online').replace(/\/+$/, '')
+const RENDER = String(process.env.RENDER_API || 'https://api.nassanitv.online').replace(/\/+$/, '')
 const TOKEN = String(process.env.ADMIN_TOKEN || process.env.ADMIN_API_TOKEN || '3030').trim()
 const DO_REPAIR = String(process.env.REPAIR ?? '1').trim() !== '0'
 const __dirname = path.dirname(fileURLToPath(import.meta.url))

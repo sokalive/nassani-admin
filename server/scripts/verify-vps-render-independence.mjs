@@ -3,13 +3,13 @@
  *
  * Usage:
  *   node scripts/verify-vps-render-independence.mjs
- *   BASE_URL=https://api.nassanitv.com node scripts/verify-vps-render-independence.mjs
+ *   BASE_URL=https://api.nassanitv.online node scripts/verify-vps-render-independence.mjs
  */
-const BASE_URL = String(process.env.BASE_URL || process.env.VPS_API || 'https://api.nassanitv.com').replace(
+const BASE_URL = String(process.env.BASE_URL || process.env.VPS_API || 'https://api.nassanitv.online').replace(
   /\/$/,
   '',
 )
-const RENDER_API = String(process.env.RENDER_API || 'https://api.nassanitv.com').replace(/\/$/, '')
+const RENDER_API = String(process.env.RENDER_API || 'https://api.nassanitv.online').replace(/\/$/, '')
 const CHECK_RENDER_DOWN = String(process.env.CHECK_RENDER_DOWN ?? '0').trim() === '1'
 
 const PROBE_DEVICE = String(process.env.PROBE_DEVICE || 'vps-render-independence-probe')
@@ -91,12 +91,12 @@ for (const ep of ENDPOINTS) {
       assert('cutover pool ready', body.pool_ready === true)
       assert(
         'cutover base_url is VPS',
-        String(body.base_url || '').includes('api.nassanitv.com'),
+        String(body.base_url || '').includes('api.nassanitv.online'),
         String(body.base_url || ''),
       )
       assert(
         'cutover CDN origin is VPS',
-        String(body.cdn?.originBaseUrl || '').includes('api.nassanitv.com'),
+        String(body.cdn?.originBaseUrl || '').includes('api.nassanitv.online'),
         String(body.cdn?.originBaseUrl || ''),
       )
       assert(

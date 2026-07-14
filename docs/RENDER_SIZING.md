@@ -157,8 +157,8 @@ Render Postgres **Starter** allows limited connections; one API instance at 8 is
 # Logs should show:
 # [SERVER_HEALTH] background probes disabled — ...
 
-curl -s https://api.nassanitv.com/api/health
-curl -sI https://api.nassanitv.com/api/channels  # X-Api-Cache on miss/hit in dev
+curl -s https://api.nassanitv.online/api/health
+curl -sI https://api.nassanitv.online/api/channels  # X-Api-Cache on miss/hit in dev
 
 # Admin: Server Health page → manual Refresh still works
 # Android: streams, payments, SSE unchanged

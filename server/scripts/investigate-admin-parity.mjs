@@ -2,10 +2,10 @@
 /**
  * Production admin parity investigation — VPS vs Render vs GitHub.
  */
-const VPS_ADMIN = 'https://admin.nassanitv.com'
-const RENDER_ADMIN = 'https://admin.nassanitv.com'
-const VPS_API = 'https://api.nassanitv.com'
-const RENDER_API = 'https://api.nassanitv.com'
+const VPS_ADMIN = 'https://admin.nassanitv.online'
+const RENDER_ADMIN = 'https://admin.nassanitv.online'
+const VPS_API = 'https://api.nassanitv.online'
+const RENDER_API = 'https://api.nassanitv.online'
 const GITHUB = 'https://api.github.com/repos/sokalive/nassani-admin/commits/main'
 
 const MARKERS = [

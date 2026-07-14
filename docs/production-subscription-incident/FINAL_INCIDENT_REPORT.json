@@ -110,8 +110,8 @@
     "github_commit": "06144057d0607444ec390b4bb045a0b9f57ba2a7",
     "vps_commit": "06144057d0607444ec390b4bb045a0b9f57ba2a7",
     "render_commit": "4e15c545a00267f75eb4de77c45d2e5a7be84eb1",
-    "vps_api": "https://api.nassanitv.com",
-    "render_api": "https://api.nassanitv.com"
+    "vps_api": "https://api.nassanitv.online",
+    "render_api": "https://api.nassanitv.online"
   },
   "files_changed_this_audit": [
     "server/src/lib/subscriptionIncidentDatabaseReport.js",

@@ -7,14 +7,14 @@ const API_BASE_ENV = String(
 ).trim()
 
 /** Render static admin must call the VPS API (shared PostgreSQL; uploads live on VPS disk). */
-const VPS_PRODUCTION_API = 'https://api.nassanitv.com/api'
+const VPS_PRODUCTION_API = 'https://api.nassanitv.online/api'
 
 function resolveBrowserApiBase(origin) {
   const host = String(origin || '')
     .replace(/^https?:\/\//i, '')
     .split('/')[0]
     .toLowerCase()
-  if (host === 'admin.nassanitv.com') {
+  if (host === 'admin.nassanitv.online') {
     return VPS_PRODUCTION_API
   }
   return `${String(origin).replace(/\/$/, '')}/api`

@@ -42,7 +42,7 @@ jobs:
             }
             cd /var/www/nassani-admin
             git remote get-url origin | grep -qi nassani-admin
-            export CERTBOT_EMAIL="${CERTBOT_EMAIL:-admin@nassanitv.com}"
+            export CERTBOT_EMAIL="${CERTBOT_EMAIL:-admin@nassanitv.online}"
             export NASSANI_SKIP_NASSANITV_SSL="${NASSANI_SKIP_NASSANITV_SSL:-1}"
             bash deploy/contabo/pull-and-apply.sh
 

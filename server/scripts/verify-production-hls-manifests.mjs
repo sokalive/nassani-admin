@@ -6,7 +6,7 @@ import fs from 'node:fs'
 import https from 'node:https'
 import http from 'node:http'
 
-const API = process.env.API_BASE || 'https://api.nassanitv.com'
+const API = process.env.API_BASE || 'https://api.nassanitv.online'
 const MAX_CHANNELS = Number(process.env.VERIFY_MAX_CHANNELS) || 6
 
 function fetchText(url, maxRedirects = 5) {

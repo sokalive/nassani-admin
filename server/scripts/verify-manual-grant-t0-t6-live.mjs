@@ -8,9 +8,9 @@
  */
 import { SUBSCRIPTION_WAKE_SSE_EVENTS, MANUAL_SUBSCRIPTION_SSE_ALIASES } from '../src/lib/manualSubscriptionSseContract.js'
 
-const VPS_API = String(process.env.VPS_API || 'https://api.nassanitv.com').replace(/\/+$/, '')
-const VPS_ADMIN = String(process.env.VPS_ADMIN || 'https://admin.nassanitv.com').replace(/\/+$/, '')
-const RENDER_ADMIN = String(process.env.RENDER_ADMIN || 'https://admin.nassanitv.com').replace(
+const VPS_API = String(process.env.VPS_API || 'https://api.nassanitv.online').replace(/\/+$/, '')
+const VPS_ADMIN = String(process.env.VPS_ADMIN || 'https://admin.nassanitv.online').replace(/\/+$/, '')
+const RENDER_ADMIN = String(process.env.RENDER_ADMIN || 'https://admin.nassanitv.online').replace(
   /\/+$/,
   '',
 )

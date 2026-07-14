@@ -4,7 +4,7 @@
  *   node server/scripts/audit-unblocked-playback.mjs           # audit only
  *   node server/scripts/audit-unblocked-playback.mjs --reconcile
  */
-const API = process.env.NASSANI_ADMIN_API || 'https://api.nassanitv.com'
+const API = process.env.NASSANI_ADMIN_API || 'https://api.nassanitv.online'
 const TOKEN = process.env.ADMIN_TOKEN || '3030'
 const RECONCILE = process.argv.includes('--reconcile')
 

@@ -72,7 +72,7 @@ export function requestHostLabel(req) {
     .trim()
     .toLowerCase()
   if (!host) return 'unknown'
-  if (host.includes('api.nassanitv.com') || host.includes('169.58.18.86')) return 'vps'
+  if (host.includes('api.nassanitv.online') || host.includes('169.58.18.86')) return 'vps'
   if (host.includes('onrender.com')) return 'render'
   return host
 }

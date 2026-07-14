@@ -1,8 +1,8 @@
 /**
  * Live API contract audit — valid JSON + backward-compatible fields (VPS + Render).
  */
-const VPS = String(process.env.VPS_API || 'https://api.nassanitv.com').replace(/\/+$/, '')
-const RENDER = String(process.env.RENDER_API || 'https://api.nassanitv.com').replace(/\/+$/, '')
+const VPS = String(process.env.VPS_API || 'https://api.nassanitv.online').replace(/\/+$/, '')
+const RENDER = String(process.env.RENDER_API || 'https://api.nassanitv.online').replace(/\/+$/, '')
 const PROBE = `crash_audit_${Date.now()}`
 
 const VERSIONS = [15, 19, 24]

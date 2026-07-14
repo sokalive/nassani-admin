@@ -11,21 +11,21 @@
     "fix_commit_pending": "uncommitted — manualGrantRealtime + SSE manual_gift event"
   },
   "phase0_baseline": {
-    "authoritative_api": "https://api.nassanitv.com",
+    "authoritative_api": "https://api.nassanitv.online",
     "authoritative_db": "155.138.223.205:5432/nassani_db (shared VPS + Render API)",
     "vps_admin": {
-      "url": "https://admin.nassanitv.com",
+      "url": "https://admin.nassanitv.online",
       "bundle": "/assets/index-Dyuet7Yt.js",
       "api_target": "same-origin /api → VPS Node :10001"
     },
     "render_admin": {
-      "url": "https://admin.nassanitv.com",
+      "url": "https://admin.nassanitv.online",
       "bundle": "/assets/index-B9dXvrb6.js",
-      "api_target": "https://api.nassanitv.com/api (confirmed in deployed bundle)",
+      "api_target": "https://api.nassanitv.online/api (confirmed in deployed bundle)",
       "note": "Static site — no /api proxy; all writes go to VPS API"
     },
     "render_api": {
-      "url": "https://admin.nassanitv.com",
+      "url": "https://admin.nassanitv.online",
       "commit": "929616b (prior audit)",
       "disk_note": "1GB uploads volume full; manual grants unaffected (no upload)"
     },
@@ -37,7 +37,7 @@
     "auth": "X-Admin-Token + PIN (verifyAdminSensitiveActionPassword)",
     "payload": ["device_id", "duration_days", "phone", "pin"],
     "history_stale_cache_risk": "low — history is live API fetch; HAI reflects device_subscriptions join at query time",
-    "split_brain_risk": "disproven — Render admin bundle targets api.nassanitv.com"
+    "split_brain_risk": "disproven — Render admin bundle targets api.nassanitv.online"
   },
   "phase2_grant_pipeline": {
     "route": "server/src/routes/manualSubscriptionAdmin.js POST /grant",

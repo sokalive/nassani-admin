@@ -651,7 +651,7 @@ export async function ensureBillingTables(client) {
   `)
   await client.query(`
     UPDATE sonicpesa_settings SET
-      webhook_url = 'https://api.nassanitv.com/api/payments/sonicpesa/webhook',
+      webhook_url = 'https://api.nassanitv.online/api/payments/sonicpesa/webhook',
       updated_at = now()
     WHERE id = 1
       AND (

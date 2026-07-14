@@ -70,5 +70,5 @@
     "render_end_to_end": "PENDING deploy",
     "identical_commits_both_servers": false
   },
-  "confirmation": "All admin users on VPS (api.nassanitv.com) now receive the restored MFALME Manual Subscription PIN architecture with Nassani phone-number functionality preserved. Existing subscriptions, expiry dates, and customer phone records were not modified. Render API requires deploy-hook configuration before parity is complete."
+  "confirmation": "All admin users on VPS (api.nassanitv.online) now receive the restored MFALME Manual Subscription PIN architecture with Nassani phone-number functionality preserved. Existing subscriptions, expiry dates, and customer phone records were not modified. Render API requires deploy-hook configuration before parity is complete."
 }

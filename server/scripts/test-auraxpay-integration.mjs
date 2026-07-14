@@ -17,7 +17,7 @@ const cred = {
   apiEndpoint: 'https://api.auraxpay.net/v1',
   apiKey: 'test',
   accountId: '0676809174',
-  webhookUrl: 'https://api.nassanitv.com/api/payments/auraxpay/webhook',
+  webhookUrl: 'https://api.nassanitv.online/api/payments/auraxpay/webhook',
 }
 
 const checks = []

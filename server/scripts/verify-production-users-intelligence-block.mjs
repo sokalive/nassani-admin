@@ -2,7 +2,7 @@
  * Production verification for Users Intelligence block enforcement.
  * Usage:
  *   node scripts/verify-production-users-intelligence-block.mjs [device_id]
- * Env: API_BASE (default https://api.nassanitv.com), DATABASE_URL (optional, for DB audit)
+ * Env: API_BASE (default https://api.nassanitv.online), DATABASE_URL (optional, for DB audit)
  */
 import { readFileSync, existsSync } from 'node:fs'
 import { resolve, dirname } from 'node:path'
@@ -10,7 +10,7 @@ import { fileURLToPath } from 'node:url'
 import pg from 'pg'
 
 const __dir = dirname(fileURLToPath(import.meta.url))
-const API = (process.env.API_BASE || 'https://api.nassanitv.com').replace(/\/$/, '')
+const API = (process.env.API_BASE || 'https://api.nassanitv.online').replace(/\/$/, '')
 const deviceArg = String(process.argv[2] || process.env.VERIFY_DEVICE_ID || '').trim()
 
 function loadEnvFile() {

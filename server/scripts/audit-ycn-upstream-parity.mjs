@@ -5,7 +5,7 @@
 import https from 'node:https'
 import http from 'node:http'
 
-const API = process.env.API_BASE || 'https://api.nassanitv.com'
+const API = process.env.API_BASE || 'https://api.nassanitv.online'
 
 const EXO_LIB_UA =
   'Mozilla/5.0 (Linux; Android 13; Pixel 7) AppleWebKit/537.36 (KHTML, like Gecko) ExoPlayerLib/2.19.1'

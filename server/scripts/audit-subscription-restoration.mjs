@@ -7,7 +7,7 @@
 import pg from 'pg'
 
 const { Pool } = pg
-const RENDER_API = String(process.env.RENDER_API || 'https://api.nassanitv.com').replace(/\/$/, '')
+const RENDER_API = String(process.env.RENDER_API || 'https://api.nassanitv.online').replace(/\/$/, '')
 const VPS_API = String(process.env.VPS_API || 'http://62.171.131.113').replace(/\/$/, '')
 
 const url = String(process.env.DATABASE_URL || '').trim()

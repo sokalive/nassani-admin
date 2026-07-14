@@ -4,8 +4,8 @@
  *
  *   node server/scripts/verify-payment-activation-latency.mjs
  */
-const VPS = String(process.env.VPS_API || 'https://api.nassanitv.com').replace(/\/$/, '')
-const RENDER = String(process.env.RENDER_API || 'https://api.nassanitv.com').replace(/\/$/, '')
+const VPS = String(process.env.VPS_API || 'https://api.nassanitv.online').replace(/\/$/, '')
+const RENDER = String(process.env.RENDER_API || 'https://api.nassanitv.online').replace(/\/$/, '')
 const TOKEN = String(process.env.ADMIN_TOKEN || process.env.ADMIN_API_TOKEN || '3030').trim()
 const EXPECT_COMMIT_PREFIX = String(process.env.EXPECT_COMMIT || '').trim()
 const MAX_MEDIAN_SEC = Number(process.env.PAYMENT_ACTIVATION_MAX_MEDIAN_SEC || 2)

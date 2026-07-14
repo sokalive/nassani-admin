@@ -954,7 +954,7 @@ runtimePublicRouter.post('/provision-https', requireLegacyAdminToken, async (_re
     const env = {
       ...process.env,
       NASSANI_ADMIN_ROOT: root,
-      CERTBOT_EMAIL: String(process.env.CERTBOT_EMAIL || 'admin@nassanitv.com').trim(),
+      CERTBOT_EMAIL: String(process.env.CERTBOT_EMAIL || 'admin@nassanitv.online').trim(),
     }
     const result = fs.existsSync(script)
       ? spawnSync('bash', [script], { cwd: root, env, encoding: 'utf8', timeout: 600_000 })

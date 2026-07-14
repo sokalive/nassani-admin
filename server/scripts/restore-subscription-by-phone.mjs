@@ -13,7 +13,7 @@ function getArg(name) {
 
 const phone = getArg('phone')
 const target = getArg('target')
-const API_BASE = String(process.env.API_BASE || 'https://api.nassanitv.com').replace(/\/$/, '')
+const API_BASE = String(process.env.API_BASE || 'https://api.nassanitv.online').replace(/\/$/, '')
 const ADMIN_TOKEN = process.env.ADMIN_TOKEN || process.env.ADMIN_API_TOKEN || '3030'
 
 if (!phone || !target) {

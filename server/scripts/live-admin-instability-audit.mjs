@@ -3,10 +3,10 @@
  * Live production admin instability audit — VPS vs Render, no assumptions.
  * Usage: node server/scripts/live-admin-instability-audit.mjs
  */
-const VPS_API = 'https://api.nassanitv.com'
-const RENDER_API = 'https://api.nassanitv.com'
-const VPS_ADMIN = 'https://admin.nassanitv.com'
-const RENDER_ADMIN = 'https://admin.nassanitv.com'
+const VPS_API = 'https://api.nassanitv.online'
+const RENDER_API = 'https://api.nassanitv.online'
+const VPS_ADMIN = 'https://admin.nassanitv.online'
+const RENDER_ADMIN = 'https://admin.nassanitv.online'
 const TOKEN = process.env.ADMIN_TOKEN || '3030'
 const ROUNDS = Number(process.env.ROUNDS || 100)
 const headers = { 'X-Admin-Token': TOKEN, 'Cache-Control': 'no-cache' }

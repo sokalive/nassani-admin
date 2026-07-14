@@ -5,9 +5,9 @@
  *   node deploy/contabo/verify-cutover.mjs
  *   API_BASE=http://169.58.18.86 node deploy/contabo/verify-cutover.mjs
  */
-const API_BASE = String(process.env.API_BASE || 'https://api.nassanitv.com').replace(/\/$/, '')
+const API_BASE = String(process.env.API_BASE || 'https://api.nassanitv.online').replace(/\/$/, '')
 const API_PORT = String(process.env.API_PORT || '10001').trim()
-const RENDER_URL = 'https://api.nassanitv.com'
+const RENDER_URL = 'https://api.nassanitv.online'
 const ADMIN_TOKEN = process.env.ADMIN_TOKEN || process.env.ADMIN_API_TOKEN || '3030'
 
 const checks = []

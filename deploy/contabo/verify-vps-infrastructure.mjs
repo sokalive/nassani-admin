@@ -6,9 +6,9 @@
  */
 import tls from 'node:tls'
 
-const API = String(process.env.VPS_API || 'https://api.nassanitv.com').replace(/\/$/, '')
-const ADMIN = String(process.env.VPS_ADMIN || 'https://admin.nassanitv.com').replace(/\/$/, '')
-const RENDER_API = String(process.env.RENDER_API || 'https://api.nassanitv.com').replace(/\/$/, '')
+const API = String(process.env.VPS_API || 'https://api.nassanitv.online').replace(/\/$/, '')
+const ADMIN = String(process.env.VPS_ADMIN || 'https://admin.nassanitv.online').replace(/\/$/, '')
+const RENDER_API = String(process.env.RENDER_API || 'https://api.nassanitv.online').replace(/\/$/, '')
 const ADMIN_TOKEN = process.env.ADMIN_TOKEN || process.env.ADMIN_API_TOKEN || '3030'
 
 const checks = []
@@ -89,7 +89,7 @@ async function main() {
   for (const [label, base] of [
     ['api', API],
     ['admin', ADMIN],
-    ['main', 'https://nassanitv.com'],
+    ['main', 'https://nassanitv.online'],
   ]) {
     const httpUrl = base.replace('https://', 'http://')
     const r = await fetchMeta(httpUrl, { redirect: 'manual' })
@@ -106,7 +106,7 @@ async function main() {
   if (cut.res.ok && cut.body?.database_url_configured && cut.body?.pool_ready) {
     const baseUrl = String(cut.body.base_url || '')
     pass('postgresql', `host=${cut.body.database?.host} subs=${cut.body.active_device_subscriptions}`)
-    if (baseUrl.startsWith('https://api.nassanitv.com')) {
+    if (baseUrl.startsWith('https://api.nassanitv.online')) {
       pass('env-base-url', baseUrl)
     } else if (baseUrl.startsWith('http://')) {
       fail('env-base-url', `${baseUrl} — run patch-vps-https-env.sh on VPS`)
@@ -114,7 +114,7 @@ async function main() {
       fail('env-base-url', baseUrl || '(unset)')
     }
     const streamBase = String(cut.body.stream_api_base_url || cut.body.cdn?.originBaseUrl || '')
-    if (streamBase.startsWith('https://api.nassanitv.com')) {
+    if (streamBase.startsWith('https://api.nassanitv.online')) {
       pass('env-stream-api-url', streamBase)
     } else {
       fail('env-stream-api-url', streamBase || '(unset)')
@@ -130,7 +130,7 @@ async function main() {
 
   // --- Admin frontend ---
   const adminSpa = await fetchMeta(`${ADMIN}/`)
-  if (adminSpa.res.ok && /<!DOCTYPE html>/i.test(adminSpa.text) && !adminSpa.text.includes('api.nassanitv.com')) {
+  if (adminSpa.res.ok && /<!DOCTYPE html>/i.test(adminSpa.text) && !adminSpa.text.includes('api.nassanitv.online')) {
     pass('admin-spa-https', `HTTP ${adminSpa.res.status} same-origin /api`)
   } else {
     fail('admin-spa-https', `status=${adminSpa.res.status}`)
@@ -170,7 +170,7 @@ async function main() {
     const c0 = channels.body[0]
     const proxy = String(c0.proxy_playback_url || '')
     const thumb = String(c0.thumbnailUrl || c0.thumbnail_url || '')
-    if (proxy.startsWith('https://api.nassanitv.com/')) {
+    if (proxy.startsWith('https://api.nassanitv.online/')) {
       pass('vps-apk-stream-https', 'proxy_playback_url uses branded HTTPS API')
     } else {
       fail('vps-apk-stream-https', proxy.slice(0, 120) || '(empty)')
@@ -182,7 +182,7 @@ async function main() {
     }
     const blob = JSON.stringify(channels.body)
     if (!hasCleartextApiUrl(blob)) pass('no-cleartext-api-urls', 'channels JSON clean')
-    else fail('no-cleartext-api-urls', 'found http://169.58.18.86 or http://api.nassanitv.com')
+    else fail('no-cleartext-api-urls', 'found http://169.58.18.86 or http://api.nassanitv.online')
   } else {
     fail('channels', 'unavailable')
   }

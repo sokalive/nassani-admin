@@ -25,7 +25,7 @@ import { resetStreamDeliveryMetrics } from '../src/lib/streamDeliveryMetrics.js'
 process.env.STREAM_DELIVERY_MODE = 'hybrid'
 process.env.DIRECT_STREAM_SIGNING_ENABLED = '1'
 process.env.DIRECT_STREAM_SIGNING_SECRET = 'test-secret-min-16-chars!!'
-process.env.BASE_URL = 'https://api.nassanitv.com'
+process.env.BASE_URL = 'https://api.nassanitv.online'
 process.env.DIRECT_STREAM_CUTOVER_ENABLED = '1'
 process.env.STREAM_PLAYBACK_FORCE_PROXY = '0'
 process.env.DIRECT_STREAM_ROLLOUT_PERCENT = '0'
@@ -56,7 +56,7 @@ assert.equal(excluded.eligible, false)
 const mockReq = {
   protocol: 'https',
   headers: {},
-  get: () => 'api.nassanitv.com',
+  get: () => 'api.nassanitv.online',
 }
 
 const deliveryAllow = buildChannelStreamDelivery(mockReq, {

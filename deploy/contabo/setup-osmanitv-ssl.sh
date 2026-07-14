@@ -1,18 +1,18 @@
 #!/usr/bin/env bash
-# Provision Let's Encrypt TLS for nassanitv.com branded hosts on Contabo VPS.
+# Provision Let's Encrypt TLS for nassanitv.online branded hosts on Contabo VPS.
 # Does NOT change Render production — VPS testing domains only.
 #
 # Prerequisites:
-#   A records → 169.58.18.86 for api.nassanitv.com, admin.nassanitv.com, nassanitv.com
+#   A records → 169.58.18.86 for api.nassanitv.online, admin.nassanitv.online, nassanitv.online
 #
 # Usage (on VPS as root):
-#   CERTBOT_EMAIL=you@nassanitv.com bash deploy/contabo/setup-nassanitv-ssl.sh
+#   CERTBOT_EMAIL=you@nassanitv.online bash deploy/contabo/setup-nassanitv-ssl.sh
 set -euo pipefail
 
 ROOT="${NASSANI_ADMIN_ROOT:-/var/www/nassani-admin}"
-EMAIL="${CERTBOT_EMAIL:-admin@nassanitv.com}"
-DOMAINS=(api.nassanitv.com admin.nassanitv.com nassanitv.com)
-CERT_NAME="nassanitv.com"
+EMAIL="${CERTBOT_EMAIL:-admin@nassanitv.online}"
+DOMAINS=(api.nassanitv.online admin.nassanitv.online nassanitv.online)
+CERT_NAME="nassanitv.online"
 CERT_DIR="/etc/letsencrypt/live/${CERT_NAME}"
 
 echo "==> Nassani TV domain TLS setup"
@@ -65,7 +65,7 @@ else
   echo "==> Requesting certificate (webroot)"
   certbot certonly --webroot -w /var/www/certbot \
     --cert-name "$CERT_NAME" \
-    -d api.nassanitv.com -d admin.nassanitv.com -d nassanitv.com \
+    -d api.nassanitv.online -d admin.nassanitv.online -d nassanitv.online \
     --email "$EMAIL" --agree-tos --non-interactive --no-eff-email
 
   echo "==> Phase 2: HTTPS vhosts"
@@ -80,9 +80,9 @@ fi
 
 echo "==> Smoke checks"
 for url in \
-  "https://api.nassanitv.com/api/health" \
-  "https://admin.nassanitv.com/" \
-  "https://nassanitv.com/"; do
+  "https://api.nassanitv.online/api/health" \
+  "https://admin.nassanitv.online/" \
+  "https://nassanitv.online/"; do
   if curl -fsS "$url" >/dev/null; then
     echo "    OK $url"
   else

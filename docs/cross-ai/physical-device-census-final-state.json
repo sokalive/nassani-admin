@@ -135,7 +135,7 @@
     "vps_api_authoritative": true,
     "render_api_commit": "df00d693dd6d61600804e0f3d8a43dd37e00fee1",
     "render_api_note": "Render legacy API on df00d69 — Dashboard uses authoritative VPS API",
-    "render_admin_note": "Render Admin frontend uses hardcoded https://api.nassanitv.com/api",
+    "render_admin_note": "Render Admin frontend uses hardcoded https://api.nassanitv.online/api",
     "github_render_hooks": "MISSING (RENDER_MPYA_DEPLOY_HOOK, RENDER_API_DEPLOY_HOOK)"
   },
   "cache_ttl_ms": 300000,

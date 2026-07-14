@@ -26,7 +26,7 @@ export function defaultPublicApiOrigin() {
     .trim()
     .replace(/\/+$/, '')
   if (fromEnv) return fromEnv
-  return 'https://api.nassanitv.com'
+  return 'https://api.nassanitv.online'
 }
 
 /** Non-secret fingerprint so ops can confirm all instances point at the same DB. */

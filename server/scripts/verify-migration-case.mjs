@@ -11,7 +11,7 @@ if (!oldId || !newId) {
   process.exit(1)
 }
 
-const API_BASE = String(process.env.API_BASE || 'https://api.nassanitv.com').replace(/\/$/, '')
+const API_BASE = String(process.env.API_BASE || 'https://api.nassanitv.online').replace(/\/$/, '')
 const legacyHint = oldId.slice(0, 8)
 
 async function fetchStatus(deviceId, extra = {}) {

@@ -65,10 +65,10 @@ const imgBody = buildProductionOneSignalBody({
   appId: 'app',
   title: 'T',
   message: 'M',
-  imageUrl: 'https://api.nassanitv.com/uploads/notif-test.jpg',
+  imageUrl: 'https://api.nassanitv.online/uploads/notif-test.jpg',
 })
 assert(
-  imgBody.big_picture?.includes('api.nassanitv.com') &&
+  imgBody.big_picture?.includes('api.nassanitv.online') &&
     imgBody.chrome_web_image === imgBody.big_picture,
   'push image uses VPS origin + chrome_web_image',
 )

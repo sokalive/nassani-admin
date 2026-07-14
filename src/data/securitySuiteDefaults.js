@@ -15,7 +15,7 @@ export function generateDefaultWhitelist() {
     { id: id(), value: '41.59.21.88 · CDN edge' },
     { id: id(), value: 'Pixel 8 · +255712000001' },
     { id: id(), value: 'TV-Box A12 · living-room' },
-    { id: id(), value: 'api.nassanitv.com · health probe' },
+    { id: id(), value: 'api.nassanitv.online · health probe' },
     { id: id(), value: '197.250.8.1 · Partner POP' },
   ]
 }

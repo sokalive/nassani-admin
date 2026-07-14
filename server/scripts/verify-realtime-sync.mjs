@@ -2,9 +2,9 @@
  * Verify cross-instance realtime sync (SSE + Postgres NOTIFY relay).
  *
  *   node scripts/verify-realtime-sync.mjs
- *   RENDER_API=https://api.nassanitv.com VPS_API=http://62.171.131.113 node scripts/verify-realtime-sync.mjs
+ *   RENDER_API=https://api.nassanitv.online VPS_API=http://62.171.131.113 node scripts/verify-realtime-sync.mjs
  */
-const RENDER_API = String(process.env.RENDER_API || 'https://api.nassanitv.com').replace(/\/$/, '')
+const RENDER_API = String(process.env.RENDER_API || 'https://api.nassanitv.online').replace(/\/$/, '')
 const VPS_API = String(process.env.VPS_API || 'http://62.171.131.113').replace(/\/$/, '')
 
 async function probeSse(base, label) {

@@ -4,8 +4,8 @@
  *   cd server && node scripts/production-subscription-parity.mjs
  *   cd server && node scripts/production-subscription-parity.mjs --repair
  */
-const VPS = String(process.env.VPS_API || 'https://api.nassanitv.com').replace(/\/+$/, '')
-const RENDER = String(process.env.RENDER_API || 'https://api.nassanitv.com').replace(/\/+$/, '')
+const VPS = String(process.env.VPS_API || 'https://api.nassanitv.online').replace(/\/+$/, '')
+const RENDER = String(process.env.RENDER_API || 'https://api.nassanitv.online').replace(/\/+$/, '')
 const TOKEN = String(process.env.ADMIN_TOKEN || process.env.ADMIN_API_TOKEN || '3030').trim()
 const EXAMPLE = String(process.env.EXAMPLE_DEVICE || 'c0972049aa5f862e').trim()
 const doRepair = process.argv.includes('--repair')

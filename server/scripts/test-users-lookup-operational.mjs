@@ -52,7 +52,7 @@ assert('synthetic rejected as canonical', !isCanonicalOperationalDeviceId('direc
 }
 
 async function liveLookup() {
-  const API = process.env.PRODUCTION_API || 'https://api.nassanitv.com'
+  const API = process.env.PRODUCTION_API || 'https://api.nassanitv.online'
   const TOKEN = process.env.ADMIN_TOKEN || '3030'
   const res = await fetch(`${API}/api/users/lookup?q=0678089174`, {
     headers: { 'X-Admin-Token': TOKEN },

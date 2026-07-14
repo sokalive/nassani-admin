@@ -25,7 +25,7 @@ import { fileURLToPath } from 'node:url'
 import { dirname, join } from 'node:path'
 
 const __dir = dirname(fileURLToPath(import.meta.url))
-const API = (process.env.API_BASE || 'https://api.nassanitv.com').replace(/\/$/, '')
+const API = (process.env.API_BASE || 'https://api.nassanitv.online').replace(/\/$/, '')
 const RENDER_KEY = String(process.env.RENDER_API_KEY || '').trim()
 const BUNNY_KEY = String(process.env.BUNNY_API_KEY || process.env.BUNNY_ACCOUNT_API_KEY || '').trim()
 const HOURS = Number(process.env.AUDIT_HOURS) || 24

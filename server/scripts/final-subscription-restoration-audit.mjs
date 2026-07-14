@@ -4,7 +4,7 @@
  *   ADMIN_TOKEN=3030 node scripts/final-subscription-restoration-audit.mjs
  *   ADMIN_TOKEN=3030 REPAIR=1 node scripts/final-subscription-restoration-audit.mjs
  */
-const RENDER_API = String(process.env.RENDER_API || 'https://api.nassanitv.com').replace(/\/$/, '')
+const RENDER_API = String(process.env.RENDER_API || 'https://api.nassanitv.online').replace(/\/$/, '')
 const VPS_API = String(process.env.VPS_API || 'http://62.171.131.113').replace(/\/$/, '')
 const ADMIN_TOKEN = process.env.ADMIN_TOKEN || process.env.ADMIN_API_TOKEN || '3030'
 const REPAIR = String(process.env.REPAIR ?? '1').trim() !== '0'

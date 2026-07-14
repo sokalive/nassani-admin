@@ -9,8 +9,8 @@ const failed = []
 for (const row of sample) {
   const d = row.device_id
   for (const [label, base] of [
-    ['VPS', 'https://api.nassanitv.com'],
-    ['Render', 'https://api.nassanitv.com'],
+    ['VPS', 'https://api.nassanitv.online'],
+    ['Render', 'https://api.nassanitv.online'],
   ]) {
     try {
       const raw = execSync(

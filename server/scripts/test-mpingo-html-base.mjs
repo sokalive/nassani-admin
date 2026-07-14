@@ -20,8 +20,8 @@ const html = '<!DOCTYPE html><html><head><title>x</title></head><body></body></h
 const out = injectMpingoHtmlBaseHref(html, upstream)
 assert.match(out, /<base href="https:\/\/nur\.mpingotv\.com\/v3\/" data-nassani-mpingo-base="1">/)
 assert.equal(
-  new URL('subscriptions.php?expired=1', 'https://api.nassanitv.com/stream-direct?token=x').href,
-  'https://api.nassanitv.com/subscriptions.php?expired=1',
+  new URL('subscriptions.php?expired=1', 'https://api.nassanitv.online/stream-direct?token=x').href,
+  'https://api.nassanitv.online/subscriptions.php?expired=1',
 )
 // With base tag in document, browser resolves relative to base href (simulated):
 const baseMatch = out.match(/<base href="([^"]+)"/)

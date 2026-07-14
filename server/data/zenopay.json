@@ -2,7 +2,7 @@
   "environment": "test",
   "apiEndpoint": "https://sandbox.zenopay.example/v1",
   "apiKey": "",
-  "webhookUrl": "https://admin.nassanitv.com/webhooks/zenopay",
+  "webhookUrl": "https://admin.nassanitv.online/webhooks/zenopay",
   "lastTestAt": null,
   "lastTestOk": null,
   "lastTestMessage": ""

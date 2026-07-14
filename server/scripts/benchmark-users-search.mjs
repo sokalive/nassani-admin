@@ -2,7 +2,7 @@
 /**
  * Users admin search latency probe (read-only).
  */
-const API = String(process.env.VPS_API || 'https://api.nassanitv.com').replace(/\/+$/, '')
+const API = String(process.env.VPS_API || 'https://api.nassanitv.online').replace(/\/+$/, '')
 const TOKEN = String(process.env.ADMIN_TOKEN || '3030').trim()
 
 async function timed(path) {

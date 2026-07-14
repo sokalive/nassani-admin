@@ -4,7 +4,7 @@
 
 | Client | API host | Status |
 |--------|----------|--------|
-| **Old production APK** (Play Store ≤ v17) | `https://api.nassanitv.com` | Must stay on Render until DNS/APK cutover |
+| **Old production APK** (Play Store ≤ v17) | `https://api.nassanitv.online` | Must stay on Render until DNS/APK cutover |
 | **New VPS APK** | `http://62.171.131.113` (Contabo) | Same codebase + same PostgreSQL |
 
 Both hosts share the Vultr database. Do **not** disable Render until all legacy APK users are migrated or pointed at VPS.
@@ -78,5 +78,5 @@ Probes Render (old APK) and VPS (new APK) for all public legacy contracts.
 - [ ] `verify:apk-backward-compat` → 0 failures on both hosts
 - [ ] Force update remains disabled (`update_force=false`)
 - [ ] Render service stays **live**
-- [ ] Optional: point `api.nassanitv.com` CNAME to Render until APK base URL changes
+- [ ] Optional: point `api.nassanitv.online` CNAME to Render until APK base URL changes
 - [ ] Final cutover: new APK release with VPS base URL, then retire Render

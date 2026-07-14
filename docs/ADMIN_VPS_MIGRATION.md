@@ -6,8 +6,8 @@ Migrate **admin UI only** (`nassani-admin-mpya`) to Contabo. Keep **Render API**
 
 | Service | Host | Role |
 |---------|------|------|
-| **nassani-admin-mpya** (Render static) | `https://admin.nassanitv.com` | Admin SPA (legacy deploy; bundle may reference Render API) |
-| **nassani-admin-api** (Render Node) | `https://api.nassanitv.com` | **Legacy APK API** — keep running |
+| **nassani-admin-mpya** (Render static) | `https://admin.nassanitv.online` | Admin SPA (legacy deploy; bundle may reference Render API) |
+| **nassani-admin-api** (Render Node) | `https://api.nassanitv.online` | **Legacy APK API** — keep running |
 | **VPS nginx + Node** | `http://62.171.131.113` | Admin SPA + API (same-origin `/api`) |
 
 Both APIs use the same Vultr PostgreSQL database.
@@ -22,7 +22,7 @@ staticPublishPath: dist
 routes: /* → /index.html
 ```
 
-Render builds **without** `VITE_API_BASE_URL`, so newer builds use same-origin `/api` — but the **hosted URL** is still `admin.nassanitv.com`, which proxies to Render’s CDN, not VPS.
+Render builds **without** `VITE_API_BASE_URL`, so newer builds use same-origin `/api` — but the **hosted URL** is still `admin.nassanitv.online`, which proxies to Render’s CDN, not VPS.
 
 ## VPS admin (implemented)
 
@@ -40,11 +40,11 @@ Point DNS **A record** for admin hostname to `62.171.131.113`:
 
 | Record | Value |
 |--------|--------|
-| `admin.nassanitv.com` | `62.171.131.113` |
+| `admin.nassanitv.online` | `62.171.131.113` |
 
-nginx `server_name` includes `admin.nassanitv.com`. After DNS propagates, use `http://admin.nassanitv.com` (add TLS with certbot when ready).
+nginx `server_name` includes `admin.nassanitv.online`. After DNS propagates, use `http://admin.nassanitv.online` (add TLS with certbot when ready).
 
-**Do not** point `api.nassanitv.com` or APK API hostnames at VPS until legacy APK cutover is complete.
+**Do not** point `api.nassanitv.online` or APK API hostnames at VPS until legacy APK cutover is complete.
 
 ## Deploy admin to VPS
 
@@ -66,7 +66,7 @@ Run from any machine:
 node deploy/contabo/verify-admin-vps.mjs
 ```
 
-Manual browser checks on `http://62.171.131.113` (or `admin.nassanitv.com`):
+Manual browser checks on `http://62.171.131.113` (or `admin.nassanitv.online`):
 
 - [ ] Login / admin token or email OTP
 - [ ] Channels — list loads, edit saves
@@ -93,7 +93,7 @@ Render API must stay **200** on all legacy endpoints.
 - [ ] `verify-admin-vps.mjs` → `failed: 0`
 - [ ] `verify-cutover.mjs` → `failed: 0`
 - [ ] `verify:apk-backward-compat` → Render **0 failures** (legacy APK)
-- [ ] Team uses VPS URL (`http://62.171.131.113` or `admin.nassanitv.com`) for daily admin work
+- [ ] Team uses VPS URL (`http://62.171.131.113` or `admin.nassanitv.online`) for daily admin work
 - [ ] DNS updated if using custom admin domain
 
 ### Steps (Render Dashboard)
@@ -103,8 +103,8 @@ Render API must stay **200** on all legacy endpoints.
 3. For **nassani-admin-mpya** only:
    - **Option A (recommended):** Settings → **Suspend** service (stops billing, reversible).
    - **Option B:** Delete static site (only if suspend is unavailable).
-4. Optional: add redirect on DNS/CDN from `admin.nassanitv.com` to VPS admin URL (not required if team bookmarks VPS).
-5. Re-run `npm run verify:apk-backward-compat` — confirm legacy APK endpoints on `api.nassanitv.com` still pass.
+4. Optional: add redirect on DNS/CDN from `admin.nassanitv.online` to VPS admin URL (not required if team bookmarks VPS).
+5. Re-run `npm run verify:apk-backward-compat` — confirm legacy APK endpoints on `api.nassanitv.online` still pass.
 
 ### What stays on Render
 

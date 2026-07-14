@@ -5,8 +5,8 @@
 const TOKEN = String(process.env.ADMIN_TOKEN || process.env.ADMIN_API_TOKEN || '3030').trim()
 
 const HOSTS = [
-  { name: 'VPS', api: 'https://api.nassanitv.com' },
-  { name: 'Render', api: 'https://api.nassanitv.com' },
+  { name: 'VPS', api: 'https://api.nassanitv.online' },
+  { name: 'Render', api: 'https://api.nassanitv.online' },
 ]
 
 async function fetchJson(url, opts = {}) {

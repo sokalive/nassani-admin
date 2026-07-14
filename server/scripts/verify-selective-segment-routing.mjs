@@ -18,7 +18,7 @@ process.env.BUNNY_STREAM_CDN_BASE_URL = ''
 process.env.STREAM_SEGMENT_DELIVERY = 'bunny'
 process.env.STREAM_SEGMENT_FORCE_PROXY = '0'
 process.env.STREAM_SEGMENT_SELECTIVE_ROUTING = '1'
-process.env.BASE_URL = 'https://api.nassanitv.com'
+process.env.BASE_URL = 'https://api.nassanitv.online'
 
 resetStreamDeliveryMetrics()
 
@@ -40,7 +40,7 @@ assert.equal(
 )
 assert.equal(resolveSegmentRoute(ycnSeg, {}, { rootUpstreamUrl: ycnMaster }), 'proxy')
 
-const mockReq = { protocol: 'https', headers: {}, get: () => 'api.nassanitv.com' }
+const mockReq = { protocol: 'https', headers: {}, get: () => 'api.nassanitv.online' }
 const builder = createManifestSegmentUrlBuilder(mockReq, {
   channelId: '16',
   rootUpstreamUrl: ycnMaster,

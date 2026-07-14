@@ -4,14 +4,14 @@
  *
  * Usage:
  *   node scripts/verify-manual-subscription-fixes.mjs
- *   VPS_API=https://api.nassanitv.com ADMIN_TOKEN=3030 node scripts/verify-manual-subscription-fixes.mjs
+ *   VPS_API=https://api.nassanitv.online ADMIN_TOKEN=3030 node scripts/verify-manual-subscription-fixes.mjs
  */
 import { grantCustomManualDeviceSubscription } from '../src/billingStore.js'
 import { getPool } from '../src/db/pool.js'
 import { replayStackedExpiryFromEvents } from '../src/lib/subscriptionExpiryAudit.js'
 
-const BASE = String(process.env.VPS_API || 'https://api.nassanitv.com').replace(/\/+$/, '')
-const RENDER_API = String(process.env.RENDER_API || 'https://admin.nassanitv.com').replace(
+const BASE = String(process.env.VPS_API || 'https://api.nassanitv.online').replace(/\/+$/, '')
+const RENDER_API = String(process.env.RENDER_API || 'https://admin.nassanitv.online').replace(
   /\/+$/,
   '',
 )

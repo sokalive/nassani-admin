@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /** Post-deploy SonicPesa probes (no secrets printed). */
-const API = process.env.VPS_API || 'https://api.nassanitv.com'
-const RENDER = process.env.RENDER_API || 'https://api.nassanitv.com'
+const API = process.env.VPS_API || 'https://api.nassanitv.online'
+const RENDER = process.env.RENDER_API || 'https://api.nassanitv.online'
 
 async function j(url, init) {
   const res = await fetch(url, init)

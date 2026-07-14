@@ -59,8 +59,8 @@ fi
 ensure_env_key BUNNY_CDN_BASE_URL ""
 ensure_env_key NASSANI_LOAD_CUTOVER_ENV "1"
 ensure_env_key UPLOAD_DIR "/var/www/nassani-admin/server/uploads"
-ensure_env_key NOTIFICATION_IMAGE_PUBLIC_ORIGIN "https://api.nassanitv.com"
-ensure_env_key INSTRUCTION_VIDEO_PUBLIC_ORIGIN "https://api.nassanitv.com"
+ensure_env_key NOTIFICATION_IMAGE_PUBLIC_ORIGIN "https://api.nassanitv.online"
+ensure_env_key INSTRUCTION_VIDEO_PUBLIC_ORIGIN "https://api.nassanitv.online"
 upsert_env_key BEEM_SENDER_NAME "NASSANITVMAX"
 upsert_env_key STREAM_DELIVERY_MODE "direct"
 upsert_env_key STREAM_PLAYBACK_FORCE_PROXY "0"
@@ -69,11 +69,11 @@ upsert_env_key DIRECT_STREAM_ROLLOUT_PERCENT "100"
 
 VPS_IP="${NASSANI_VPS_IP:-$(curl -4 -fsS --max-time 5 ifconfig.me 2>/dev/null || echo 169.58.18.86)}"
 
-if [[ -f /etc/letsencrypt/live/nassanitv.com/fullchain.pem ]] || [[ "${NASSANI_USE_BRANDED_HTTPS:-}" == "1" ]]; then
+if [[ -f /etc/letsencrypt/live/nassanitv.online/fullchain.pem ]] || [[ "${NASSANI_USE_BRANDED_HTTPS:-}" == "1" ]]; then
   echo "==> Branded HTTPS public URLs"
-  upsert_env_key BASE_URL "https://api.nassanitv.com"
-  upsert_env_key STREAM_API_BASE_URL "https://api.nassanitv.com"
-  upsert_env_key ADMIN_PUBLIC_URL "https://admin.nassanitv.com"
+  upsert_env_key BASE_URL "https://api.nassanitv.online"
+  upsert_env_key STREAM_API_BASE_URL "https://api.nassanitv.online"
+  upsert_env_key ADMIN_PUBLIC_URL "https://admin.nassanitv.online"
 else
   ensure_env_key BASE_URL "http://${VPS_IP}"
   ensure_env_key STREAM_API_BASE_URL "http://${VPS_IP}"
@@ -212,8 +212,8 @@ fi
 
 # SSL only when DNS already points here (fresh Nassani has no Osmani DNS).
 if [[ "${NASSANI_SKIP_NASSANITV_SSL:-1}" != "1" ]] && [[ -f "$ROOT/deploy/contabo/setup-nassanitv-ssl.sh" ]]; then
-  echo "==> nassanitv.com branded TLS"
-  CERTBOT_EMAIL="${CERTBOT_EMAIL:-admin@nassanitv.com}" bash "$ROOT/deploy/contabo/setup-nassanitv-ssl.sh" || {
+  echo "==> nassanitv.online branded TLS"
+  CERTBOT_EMAIL="${CERTBOT_EMAIL:-admin@nassanitv.online}" bash "$ROOT/deploy/contabo/setup-nassanitv-ssl.sh" || {
     echo "WARN: setup-nassanitv-ssl.sh failed — ensure DNS A records point to this VPS and ports 80/443 are open" >&2
   }
 fi
@@ -247,7 +247,7 @@ fi
 if [[ "${NASSANI_RUN_LEGACY_MIGRATION_AUDITS:-0}" == "1" ]]; then
   if [[ -f "$API_DIR/scripts/verify-vps-render-independence.mjs" ]]; then
     echo "==> verify-vps-render-independence.mjs"
-    BASE_URL="${BASE_URL:-https://api.nassanitv.com}" node "$API_DIR/scripts/verify-vps-render-independence.mjs" || {
+    BASE_URL="${BASE_URL:-https://api.nassanitv.online}" node "$API_DIR/scripts/verify-vps-render-independence.mjs" || {
       echo "ERROR: verify-vps-render-independence failed" >&2
       exit 1
     }

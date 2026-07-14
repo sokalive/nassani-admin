@@ -6,9 +6,9 @@ Run: `node deploy/contabo/verify-final-migration-audit.mjs`
 
 | Service | URL | Role | Keep ON? |
 |---------|-----|------|----------|
-| **nassani-admin-api** | `https://api.nassanitv.com` | Legacy APK API | **YES** until APK cutover |
-| **nassani-admin-mpya** | `https://admin.nassanitv.com` | Render admin SPA | Optional after VPS admin verified |
-| **nassani-tv** | `https://nassanitv.com` | Placeholder (28B) | Safe to suspend |
+| **nassani-admin-api** | `https://api.nassanitv.online` | Legacy APK API | **YES** until APK cutover |
+| **nassani-admin-mpya** | `https://admin.nassanitv.online` | Render admin SPA | Optional after VPS admin verified |
+| **nassani-tv** | `https://nassanitv.online` | Placeholder (28B) | Safe to suspend |
 | **VPS API + Admin** | `http://62.171.131.113` | New APK + admin UI | **YES** |
 | **Vultr PostgreSQL** | `155.138.223.205` / `nassani_db` | Shared DB | **YES** |
 
@@ -29,7 +29,7 @@ All legacy public endpoints pass on Render (`verify:apk-backward-compat` → **0
 
 - channels, banners, plans, subscription-status, payments, update-check (force off)
 - server-health, settings, popup-settings (public read restored)
-- Stream delivery URLs use `api.nassanitv.com` (not VPS)
+- Stream delivery URLs use `api.nassanitv.online` (not VPS)
 
 ## New APK (VPS) — action required
 
@@ -57,7 +57,7 @@ Same `device_id` + shared Vultr DB → subscription state preserved:
 
 - `nassani-admin-mpya` (Render static admin)
 - `nassani-tv` (placeholder only)
-- `nassanitv.com` (404 / unused)
+- `nassanitv.online` (404 / unused)
 
 ## Do NOT suspend
 

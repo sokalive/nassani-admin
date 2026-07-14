@@ -10,8 +10,8 @@ import fs from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 
-const VPS = String(process.env.VPS_API || 'https://api.nassanitv.com').replace(/\/$/, '')
-const RENDER = String(process.env.RENDER_API || 'https://api.nassanitv.com').replace(/\/$/, '')
+const VPS = String(process.env.VPS_API || 'https://api.nassanitv.online').replace(/\/$/, '')
+const RENDER = String(process.env.RENDER_API || 'https://api.nassanitv.online').replace(/\/$/, '')
 const TOKEN = String(
   process.env.NOTIFICATION_IMAGE_INGEST_TOKEN ||
     process.env.ADMIN_TOKEN ||
@@ -70,7 +70,7 @@ function assertPushImageUrl(url, label) {
     fail(`${label}: not HTTPS: ${u}`)
     return false
   }
-  if (!u.includes('api.nassanitv.com')) {
+  if (!u.includes('api.nassanitv.online')) {
     fail(`${label}: push URL must use VPS origin (CDN 404s for notif files): ${u}`)
     return false
   }
@@ -106,7 +106,7 @@ async function probeHost(label, base) {
   pass(`${label} prepare-image storage=${body.storage || 'n/a'} bytes=${body.compressedBytes}`)
   assertPushImageUrl(body.pushImageUrl, `${label} pushImageUrl`)
   if (body.pushImageUrl) {
-    const originUrl = body.pushImageUrl.replace('', 'api.nassanitv.com')
+    const originUrl = body.pushImageUrl.replace('', 'api.nassanitv.online')
     const ok = (await headOk(body.pushImageUrl)) || (await headOk(originUrl))
     if (ok) pass(`${label} image HEAD 200`)
     else fail(`${label} image HEAD failed for ${body.pushImageUrl}`)

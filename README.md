@@ -16,7 +16,7 @@ curl -fsSL https://raw.githubusercontent.com/sokalive/nassani-admin/main/deploy/
 chmod +x /tmp/bootstrap-nassani-vps.sh
 export NASSANI_VPS_IP='YOUR.VPS.IP'
 # optional after DNS:
-# export NASSANI_ROOT_DOMAIN='nassanitv.com'
+# export NASSANI_ROOT_DOMAIN='nassanitv.online'
 bash /tmp/bootstrap-nassani-vps.sh
 ```
 

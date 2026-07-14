@@ -3,9 +3,9 @@
  *
  * Usage:
  *   node scripts/benchmark-vps-latency.mjs
- *   VPS_API=https://api.nassanitv.com node scripts/benchmark-vps-latency.mjs
+ *   VPS_API=https://api.nassanitv.online node scripts/benchmark-vps-latency.mjs
  */
-const VPS = String(process.env.VPS_API || 'https://api.nassanitv.com').replace(/\/+$/, '')
+const VPS = String(process.env.VPS_API || 'https://api.nassanitv.online').replace(/\/+$/, '')
 
 async function timed(path, opts = {}) {
   const t0 = performance.now()

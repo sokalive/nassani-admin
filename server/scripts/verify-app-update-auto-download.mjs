@@ -10,7 +10,7 @@ import {
 } from '../src/lib/appUpdateTargeting.js'
 import { appUpdateToOtaPayload } from '../src/routes/appUpdate.js'
 
-const VPS = String(process.env.VPS_API || 'https://api.nassanitv.com').replace(/\/+$/, '')
+const VPS = String(process.env.VPS_API || 'https://api.nassanitv.online').replace(/\/+$/, '')
 
 const checks = []
 function assert(name, ok, detail = '') {

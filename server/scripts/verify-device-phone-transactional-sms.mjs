@@ -4,7 +4,7 @@
  *
  * Usage:
  *   node scripts/verify-device-phone-transactional-sms.mjs
- *   VPS_API=https://api.nassanitv.com node scripts/verify-device-phone-transactional-sms.mjs
+ *   VPS_API=https://api.nassanitv.online node scripts/verify-device-phone-transactional-sms.mjs
  */
 import {
   buildExpiredPackageLine,
@@ -18,7 +18,7 @@ import {
 } from '../src/lib/smsTransactionalMessages.js'
 import { normalizePhoneInternational } from '../src/lib/phoneNormalize.js'
 
-const VPS = String(process.env.VPS_API || 'https://api.nassanitv.com').replace(/\/$/, '')
+const VPS = String(process.env.VPS_API || 'https://api.nassanitv.online').replace(/\/$/, '')
 const deviceId = `verify-phone-${Date.now()}`
 const installId = 'install-verify-1'
 

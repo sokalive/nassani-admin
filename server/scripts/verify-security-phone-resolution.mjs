@@ -2,7 +2,7 @@
  * Production check: security report phone resolution + strict block fields.
  * Usage: node scripts/verify-security-phone-resolution.mjs [API_BASE]
  */
-const API = (process.argv[2] || process.env.API_BASE || 'https://api.nassanitv.com').replace(
+const API = (process.argv[2] || process.env.API_BASE || 'https://api.nassanitv.online').replace(
   /\/$/,
   '',
 )

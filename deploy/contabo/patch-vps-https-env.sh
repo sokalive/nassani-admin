@@ -5,8 +5,8 @@ set -euo pipefail
 
 ROOT="${NASSANI_ADMIN_ROOT:-/var/www/nassani-admin}"
 ENV_FILE="$ROOT/server/.env"
-API_URL="${NASSANI_API_URL:-https://api.nassanitv.com}"
-ADMIN_URL="${NASSANI_ADMIN_URL:-https://admin.nassanitv.com}"
+API_URL="${NASSANI_API_URL:-https://api.nassanitv.online}"
+ADMIN_URL="${NASSANI_ADMIN_URL:-https://admin.nassanitv.online}"
 
 if [[ ! -f "$ENV_FILE" ]]; then
   echo "ERROR: $ENV_FILE missing" >&2
@@ -32,7 +32,7 @@ upsert_env NASSANI_LOAD_CUTOVER_ENV "1"
 
 if grep -q "^ASSET_LEGACY_ORIGIN_HOSTS=" "$ENV_FILE" 2>/dev/null; then
   hosts="$(grep '^ASSET_LEGACY_ORIGIN_HOSTS=' "$ENV_FILE" | head -1 | cut -d= -f2-)"
-  for h in api.nassanitv.com admin.nassanitv.com; do
+  for h in api.nassanitv.online admin.nassanitv.online; do
     if [[ "$hosts" != *"$h"* ]]; then
       hosts="${hosts},${h}"
     fi

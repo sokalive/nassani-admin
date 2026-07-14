@@ -9,16 +9,16 @@
     "broken_api_url": "/uploads/1783147359264-f75c0f13a7b7743f.jpeg",
     "broken_public_head": "404",
     "fixed_db_value": "/uploads/1783148648459-c6ff4dc2e3f489e2.png",
-    "fixed_api_url": "https://api.nassanitv.com/uploads/1783148648459-c6ff4dc2e3f489e2.png",
+    "fixed_api_url": "https://api.nassanitv.online/uploads/1783148648459-c6ff4dc2e3f489e2.png",
     "physical_path": "/var/www/nassani-admin/server/uploads/1783148648459-c6ff4dc2e3f489e2.png",
     "public_head": "200",
     "file_existed_on_disk_before_fix": true,
     "nginx_cdn_loop": true
   },
   "environment_proof": {
-    "vps_admin_api": "https://admin.nassanitv.com → same-origin /api → VPS Node :10001",
+    "vps_admin_api": "https://admin.nassanitv.online → same-origin /api → VPS Node :10001",
     "render_admin_api_before": "nassani-admin-mpya → Render API (100% disk) via redirect + api.js",
-    "render_admin_api_after": "api.js + render.yaml redirect → https://api.nassanitv.com/api",
+    "render_admin_api_after": "api.js + render.yaml redirect → https://api.nassanitv.online/api",
     "vps_uploads_dir": "/var/www/nassani-admin/server/uploads",
     "render_uploads_dir": "/var/render/media (100% full, 0 bytes free)"
   },

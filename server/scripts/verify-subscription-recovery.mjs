@@ -2,8 +2,8 @@
  * Post-recovery validation — sample verify/status on repaired shadow devices.
  *   cd server && node scripts/verify-subscription-recovery.mjs
  */
-const RENDER = String(process.env.RENDER_API || 'https://api.nassanitv.com').replace(/\/$/, '')
-const VPS = String(process.env.VPS_API || 'https://api.nassanitv.com').replace(/\/$/, '')
+const RENDER = String(process.env.RENDER_API || 'https://api.nassanitv.online').replace(/\/$/, '')
+const VPS = String(process.env.VPS_API || 'https://api.nassanitv.online').replace(/\/$/, '')
 const ADMIN_TOKEN = process.env.ADMIN_TOKEN || '3030'
 const SAMPLE = Math.max(5, Math.min(50, Number(process.env.SAMPLE_SIZE) || 20))
 

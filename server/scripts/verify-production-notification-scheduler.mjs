@@ -2,7 +2,7 @@
  * Production notification scheduler audit (read-only).
  * Usage: node scripts/verify-production-notification-scheduler.mjs [notification_id]
  */
-const API = (process.env.API_BASE || 'https://api.nassanitv.com').replace(/\/$/, '')
+const API = (process.env.API_BASE || 'https://api.nassanitv.online').replace(/\/$/, '')
 const TOKEN = process.env.ADMIN_LEGACY_TOKEN || process.env.X_ADMIN_TOKEN || '3030'
 const targetId = process.argv[2] || ''
 

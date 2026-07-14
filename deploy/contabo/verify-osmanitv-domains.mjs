@@ -1,14 +1,14 @@
 /**
- * Verify nassanitv.com branded HTTPS endpoints (VPS testing — Render stays production for legacy APK).
+ * Verify nassanitv.online branded HTTPS endpoints (VPS testing — Render stays production for legacy APK).
  *
  *   node deploy/contabo/verify-nassanitv-domains.mjs
  */
-const RENDER_API = String(process.env.RENDER_API || 'https://api.nassanitv.com').replace(/\/$/, '')
+const RENDER_API = String(process.env.RENDER_API || 'https://api.nassanitv.online').replace(/\/$/, '')
 
 const HOSTS = {
-  api: 'https://api.nassanitv.com',
-  admin: 'https://admin.nassanitv.com',
-  main: 'https://nassanitv.com',
+  api: 'https://api.nassanitv.online',
+  admin: 'https://admin.nassanitv.online',
+  main: 'https://nassanitv.online',
 }
 
 const checks = []
@@ -50,7 +50,7 @@ async function assertHttpsRedirect(httpUrl) {
 }
 
 async function main() {
-  console.log('=== nassanitv.com domain verification ===\n')
+  console.log('=== nassanitv.online domain verification ===\n')
 
   for (const base of Object.values(HOSTS)) {
     await assertHttpsRedirect(base.replace('https://', 'http://'))

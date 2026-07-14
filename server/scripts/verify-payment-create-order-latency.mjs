@@ -5,8 +5,8 @@
  *
  *   node server/scripts/verify-payment-create-order-latency.mjs
  */
-const VPS = String(process.env.VPS_API || 'https://api.nassanitv.com').replace(/\/$/, '')
-const RENDER = String(process.env.RENDER_API || 'https://api.nassanitv.com').replace(/\/$/, '')
+const VPS = String(process.env.VPS_API || 'https://api.nassanitv.online').replace(/\/$/, '')
+const RENDER = String(process.env.RENDER_API || 'https://api.nassanitv.online').replace(/\/$/, '')
 const TARGET_MS = Number(process.env.CREATE_ORDER_TARGET_MS || 2000)
 const EXPECT = String(process.env.EXPECT_COMMIT || '').trim()
 

@@ -6,7 +6,7 @@
  *   node scripts/audit-root-emulator-blocked.mjs
  *   node scripts/audit-root-emulator-blocked.mjs --execute
  */
-const API = (process.env.NASSANI_ADMIN_API || 'https://api.nassanitv.com').replace(/\/$/, '')
+const API = (process.env.NASSANI_ADMIN_API || 'https://api.nassanitv.online').replace(/\/$/, '')
 const TOKEN = process.env.ADMIN_TOKEN || '3030'
 const EXECUTE = process.argv.includes('--execute')
 

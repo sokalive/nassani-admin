@@ -3,7 +3,7 @@
  * Read-only unique-device forensic audit (production-safe).
  * Reconstructs canonical, migration, and candidate ~6000 metrics.
  */
-const VPS = String(process.env.VPS_API || 'https://api.nassanitv.com').replace(/\/+$/, '')
+const VPS = String(process.env.VPS_API || 'https://api.nassanitv.online').replace(/\/+$/, '')
 const TOKEN = String(process.env.ADMIN_TOKEN || '3030').trim()
 
 let failed = 0

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Apply nassanitv.com nginx vhosts from repo and reload (no cert changes).
+# Apply nassanitv.online nginx vhosts from repo and reload (no cert changes).
 # Run on VPS as root after git push updates deploy/contabo/nginx/*.
 #
 #   curl -fsSL https://raw.githubusercontent.com/sokalive/nassani-admin/main/deploy/contabo/reload-nassanitv-nginx.sh | bash
@@ -32,8 +32,8 @@ if [[ -f "$ROOT/deploy/contabo/patch-vps-https-env.sh" ]]; then
 fi
 
 echo "==> verify"
-curl -fsSI "https://api.nassanitv.com" | head -1
-curl -fsS "https://api.nassanitv.com/api/health"
+curl -fsSI "https://api.nassanitv.online" | head -1
+curl -fsS "https://api.nassanitv.online/api/health"
 echo
 node "$ROOT/deploy/contabo/verify-nassanitv-domains.mjs"
 node "$ROOT/deploy/contabo/verify-vps-infrastructure.mjs" || true

@@ -1,16 +1,16 @@
 #!/usr/bin/env bash
-# Fix HTTPS for api.nassanitv.com / admin.nassanitv.com / nassanitv.com on Contabo VPS.
+# Fix HTTPS for api.nassanitv.online / admin.nassanitv.online / nassanitv.online on Contabo VPS.
 # Does NOT touch Render production.
 #
 # Contabo web console one-liner:
 #   curl -fsSL https://raw.githubusercontent.com/sokalive/nassani-admin/main/deploy/contabo/setup-nassanitv-ssl.sh | bash
 #
 # From repo clone:
-#   CERTBOT_EMAIL=admin@nassanitv.com bash deploy/contabo/setup-nassanitv-ssl.sh
+#   CERTBOT_EMAIL=admin@nassanitv.online bash deploy/contabo/setup-nassanitv-ssl.sh
 set -euo pipefail
 
 ROOT="${NASSANI_ADMIN_ROOT:-/var/www/nassani-admin}"
-EMAIL="${CERTBOT_EMAIL:-admin@nassanitv.com}"
+EMAIL="${CERTBOT_EMAIL:-admin@nassanitv.online}"
 
 diag() {
   echo "==> Diagnostics"
@@ -82,12 +82,12 @@ if ! command -v certbot >/dev/null 2>&1; then
   DEBIAN_FRONTEND=noninteractive apt-get install -y certbot
 fi
 
-CERT_DIR="/etc/letsencrypt/live/nassanitv.com"
+CERT_DIR="/etc/letsencrypt/live/nassanitv.online"
 if [[ ! -f "$CERT_DIR/fullchain.pem" ]]; then
   echo "==> Requesting Let's Encrypt certificate (webroot)"
   certbot certonly --webroot -w /var/www/certbot \
-    --cert-name nassanitv.com \
-    -d api.nassanitv.com -d admin.nassanitv.com -d nassanitv.com \
+    --cert-name nassanitv.online \
+    -d api.nassanitv.online -d admin.nassanitv.online -d nassanitv.online \
     --email "$EMAIL" --agree-tos --non-interactive --no-eff-email
 fi
 
@@ -110,9 +110,9 @@ diag
 
 echo "==> HTTPS verification"
 fail=0
-health_code="$(curl -sS -o /dev/null -w '%{http_code}' --max-time 20 'https://api.nassanitv.com/api/health' || echo 000)"
-root_code="$(curl -sS -o /dev/null -w '%{http_code}' --max-time 20 'https://api.nassanitv.com/' || echo 000)"
-for pair in "https://api.nassanitv.com/api/health:${health_code}" "https://api.nassanitv.com/:${root_code}"; do
+health_code="$(curl -sS -o /dev/null -w '%{http_code}' --max-time 20 'https://api.nassanitv.online/api/health' || echo 000)"
+root_code="$(curl -sS -o /dev/null -w '%{http_code}' --max-time 20 'https://api.nassanitv.online/' || echo 000)"
+for pair in "https://api.nassanitv.online/api/health:${health_code}" "https://api.nassanitv.online/:${root_code}"; do
   url="${pair%%:*}"
   code="${pair##*:}"
   if [[ "$code" == "200" ]]; then

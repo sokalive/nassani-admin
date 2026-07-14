@@ -6,11 +6,11 @@
  *   node deploy/render/verify-render-admin-users.mjs
  *   ADMIN_TOKEN=3030 node deploy/render/verify-render-admin-users.mjs
  */
-const RENDER_ADMIN = String(process.env.RENDER_ADMIN_BASE || 'https://admin.nassanitv.com').replace(
+const RENDER_ADMIN = String(process.env.RENDER_ADMIN_BASE || 'https://admin.nassanitv.online').replace(
   /\/$/,
   '',
 )
-const RENDER_API = String(process.env.RENDER_API_BASE || 'https://api.nassanitv.com').replace(
+const RENDER_API = String(process.env.RENDER_API_BASE || 'https://api.nassanitv.online').replace(
   /\/$/,
   '',
 )
@@ -65,8 +65,8 @@ async function main() {
     } else {
       fail('admin-bundle-fetch', `HTTP ${bundle.res.status}`)
     }
-    if (bundle.res.ok && String(bundle.text).includes('api.nassanitv.com')) {
-      pass('admin-bundle-api-origin', 'bundle targets api.nassanitv.com')
+    if (bundle.res.ok && String(bundle.text).includes('api.nassanitv.online')) {
+      pass('admin-bundle-api-origin', 'bundle targets api.nassanitv.online')
     } else if (bundle.res.ok) {
       fail(
         'admin-bundle-api-origin',

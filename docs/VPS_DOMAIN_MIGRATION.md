@@ -1,14 +1,14 @@
-# VPS domain migration (nassanitv.com) — testing only
+# VPS domain migration (nassanitv.online) — testing only
 
-Migrate **branded HTTPS hosts** on Contabo while **Render API** (`api.nassanitv.com`) remains production for legacy APK users.
+Migrate **branded HTTPS hosts** on Contabo while **Render API** (`api.nassanitv.online`) remains production for legacy APK users.
 
 ## DNS (A records → `62.171.131.113`)
 
 | Host | Purpose |
 |------|---------|
-| `api.nassanitv.com` | Node API (HTTPS) — **testing only** until APK cutover approved |
-| `admin.nassanitv.com` | Admin SPA + `/api` proxy |
-| `nassanitv.com` | Public landing page |
+| `api.nassanitv.online` | Node API (HTTPS) — **testing only** until APK cutover approved |
+| `admin.nassanitv.online` | Admin SPA + `/api` proxy |
+| `nassanitv.online` | Public landing page |
 
 **Do not** change legacy APK `API_BASE` to VPS until explicit cutover approval.
 
@@ -35,13 +35,13 @@ Or from repo clone:
 ```bash
 cd /var/www/nassani-admin
 git pull origin main
-CERTBOT_EMAIL=admin@nassanitv.com bash deploy/contabo/setup-nassanitv-ssl.sh
+CERTBOT_EMAIL=admin@nassanitv.online bash deploy/contabo/setup-nassanitv-ssl.sh
 ```
 
 Legacy script (still works):
 
 ```bash
-CERTBOT_EMAIL=admin@nassanitv.com bash deploy/contabo/setup-nassanitv-ssl.sh
+CERTBOT_EMAIL=admin@nassanitv.online bash deploy/contabo/setup-nassanitv-ssl.sh
 ```
 
 Full cutover + SSL (runs `setup-nassanitv-ssl.sh` at end of `apply-cutover.sh`):
@@ -54,7 +54,7 @@ bash deploy/contabo/pull-and-apply.sh
 
 1. Contabo panel → **Firewall** → allow **80/tcp** and **443/tcp** inbound.
 2. On VPS: `ss -tulpn | grep 443` — must show `nginx`.
-3. `certbot certificates` — must list `nassanitv.com` SANs.
+3. `certbot certificates` — must list `nassanitv.online` SANs.
 4. `nginx -t && systemctl status nginx`
 
 ### After nginx config changes only
@@ -66,9 +66,9 @@ curl -fsSL https://raw.githubusercontent.com/sokalive/nassani-admin/main/deploy/
 ## Verify
 
 ```bash
-curl -fsS https://api.nassanitv.com/api/health
-curl -fsSI https://admin.nassanitv.com | head
-curl -fsS https://nassanitv.com | head
+curl -fsS https://api.nassanitv.online/api/health
+curl -fsSI https://admin.nassanitv.online | head
+curl -fsS https://nassanitv.online | head
 
 node deploy/contabo/verify-nassanitv-domains.mjs
 ```
@@ -76,7 +76,7 @@ node deploy/contabo/verify-nassanitv-domains.mjs
 Render safety (unchanged):
 
 ```bash
-curl -fsS https://api.nassanitv.com/api/health
+curl -fsS https://api.nassanitv.online/api/health
 ```
 
 ## Google Play / HTTPS

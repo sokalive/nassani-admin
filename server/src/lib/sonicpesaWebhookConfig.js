@@ -4,7 +4,7 @@
 import { defaultPublicApiOrigin } from './deployMeta.js'
 
 const CANONICAL_VPS_WEBHOOK =
-  'https://api.nassanitv.com/api/payments/sonicpesa/webhook'
+  'https://api.nassanitv.online/api/payments/sonicpesa/webhook'
 
 /** Production callback SonicPesa dashboard must target. */
 export function canonicalSonicpesaProductionWebhookUrl() {

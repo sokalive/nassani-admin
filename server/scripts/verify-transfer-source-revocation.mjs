@@ -3,8 +3,8 @@
  * Verify transfer source revocation on live API hosts.
  * Usage: node server/scripts/verify-transfer-source-revocation.mjs
  */
-const VPS = String(process.env.VPS_API_BASE || 'https://api.nassanitv.com/api').replace(/\/$/, '')
-const RENDER = String(process.env.RENDER_API_BASE || 'https://api.nassanitv.com/api').replace(/\/$/, '')
+const VPS = String(process.env.VPS_API_BASE || 'https://api.nassanitv.online/api').replace(/\/$/, '')
+const RENDER = String(process.env.RENDER_API_BASE || 'https://api.nassanitv.online/api').replace(/\/$/, '')
 
 async function health(base) {
   const res = await fetch(`${base}/health`)

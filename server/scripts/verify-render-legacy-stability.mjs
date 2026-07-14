@@ -2,11 +2,11 @@
  * Render legacy APK path smoke test (v16–v23).
  * Usage: node scripts/verify-render-legacy-stability.mjs
  */
-const RENDER = String(process.env.RENDER_API || 'https://api.nassanitv.com').replace(
+const RENDER = String(process.env.RENDER_API || 'https://api.nassanitv.online').replace(
   /\/+$/,
   '',
 )
-const VPS = String(process.env.VPS_API || 'https://api.nassanitv.com').replace(/\/+$/, '')
+const VPS = String(process.env.VPS_API || 'https://api.nassanitv.online').replace(/\/+$/, '')
 const WANT_COMMIT_PREFIX = String(process.env.WANT_COMMIT || '78506a0').slice(0, 7)
 
 let failed = 0

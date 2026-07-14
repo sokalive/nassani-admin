@@ -15,8 +15,8 @@ const DEFAULT_STATIC_MAX_AGE_SEC = Math.max(
 
 /** Hostnames rewritten to CDN on API read (legacy absolute URLs). */
 const BUILTIN_LEGACY_HOSTS = new Set([
-  'api.nassanitv.com',
-  'admin.nassanitv.com',
+  'api.nassanitv.online',
+  'admin.nassanitv.online',
   '169.58.18.86',
   'localhost',
   '127.0.0.1',
@@ -129,7 +129,7 @@ export function uploadsStoredOnVpsDisk() {
 
 /**
  * Channel/banner/logo images on VPS must use API origin URLs until Bunny pull origin
- * points at api.nassanitv.com. APKs may still use CDN when configured.
+ * points at api.nassanitv.online. APKs may still use CDN when configured.
  */
 export function shouldDeliverUploadViaOrigin(uploadPath = '') {
   if (String(process.env.UPLOADS_SERVE_FROM_ORIGIN || '').trim() === '1') return true

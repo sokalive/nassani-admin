@@ -9,7 +9,7 @@ import {
   RECOVERY_CLASS,
 } from '../src/lib/paymentOrderRecoveryClassifier.js'
 
-const API = String(process.env.VPS_API || 'https://api.nassanitv.com').replace(/\/+$/, '')
+const API = String(process.env.VPS_API || 'https://api.nassanitv.online').replace(/\/+$/, '')
 const TOKEN = String(process.env.ADMIN_TOKEN || '3030').trim()
 
 const results = []

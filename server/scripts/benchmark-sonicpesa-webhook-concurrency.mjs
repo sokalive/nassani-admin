@@ -2,7 +2,7 @@
 /**
  * Safe concurrency probe with status distribution (engineering probes only).
  */
-const API = process.env.VPS_API || 'https://api.nassanitv.com'
+const API = process.env.VPS_API || 'https://api.nassanitv.online'
 const levels = [50, 100, 250, 500]
 
 async function burst(n) {

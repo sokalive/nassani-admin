@@ -13,7 +13,7 @@ function trimSlash(s) {
 export function getInstructionVideoPublicOrigin() {
   const explicit = trimSlash(process.env.INSTRUCTION_VIDEO_PUBLIC_ORIGIN)
   if (explicit) return explicit
-  return trimSlash(process.env.NOTIFICATION_IMAGE_PUBLIC_ORIGIN) || 'https://api.nassanitv.com'
+  return trimSlash(process.env.NOTIFICATION_IMAGE_PUBLIC_ORIGIN) || 'https://api.nassanitv.online'
 }
 
 export function mustUseRemoteInstructionVideoStorage() {

@@ -1,10 +1,10 @@
 #!/usr/bin/env node
 /**
  * SonicPesa closure verification — production API probes + optional admin runtime ops.
- * Usage: VPS_API=https://api.nassanitv.com ADMIN_API_TOKEN=3030 node scripts/sonicpesa-closure-verification.mjs
+ * Usage: VPS_API=https://api.nassanitv.online ADMIN_API_TOKEN=3030 node scripts/sonicpesa-closure-verification.mjs
  */
-const API = String(process.env.VPS_API || 'https://api.nassanitv.com').replace(/\/+$/, '')
-const RENDER = String(process.env.RENDER_API || 'https://api.nassanitv.com').replace(/\/+$/, '')
+const API = String(process.env.VPS_API || 'https://api.nassanitv.online').replace(/\/+$/, '')
+const RENDER = String(process.env.RENDER_API || 'https://api.nassanitv.online').replace(/\/+$/, '')
 const TOKEN = String(process.env.ADMIN_API_TOKEN || process.env.ADMIN_TOKEN || '3030').trim()
 
 const results = { checks: [], metrics: null, dry_run: null, critical_repair: null }

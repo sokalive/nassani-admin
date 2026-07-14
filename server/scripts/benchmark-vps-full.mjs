@@ -3,9 +3,9 @@
  *
  * Usage:
  *   node scripts/benchmark-vps-full.mjs
- *   VPS_API=https://api.nassanitv.com PAID_DEVICE_ID=abc123 node scripts/benchmark-vps-full.mjs
+ *   VPS_API=https://api.nassanitv.online PAID_DEVICE_ID=abc123 node scripts/benchmark-vps-full.mjs
  */
-const VPS = String(process.env.VPS_API || 'https://api.nassanitv.com').replace(/\/+$/, '')
+const VPS = String(process.env.VPS_API || 'https://api.nassanitv.online').replace(/\/+$/, '')
 let PAID_DEVICE_ID = String(process.env.PAID_DEVICE_ID || '').trim()
 const TARGET_MS = 2000
 
