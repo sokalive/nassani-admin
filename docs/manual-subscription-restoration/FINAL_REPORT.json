@@ -2,10 +2,10 @@
   "title": "MFALME Manual Subscription Architecture Restoration",
   "generated_at": "2026-07-03T20:58:00.000Z",
   "status": "PARTIAL_PASS",
-  "summary": "MFALME PIN/security architecture restored on VPS production. Osmani phone-number extensions preserved. Render deploy blocked by missing RENDER_API_DEPLOY_HOOK.",
+  "summary": "MFALME PIN/security architecture restored on VPS production. Nassani phone-number extensions preserved. Render deploy blocked by missing RENDER_API_DEPLOY_HOOK.",
   "root_cause": {
-    "description": "Osmani Admin diverged from MFALME TV Admin (E:\\MFALME ADMIN\\OsmaniAdmin) by removing the shared sensitive-action PIN gate on manual grant endpoints and replacing it with phone-only validation. MFALME uses verifyAdminSensitiveActionPassword (default 3030) on POST /grant, pin-status with usesSharedActionPassword, and explicit deviceSubscriptionBus/liveSyncBus emits in the grant route. Osmani retained phone storage/SMS/custom subscription but dropped PIN verification, pin-status parity, and route-level SSE bus emits.",
-    "reference": "E:\\MFALME ADMIN\\OsmaniAdmin @ 2d28f33",
+    "description": "Nassani Admin diverged from MFALME TV Admin (E:\\MFALME ADMIN\\NassaniAdmin) by removing the shared sensitive-action PIN gate on manual grant endpoints and replacing it with phone-only validation. MFALME uses verifyAdminSensitiveActionPassword (default 3030) on POST /grant, pin-status with usesSharedActionPassword, and explicit deviceSubscriptionBus/liveSyncBus emits in the grant route. Nassani retained phone storage/SMS/custom subscription but dropped PIN verification, pin-status parity, and route-level SSE bus emits.",
+    "reference": "E:\\MFALME ADMIN\\NassaniAdmin @ 2d28f33",
     "regression_introduced": "Commit e318ee0 (Fix manual subscription grants: custom dates, phone SMS, auth persistence) removed PIN requirement in favor of phone-only grant auth"
   },
   "files_restored": [
@@ -32,7 +32,7 @@
   "commits": {
     "github_main": "9b2bd28",
     "github_followup": "pending (Render URL fix in verifier)",
-    "vps_api_osmanitv": "9b2bd28079c0fb8b1cb7345f9ec142957d645964",
+    "vps_api_nassanitv": "9b2bd28079c0fb8b1cb7345f9ec142957d645964",
     "render_api": "72ce16fb61eada0febda66aba05622aa6acbf2ce",
     "commit_parity": false
   },
@@ -45,7 +45,7 @@
     "health": "PASS commit=9b2bd28",
     "pin_status": "PASS usesSharedActionPassword=true, legacyPinConfigured=true",
     "grant_pin_required": "PASS HTTP 400 PIN is required",
-    "grant_phone_required": "PASS HTTP 400 phone is required (Osmani preserved)",
+    "grant_phone_required": "PASS HTTP 400 phone is required (Nassani preserved)",
     "grant_invalid_pin": "PASS HTTP 403 Invalid PIN",
     "grant_custom_pin_required": "PASS",
     "history_endpoint": "PASS 62 rows",
@@ -56,7 +56,7 @@
   },
   "api_verification_render": {
     "status": "NOT_VERIFIED — still on 72ce16f, 2 commits behind VPS",
-    "action_required": "Add RENDER_API_DEPLOY_HOOK to GitHub secrets and redeploy osmani-admin-api"
+    "action_required": "Add RENDER_API_DEPLOY_HOOK to GitHub secrets and redeploy nassani-admin-api"
   },
   "regression_results": {
     "phone_number_input": "PASS — Phone Number field on grant and custom tabs unchanged",
@@ -70,5 +70,5 @@
     "render_end_to_end": "PENDING deploy",
     "identical_commits_both_servers": false
   },
-  "confirmation": "All admin users on VPS (api.osmanitv.com) now receive the restored MFALME Manual Subscription PIN architecture with Osmani phone-number functionality preserved. Existing subscriptions, expiry dates, and customer phone records were not modified. Render API requires deploy-hook configuration before parity is complete."
+  "confirmation": "All admin users on VPS (api.nassanitv.com) now receive the restored MFALME Manual Subscription PIN architecture with Nassani phone-number functionality preserved. Existing subscriptions, expiry dates, and customer phone records were not modified. Render API requires deploy-hook configuration before parity is complete."
 }

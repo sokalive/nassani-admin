@@ -37,7 +37,7 @@ const SELECT_PUBLIC = `
 `
 
 /**
- * Public list visibility (Osmani TV spec):
+ * Public list visibility (Nassani TV spec):
  * - Include while active (is_active) and not past event_end
  * - Do NOT hide before event_start (app shows COMING SOON + countdown to start)
  * - Do NOT filter daily event_timer or enabled here — returned as metadata for the app

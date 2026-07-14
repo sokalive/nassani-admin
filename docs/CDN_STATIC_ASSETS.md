@@ -4,13 +4,13 @@ Uploaded files stay on disk under `UPLOAD_DIR` and in the database as `/uploads/
 
 ## Configure Bunny
 
-1. Create a **Pull Zone** in Bunny.net pointing at your API origin, e.g. `https://osmani-admin-api.onrender.com`.
+1. Create a **Pull Zone** in Bunny.net pointing at your API origin, e.g. `https://api.nassanitv.com`.
 2. Enable caching for `GET` on `/uploads/*` (images and APKs).
 3. Set on the **API** service (Render → Environment):
 
    ```bash
    BUNNY_CDN_BASE_URL=https://your-zone.b-cdn.net
-   BASE_URL=https://osmani-admin-api.onrender.com
+   BASE_URL=https://api.nassanitv.com
    ```
 
 4. Redeploy the API. Logs should show: `[cdn] Bunny enabled → https://...`
@@ -31,7 +31,7 @@ Upload/admin flows still write files to `UPLOAD_DIR/apks/` on the API disk; only
 
 ## Backward compatibility
 
-- DB may still hold legacy `https://osmani-admin-api.onrender.com/uploads/apks/...` — rewritten to Bunny on read.
+- DB may still hold legacy `https://api.nassanitv.com/uploads/apks/...` — rewritten to Bunny on read.
 - Direct `GET https://api.../uploads/...` from browsers returns **302** to Bunny when configured.
 - **Bunny origin-pull** must receive **200 + file bytes** from the API (no redirect to b-cdn.net) — otherwise CDN URLs loop with 302.
 - After fixing a redirect loop, **purge the Bunny pull zone cache** for `/uploads/*`.
@@ -44,7 +44,7 @@ Upload/admin flows still write files to `UPLOAD_DIR/apks/` on the API disk; only
 cd server
 npm run verify:cdn-assets
 npm run verify:apk-update-cdn
-# or: npm run verify:apk-update-cdn -- https://osmani-admin-api.onrender.com
+# or: npm run verify:apk-update-cdn -- https://api.nassanitv.com
 
 curl -s https://<api>/api/health/media | jq .cdn
 curl -sI https://<api>/uploads/apks/<file>.apk   # 302 → b-cdn.net when CDN enabled

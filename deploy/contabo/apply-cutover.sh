@@ -1,18 +1,18 @@
 #!/usr/bin/env bash
 # Apply Contabo cutover on the VPS.
-#   cd /var/www/osmani-admin-api && git pull origin main && bash deploy/contabo/apply-cutover.sh
+#   cd /var/www/nassani-admin && git pull origin main && bash deploy/contabo/apply-cutover.sh
 #
 # If DATABASE_URL errors: node deploy/contabo/sync-database-url-env.cjs
 set -euo pipefail
 
-ROOT="${OSMANI_ADMIN_ROOT:-/var/www/osmani-admin-api}"
+ROOT="${NASSANI_ADMIN_ROOT:-/var/www/nassani-admin}"
 API_DIR="$ROOT/server"
 ENV_FILE="$API_DIR/.env"
-NGINX_SRC="$ROOT/deploy/contabo/nginx-osmani-admin.conf"
-NGINX_DST="/etc/nginx/sites-available/osmani-admin"
+NGINX_SRC="$ROOT/deploy/contabo/nginx-nassani-admin.conf"
+NGINX_DST="/etc/nginx/sites-available/nassani-admin"
 DIST_DIR="$ROOT/dist"
 
-echo "==> Osmani Admin Contabo cutover"
+echo "==> Nassani Admin Contabo cutover"
 echo "    root: $ROOT"
 
 if [[ ! -d "$API_DIR" ]]; then
@@ -55,22 +55,29 @@ if [[ ! -f "$ENV_FILE" ]]; then
   chmod 600 "$ENV_FILE"
 fi
 
-# Non-secrets are also in server/.env.cutover (git); patch .env for legacy installs.
-ensure_env_key BUNNY_CDN_BASE_URL "https://osmanitv.b-cdn.net"
-ensure_env_key OSMANI_LOAD_CUTOVER_ENV "1"
-ensure_env_key UPLOAD_DIR "/var/www/osmani-admin-api/server/uploads"
-ensure_env_key NOTIFICATION_IMAGE_PUBLIC_ORIGIN "https://api.osmanitv.com"
-ensure_env_key INSTRUCTION_VIDEO_PUBLIC_ORIGIN "https://api.osmanitv.com"
-upsert_env_key BEEM_SENDER_NAME "OSMANITVMAX"
+# Non-secrets are also in server/.env.cutover (git); patch .env for installs.
+ensure_env_key BUNNY_CDN_BASE_URL ""
+ensure_env_key NASSANI_LOAD_CUTOVER_ENV "1"
+ensure_env_key UPLOAD_DIR "/var/www/nassani-admin/server/uploads"
+ensure_env_key NOTIFICATION_IMAGE_PUBLIC_ORIGIN "https://api.nassanitv.com"
+ensure_env_key INSTRUCTION_VIDEO_PUBLIC_ORIGIN "https://api.nassanitv.com"
+upsert_env_key BEEM_SENDER_NAME "NASSANITVMAX"
+upsert_env_key STREAM_DELIVERY_MODE "direct"
+upsert_env_key STREAM_PLAYBACK_FORCE_PROXY "0"
+upsert_env_key DIRECT_STREAM_CUTOVER_ENABLED "1"
+upsert_env_key DIRECT_STREAM_ROLLOUT_PERCENT "100"
 
-if [[ -f /etc/letsencrypt/live/osmanitv.com/fullchain.pem ]] || [[ "${OSMANI_USE_BRANDED_HTTPS:-}" == "1" ]]; then
+VPS_IP="${NASSANI_VPS_IP:-$(curl -4 -fsS --max-time 5 ifconfig.me 2>/dev/null || echo 62.171.131.113)}"
+
+if [[ -f /etc/letsencrypt/live/nassanitv.com/fullchain.pem ]] || [[ "${NASSANI_USE_BRANDED_HTTPS:-}" == "1" ]]; then
   echo "==> Branded HTTPS public URLs"
-  upsert_env_key BASE_URL "https://api.osmanitv.com"
-  upsert_env_key STREAM_API_BASE_URL "https://api.osmanitv.com"
-  upsert_env_key ADMIN_PUBLIC_URL "https://admin.osmanitv.com"
+  upsert_env_key BASE_URL "https://api.nassanitv.com"
+  upsert_env_key STREAM_API_BASE_URL "https://api.nassanitv.com"
+  upsert_env_key ADMIN_PUBLIC_URL "https://admin.nassanitv.com"
 else
-  ensure_env_key BASE_URL "http://144.91.117.90"
-  ensure_env_key STREAM_API_BASE_URL "http://144.91.117.90"
+  ensure_env_key BASE_URL "http://${VPS_IP}"
+  ensure_env_key STREAM_API_BASE_URL "http://${VPS_IP}"
+  ensure_env_key ADMIN_PUBLIC_URL "http://${VPS_IP}"
 fi
 
 if ! grep -q "^ADMIN_API_TOKEN=" "$ENV_FILE" 2>/dev/null; then
@@ -106,7 +113,8 @@ process.stdout.write(String(loadContaboPm2Env('$ROOT').DATABASE_URL || ''));
 
   if [[ -z "${DATABASE_URL:-}" ]]; then
     echo "ERROR: DATABASE_URL is not set." >&2
-    echo "Add Vultr PostgreSQL URL to $ENV_FILE (see deploy/contabo/env.production.example)" >&2
+    echo "Add local Contabo PostgreSQL URL to $ENV_FILE (see deploy/contabo/env.production.example)" >&2
+    echo "Or run: bash deploy/contabo/bootstrap-nassani-vps.sh" >&2
     exit 1
   fi
   export DATABASE_URL
@@ -117,8 +125,8 @@ ensure_database_url
 export DATABASE_URL
 
 GIT_COMMIT="$(git -C "$ROOT" rev-parse HEAD 2>/dev/null || echo unknown)"
-export OSMANI_GIT_COMMIT="$GIT_COMMIT"
-export OSMANI_ADMIN_ROOT="$ROOT"
+export NASSANI_GIT_COMMIT="$GIT_COMMIT"
+export NASSANI_ADMIN_ROOT="$ROOT"
 echo "    git commit: $GIT_COMMIT"
 
 echo "==> PM2 env preload (from disk)"
@@ -149,7 +157,7 @@ node -e "import('./src/loadEnv.js').then((m)=>{const ok=m.isDatabaseUrlConfigure
 
 echo "==> PM2 restart"
 if command -v pm2 >/dev/null 2>&1; then
-  export OSMANI_ADMIN_ROOT="$ROOT"
+  export NASSANI_ADMIN_ROOT="$ROOT"
   if ! pm2 conf pm2-logrotate:max_size >/dev/null 2>&1; then
     echo "==> pm2-logrotate (50M retain 10, compressed)"
     pm2 install pm2-logrotate || true
@@ -158,7 +166,7 @@ if command -v pm2 >/dev/null 2>&1; then
   pm2 set pm2-logrotate:retain 10 2>/dev/null || true
   pm2 set pm2-logrotate:compress true 2>/dev/null || true
   pm2 set pm2-logrotate:workerInterval 3600 2>/dev/null || true
-  pm2 delete osmani-admin-api 2>/dev/null || true
+  pm2 delete nassani-admin-api 2>/dev/null || true
   pm2 start "$ROOT/deploy/contabo/ecosystem.config.cjs" --update-env
   pm2 save
   echo "    waiting for API on :10001..."
@@ -172,7 +180,7 @@ if command -v pm2 >/dev/null 2>&1; then
   done
   if [[ "$api_ready" -ne 1 ]]; then
     echo "ERROR: API did not respond on :10001 within 60s — PM2 logs:" >&2
-    pm2 logs osmani-admin-api --lines 40 --nostream || true
+    pm2 logs nassani-admin-api --lines 40 --nostream || true
     exit 1
   fi
   HEALTH_JSON="$(curl -fsS "http://127.0.0.1:10001/api/health" || true)"
@@ -183,16 +191,16 @@ else
 fi
 
 echo "==> Nginx"
-SNIPPET_SRC="$ROOT/deploy/contabo/nginx/snippets/osmani-node-api.conf"
-SNIPPET_DST="/etc/nginx/snippets/osmani-node-api.conf"
+SNIPPET_SRC="$ROOT/deploy/contabo/nginx/snippets/nassani-node-api.conf"
+SNIPPET_DST="/etc/nginx/snippets/nassani-node-api.conf"
 if [[ -f "$SNIPPET_SRC" ]]; then
   mkdir -p /etc/nginx/snippets
   cp "$SNIPPET_SRC" "$SNIPPET_DST"
   echo "    synced $SNIPPET_DST"
 fi
 if [[ -f "$NGINX_SRC" ]]; then
-  cp "$NGINX_SRC" "$NGINX_DST"
-  ln -sf "$NGINX_DST" /etc/nginx/sites-enabled/osmani-admin
+  sed "s/__NASSANI_VPS_IP__/${VPS_IP}/g" "$NGINX_SRC" >"$NGINX_DST"
+  ln -sf "$NGINX_DST" /etc/nginx/sites-enabled/nassani-admin
   rm -f /etc/nginx/sites-enabled/default
   nginx -t
   systemctl reload nginx
@@ -201,10 +209,11 @@ else
   exit 1
 fi
 
-if [[ "${OSMANI_SKIP_OSMANITV_SSL:-}" != "1" ]] && [[ -f "$ROOT/deploy/contabo/fix-osmanitv-https.sh" ]]; then
-  echo "==> osmanitv.com branded TLS (VPS testing — Render unchanged)"
-  CERTBOT_EMAIL="${CERTBOT_EMAIL:-admin@osmanitv.com}" bash "$ROOT/deploy/contabo/fix-osmanitv-https.sh" || {
-    echo "WARN: fix-osmanitv-https.sh failed — ensure DNS A records point to this VPS and ports 80/443 are open" >&2
+# SSL only when DNS already points here (fresh Nassani has no Osmani DNS).
+if [[ "${NASSANI_SKIP_NASSANITV_SSL:-1}" != "1" ]] && [[ -f "$ROOT/deploy/contabo/setup-nassanitv-ssl.sh" ]]; then
+  echo "==> nassanitv.com branded TLS"
+  CERTBOT_EMAIL="${CERTBOT_EMAIL:-admin@nassanitv.com}" bash "$ROOT/deploy/contabo/setup-nassanitv-ssl.sh" || {
+    echo "WARN: setup-nassanitv-ssl.sh failed — ensure DNS A records point to this VPS and ports 80/443 are open" >&2
   }
 fi
 
@@ -232,45 +241,52 @@ if [[ -f "$ROOT/deploy/contabo/verify-admin-vps.mjs" ]]; then
     echo "WARN: verify-admin-vps failed — check admin SPA build" >&2
   }
 fi
-if [[ -f "$API_DIR/scripts/verify-vps-render-independence.mjs" ]]; then
-  echo "==> verify-vps-render-independence.mjs"
-  BASE_URL="${BASE_URL:-https://api.osmanitv.com}" node "$API_DIR/scripts/verify-vps-render-independence.mjs" || {
-    echo "ERROR: verify-vps-render-independence failed" >&2
-    exit 1
-  }
-fi
-if [[ -f "$API_DIR/scripts/test-payment-recovery-db-integration.mjs" ]]; then
-  echo "==> test-payment-recovery-db-integration.mjs (isolated fixtures)"
-  (cd "$API_DIR" && node scripts/test-payment-recovery-db-integration.mjs) || {
-    echo "ERROR: payment recovery DB integration tests failed" >&2
-    exit 1
-  }
-fi
-for script in verify-cutover.mjs verify-final-migration-audit.mjs; do
-  if [[ -f "$ROOT/deploy/contabo/$script" ]]; then
-    echo "==> Waiting for API pool to settle before $script"
-    settle_ok=0
-    for _ in $(seq 1 45); do
-      POOL_JSON="$(curl -fsS "http://127.0.0.1:10001/api/health" 2>/dev/null || true)"
-      WAITING="$(printf '%s' "$POOL_JSON" | node -e "let s='';process.stdin.on('data',d=>s+=d);process.stdin.on('end',()=>{try{const j=JSON.parse(s);process.stdout.write(String(j.pool?.waitingCount??-1))}catch{process.stdout.write('-1')}})" 2>/dev/null || echo -1)"
-      if [[ "$WAITING" == "0" ]]; then
-        settle_ok=1
-        echo "    pool.waitingCount=0"
-        break
-      fi
-      sleep 2
-    done
-    if [[ "$settle_ok" -ne 1 ]]; then
-      echo "WARN: pool did not settle to waitingCount=0 before $script (last=$WAITING)" >&2
-    fi
-    echo "==> $script"
-    EXPECT_VPS_COMMIT="$GIT_COMMIT" GITHUB_SHA="$GIT_COMMIT" node "$ROOT/deploy/contabo/$script" || {
-      echo "ERROR: $script failed" >&2
+
+# Legacy Osmani→Render migration audits are optional for independent Nassani.
+if [[ "${NASSANI_RUN_LEGACY_MIGRATION_AUDITS:-0}" == "1" ]]; then
+  if [[ -f "$API_DIR/scripts/verify-vps-render-independence.mjs" ]]; then
+    echo "==> verify-vps-render-independence.mjs"
+    BASE_URL="${BASE_URL:-https://api.nassanitv.com}" node "$API_DIR/scripts/verify-vps-render-independence.mjs" || {
+      echo "ERROR: verify-vps-render-independence failed" >&2
       exit 1
     }
-  else
-    echo "ERROR: missing $ROOT/deploy/contabo/$script — run: git fetch origin main && git reset --hard origin/main" >&2
-    exit 1
   fi
-done
-echo "Done. All verification scripts passed."
+  if [[ -f "$API_DIR/scripts/test-payment-recovery-db-integration.mjs" ]]; then
+    echo "==> test-payment-recovery-db-integration.mjs (isolated fixtures)"
+    (cd "$API_DIR" && node scripts/test-payment-recovery-db-integration.mjs) || {
+      echo "ERROR: payment recovery DB integration tests failed" >&2
+      exit 1
+    }
+  fi
+  for script in verify-cutover.mjs verify-final-migration-audit.mjs; do
+    if [[ -f "$ROOT/deploy/contabo/$script" ]]; then
+      echo "==> Waiting for API pool to settle before $script"
+      settle_ok=0
+      for _ in $(seq 1 45); do
+        POOL_JSON="$(curl -fsS "http://127.0.0.1:10001/api/health" 2>/dev/null || true)"
+        WAITING="$(printf '%s' "$POOL_JSON" | node -e "let s='';process.stdin.on('data',d=>s+=d);process.stdin.on('end',()=>{try{const j=JSON.parse(s);process.stdout.write(String(j.pool?.waitingCount??-1))}catch{process.stdout.write('-1')}})" 2>/dev/null || echo -1)"
+        if [[ "$WAITING" == "0" ]]; then
+          settle_ok=1
+          echo "    pool.waitingCount=0"
+          break
+        fi
+        sleep 2
+      done
+      if [[ "$settle_ok" -ne 1 ]]; then
+        echo "WARN: pool did not settle to waitingCount=0 before $script (last=$WAITING)" >&2
+      fi
+      echo "==> $script"
+      EXPECT_VPS_COMMIT="$GIT_COMMIT" GITHUB_SHA="$GIT_COMMIT" node "$ROOT/deploy/contabo/$script" || {
+        echo "ERROR: $script failed" >&2
+        exit 1
+      }
+    fi
+  done
+else
+  echo "==> Skipping legacy Osmani/Render migration audits (Nassani independent)"
+fi
+
+echo "==> Cutover complete"
+curl -fsS "http://127.0.0.1:10001/api/health" || true
+echo
+pm2 status || true

@@ -90,17 +90,17 @@ import {
 
 assert(
   'canonical webhook is VPS',
-  canonicalSonicpesaProductionWebhookUrl().includes('api.osmanitv.com'),
+  canonicalSonicpesaProductionWebhookUrl().includes('api.nassanitv.com'),
 )
 assert(
   'render webhook normalized',
-  normalizeStoredSonicpesaWebhookUrl('https://osmani-admin-api.onrender.com/api/payments/sonicpesa/webhook').includes(
-    'api.osmanitv.com',
+  normalizeStoredSonicpesaWebhookUrl('https://api.nassanitv.com/api/payments/sonicpesa/webhook').includes(
+    'api.nassanitv.com',
   ),
 )
 assert(
   'legacy render detected',
-  isLegacyRenderWebhookUrl('https://osmani-admin-api.onrender.com/api/payments/sonicpesa/webhook') === true,
+  isLegacyRenderWebhookUrl('https://api.nassanitv.com/api/payments/sonicpesa/webhook') === true,
 )
 
 // 7. Activation state constants

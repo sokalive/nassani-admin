@@ -18,11 +18,11 @@ const loadEnvSrc = fs.readFileSync(
 fs.writeFileSync(path.join(serverRoot, 'src', 'loadEnv.js'), loadEnvSrc)
 fs.writeFileSync(
   path.join(serverRoot, '.env.cutover'),
-  'PORT=10001\nBUNNY_CDN_BASE_URL=https://osmanitv.b-cdn.net\n',
+  'PORT=10001\nBUNNY_CDN_BASE_URL=\n',
 )
 fs.writeFileSync(
   path.join(tmp, '.env'),
-  'export DATABASE_URL=postgresql://user:pass@155.138.223.205:5432/osmani_db\n',
+  'export DATABASE_URL=postgresql://user:pass@155.138.223.205:5432/nassani_db\n',
 )
 
 process.chdir(serverRoot)
@@ -34,6 +34,6 @@ mod.loadProcessEnv()
 
 assert.equal(mod.isDatabaseUrlConfigured(), true)
 assert.match(String(process.env.DATABASE_URL), /155\.138\.223\.205/)
-assert.equal(process.env.BUNNY_CDN_BASE_URL, 'https://osmanitv.b-cdn.net')
+assert.equal(process.env.BUNNY_CDN_BASE_URL, '')
 
 console.log('verify-load-env: OK')

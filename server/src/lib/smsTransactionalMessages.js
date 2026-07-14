@@ -89,7 +89,7 @@ export function buildPaymentSuccessSms({ planName, price, currency, expiresAt })
   const bei = formatTzPrice(price, currency || 'TZS')
   const kinaisha = formatExpirySwahili(expiresAt)
   return [
-    'Osmani TV',
+    'Nassani TV',
     '',
     'Hongera! Malipo yako yamefanikiwa.',
     '',
@@ -97,7 +97,7 @@ export function buildPaymentSuccessSms({ planName, price, currency, expiresAt })
     `Bei: ${bei}`,
     `Kinaisha: ${kinaisha}`,
     '',
-    'Asante kwa kutumia Osmani TV.',
+    'Asante kwa kutumia Nassani TV.',
   ].join('\n')
 }
 
@@ -106,7 +106,7 @@ export function buildExpiryReminderSms({ planName, price, currency, expiresAt })
   const bei = formatTzPrice(price, currency || 'TZS')
   const timePhrase = formatSwahiliClockTime(expiresAt)
   return [
-    'Osmani TV',
+    'Nassani TV',
     '',
     'Kumbusho!',
     '',
@@ -114,7 +114,7 @@ export function buildExpiryReminderSms({ planName, price, currency, expiresAt })
     '',
     'Lipia mapema ili uendelee kutazama Vipindi Vyote Live kupitia simu yako.',
     '',
-    'Asante kwa kutumia Osmani TV.',
+    'Asante kwa kutumia Nassani TV.',
   ].join('\n')
 }
 
@@ -142,13 +142,13 @@ export function buildExpiredPackageLine({ planName, price, currency }) {
 export function buildExpiredSubscriptionSms({ planName, price, currency }) {
   const expiryLine = buildExpiredPackageLine({ planName, price, currency })
   return [
-    'Osmani TV',
+    'Nassani TV',
     '',
     expiryLine,
     '',
-    'Ili uendelee kutazama vipindi vyote, tafadhali nunua kifurushi kipya kupitia Osmani TV.',
+    'Ili uendelee kutazama vipindi vyote, tafadhali nunua kifurushi kipya kupitia Nassani TV.',
     '',
-    'Asante kwa kutumia Osmani TV.',
+    'Asante kwa kutumia Nassani TV.',
   ].join('\n')
 }
 

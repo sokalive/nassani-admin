@@ -3,10 +3,10 @@
 # Contabo only — does not touch Render.
 set -euo pipefail
 
-ROOT="${OSMANI_ADMIN_ROOT:-/var/www/osmani-admin-api}"
+ROOT="${NASSANI_ADMIN_ROOT:-/var/www/nassani-admin}"
 ENV_FILE="$ROOT/server/.env"
-API_URL="${OSMANI_API_URL:-https://api.osmanitv.com}"
-ADMIN_URL="${OSMANI_ADMIN_URL:-https://admin.osmanitv.com}"
+API_URL="${NASSANI_API_URL:-https://api.nassanitv.com}"
+ADMIN_URL="${NASSANI_ADMIN_URL:-https://admin.nassanitv.com}"
 
 if [[ ! -f "$ENV_FILE" ]]; then
   echo "ERROR: $ENV_FILE missing" >&2
@@ -28,11 +28,11 @@ echo "==> Patch VPS public URLs (HTTPS branded)"
 upsert_env BASE_URL "$API_URL"
 upsert_env STREAM_API_BASE_URL "$API_URL"
 upsert_env ADMIN_PUBLIC_URL "$ADMIN_URL"
-upsert_env OSMANI_LOAD_CUTOVER_ENV "1"
+upsert_env NASSANI_LOAD_CUTOVER_ENV "1"
 
 if grep -q "^ASSET_LEGACY_ORIGIN_HOSTS=" "$ENV_FILE" 2>/dev/null; then
   hosts="$(grep '^ASSET_LEGACY_ORIGIN_HOSTS=' "$ENV_FILE" | head -1 | cut -d= -f2-)"
-  for h in api.osmanitv.com admin.osmanitv.com; do
+  for h in api.nassanitv.com admin.nassanitv.com; do
     if [[ "$hosts" != *"$h"* ]]; then
       hosts="${hosts},${h}"
     fi
@@ -41,7 +41,7 @@ if grep -q "^ASSET_LEGACY_ORIGIN_HOSTS=" "$ENV_FILE" 2>/dev/null; then
 fi
 
 if command -v pm2 >/dev/null 2>&1; then
-  pm2 restart osmani-admin-api --update-env
+  pm2 restart nassani-admin-api --update-env
   sleep 3
 fi
 

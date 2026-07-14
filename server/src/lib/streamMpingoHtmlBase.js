@@ -17,7 +17,7 @@ export function resolveMpingoHtmlBaseHref(rawUrl) {
   return new URL('./', String(rawUrl)).href
 }
 
-const MPINGO_BASE_MARKER = 'data-osmani-mpingo-base="1"'
+const MPINGO_BASE_MARKER = 'data-nassani-mpingo-base="1"'
 
 /**
  * Inject <base href> so subscriptions.php, assets/, etc. resolve on nur.mpingotv.com.

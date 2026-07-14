@@ -2,7 +2,7 @@
  * Verify public app-update runtime matches Play Store production v17.
  * Usage: node scripts/verify-app-update-playstore-v17.mjs [apiBaseUrl]
  */
-const base = (process.argv[2] || process.env.API_BASE_URL || 'https://osmani-admin-api.onrender.com')
+const base = (process.argv[2] || process.env.API_BASE_URL || 'https://api.nassanitv.com')
   .replace(/\/+$/, '')
 
 const expected = {

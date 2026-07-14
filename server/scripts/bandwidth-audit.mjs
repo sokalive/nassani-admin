@@ -3,14 +3,14 @@
  *
  * Env (optional but required for exact 24h GB):
  *   RENDER_API_KEY          Render account API key
- *   RENDER_SERVICE_ID       osmani-admin-api service id (srv-…)
+ *   RENDER_SERVICE_ID       nassani-admin-api service id (srv-…)
  *   BUNNY_API_KEY           Bunny account API key
- *   BUNNY_PULL_ZONE_ID      Pull zone id for osmanitv.b-cdn.net (or auto-list)
- *   API_BASE                https://osmani-admin-api.onrender.com
+ *   BUNNY_PULL_ZONE_ID      Pull zone id for  (or auto-list)
+ *   API_BASE                https://api.nassanitv.com
  */
 import assert from 'node:assert/strict'
 
-const API = (process.env.API_BASE || 'https://osmani-admin-api.onrender.com').replace(/\/$/, '')
+const API = (process.env.API_BASE || 'https://api.nassanitv.com').replace(/\/$/, '')
 const HOURS = Number(process.env.AUDIT_HOURS) || 24
 const now = Date.now()
 const startMs = now - HOURS * 3600 * 1000
@@ -86,11 +86,11 @@ async function fetchBunnyBandwidth() {
     const match = (Array.isArray(zones) ? zones : zones?.Items || []).find((z) =>
       String(z.Hostnames || z.Name || '')
         .toLowerCase()
-        .includes('osmanitv'),
+        .includes('nassanitv'),
     )
     zoneId = match?.Id ? String(match.Id) : ''
   }
-  if (!zoneId) return { ok: false, reason: 'BUNNY_PULL_ZONE_ID not set and osmanitv zone not found' }
+  if (!zoneId) return { ok: false, reason: 'BUNNY_PULL_ZONE_ID not set and nassanitv zone not found' }
 
   const dateFrom = new Date(startMs).toISOString()
   const dateTo = new Date(now).toISOString()

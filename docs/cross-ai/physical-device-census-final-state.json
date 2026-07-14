@@ -6,13 +6,13 @@
   "app_authoritative_contract_commit": "89f840b9f1b9b2295b81810328f2c02bf59106e1",
   "app_contract_version": "2026-07-05-app-authoritative-v2",
   "app_contract_sha256": "3fc6a5ba07b466c9408176be5ae551e029167e18f65b285f178991915b33df43",
-  "app_repo": "https://github.com/sokalive/osmani-tv",
+  "app_repo": "https://github.com/sokalive/nassani-tv",
   "admin_correction_commit": "8a354243423edc32c09aca6293591bf2e6ac8131",
   "prior_freeze_commit": "ba26c5b42f635d03a6e55bf627fde0d63e9aecb4",
   "prior_pre_fix_count": 7955,
   "vps_live_commit": "8a354243423edc32c09aca6293591bf2e6ac8131",
   "cross_repo_confusion_resolved": true,
-  "cross_repo_note": "App contract at 89f840b lives in sokalive/osmani-tv; prior Admin finalization incorrectly searched osmani-admin origin/main",
+  "cross_repo_note": "App contract at 89f840b lives in sokalive/nassani-tv; prior Admin finalization incorrectly searched nassani-admin origin/main",
   "graph_rules": [
     {
       "id": "PROVEN_INSTALL_SESSION_ALIAS",
@@ -135,7 +135,7 @@
     "vps_api_authoritative": true,
     "render_api_commit": "df00d693dd6d61600804e0f3d8a43dd37e00fee1",
     "render_api_note": "Render legacy API on df00d69 — Dashboard uses authoritative VPS API",
-    "render_admin_note": "Render Admin frontend uses hardcoded https://api.osmanitv.com/api",
+    "render_admin_note": "Render Admin frontend uses hardcoded https://api.nassanitv.com/api",
     "github_render_hooks": "MISSING (RENDER_MPYA_DEPLOY_HOOK, RENDER_API_DEPLOY_HOOK)"
   },
   "cache_ttl_ms": 300000,

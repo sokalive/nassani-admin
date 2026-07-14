@@ -45,7 +45,7 @@
   ],
   "commits": {
     "github_main": "a5117c0",
-    "vps_api_osmanitv": "a5117c04c62bbf4d28dc013dab0619596d4cbfc1",
+    "vps_api_nassanitv": "a5117c04c62bbf4d28dc013dab0619596d4cbfc1",
     "render_api": "4644a1adbf7c25c37e1190100249b7fadaf02d41",
     "commit_parity": false,
     "render_blocker": "RENDER_API_DEPLOY_HOOK not configured — Render deploy workflow fails"

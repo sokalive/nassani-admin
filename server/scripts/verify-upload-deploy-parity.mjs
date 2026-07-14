@@ -4,8 +4,8 @@
  * Usage:
  *   node scripts/verify-upload-deploy-parity.mjs
  */
-const VPS = String(process.env.VPS_API || 'https://api.osmanitv.com').replace(/\/$/, '')
-const RENDER = String(process.env.RENDER_API || 'https://osmani-admin-api.onrender.com').replace(/\/$/, '')
+const VPS = String(process.env.VPS_API || 'https://api.nassanitv.com').replace(/\/$/, '')
+const RENDER = String(process.env.RENDER_API || 'https://api.nassanitv.com').replace(/\/$/, '')
 
 const CHECKS = [
   { name: 'health', path: '/api/health' },

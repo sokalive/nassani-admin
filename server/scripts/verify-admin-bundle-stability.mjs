@@ -3,13 +3,13 @@
  * Verify Admin static bundles contain stale-while-revalidate stability markers.
  */
 const SURFACES = [
-  { label: 'VPS Admin', base: 'https://admin.osmanitv.com' },
-  { label: 'Render Admin', base: 'https://osmani-admin-mpya.onrender.com' },
+  { label: 'VPS Admin', base: 'https://admin.nassanitv.com' },
+  { label: 'Render Admin', base: 'https://admin.nassanitv.com' },
 ]
 
 const MARKERS = [
-  'osmani_admin_snap_v2',
-  'osmani_admin_snap_v1',
+  'nassani_admin_snap_v2',
+  'nassani_admin_snap_v1',
   'Total Unique Devices',
   'Loading dashboard',
   'payment-orders',
@@ -48,7 +48,7 @@ async function probeBundle(surface) {
   const ttfb = Math.round(performance.now() - t0)
   const hits = MARKERS.filter((k) => js.includes(k))
   const apiTarget =
-    js.includes('https://api.osmanitv.com/api') || js.includes('api.osmanitv.com')
+    js.includes('https://api.nassanitv.com/api') || js.includes('api.nassanitv.com')
       ? 'VPS API'
       : js.includes('onrender.com')
         ? 'Render API'

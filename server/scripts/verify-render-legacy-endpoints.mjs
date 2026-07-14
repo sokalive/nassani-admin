@@ -3,13 +3,13 @@
  *
  * Usage:
  *   node scripts/verify-render-legacy-endpoints.mjs
- *   RENDER_API=https://osmani-admin-api.onrender.com node scripts/verify-render-legacy-endpoints.mjs
+ *   RENDER_API=https://api.nassanitv.com node scripts/verify-render-legacy-endpoints.mjs
  */
-const RENDER_API = String(process.env.RENDER_API || 'https://osmani-admin-api.onrender.com').replace(
+const RENDER_API = String(process.env.RENDER_API || 'https://api.nassanitv.com').replace(
   /\/$/,
   '',
 )
-const VPS_API = String(process.env.VPS_API || 'https://api.osmanitv.com').replace(/\/$/, '')
+const VPS_API = String(process.env.VPS_API || 'https://api.nassanitv.com').replace(/\/$/, '')
 const PROBE_DEVICE = String(process.env.PROBE_DEVICE || 'render-legacy-probe')
 
 const RENDER_ENDPOINTS = [

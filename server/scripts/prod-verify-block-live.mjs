@@ -7,7 +7,7 @@ import { resolve, dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 const __dir = dirname(fileURLToPath(import.meta.url))
-const API = (process.env.API_BASE || 'https://osmani-admin-api.onrender.com').replace(/\/$/, '')
+const API = (process.env.API_BASE || 'https://api.nassanitv.com').replace(/\/$/, '')
 
 for (const p of [resolve(__dir, '../.env'), resolve(__dir, '../../.env')]) {
   if (!existsSync(p)) continue

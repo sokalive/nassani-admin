@@ -165,7 +165,7 @@ function NotificationsPage() {
   const [imagePreparing, setImagePreparing] = useState(false)
   const [destinationType, setDestinationType] = useState('home')
   const [selectedChannelId, setSelectedChannelId] = useState('')
-  const [customDeepLink, setCustomDeepLink] = useState('osmani://settings')
+  const [customDeepLink, setCustomDeepLink] = useState('nassani://settings')
   const [channels, setChannels] = useState([])
   const [channelsLoading, setChannelsLoading] = useState(false)
   const [recurrenceKind, setRecurrenceKind] = useState('once')
@@ -399,7 +399,7 @@ function NotificationsPage() {
       setImageUpload(null)
       setDestinationType('home')
       setSelectedChannelId('')
-      setCustomDeepLink('osmani://settings')
+      setCustomDeepLink('nassani://settings')
       setRecurrenceKind('once')
       setRecurrenceInterval('30')
       setRecurrenceUntilDate('')
@@ -810,7 +810,7 @@ function NotificationsPage() {
                       value={customDeepLink}
                       onChange={(e) => setCustomDeepLink(e.target.value)}
                       className={inputClass()}
-                      placeholder="osmani://settings"
+                      placeholder="nassani://settings"
                     />
                     {touched && errors.customDeepLink ? (
                       <p className="mt-1 text-xs text-red-400">{errors.customDeepLink}</p>

@@ -639,7 +639,7 @@ appUpdateRouter.post('/settings/app-update/upload-apk', requireAdminPanelAccess,
         const safeName = String(meta.versionName || meta.versionCode)
           .replace(/[^\w.\-]+/g, '_')
           .slice(0, 48)
-        const finalFilename = `osmani-v${meta.versionCode}-${safeName}.apk`
+        const finalFilename = `nassani-v${meta.versionCode}-${safeName}.apk`
         const finalPath = path.join(APK_UPLOADS_DIR, finalFilename)
         if (fs.existsSync(finalPath)) {
           fs.unlinkSync(finalPath)

@@ -1,4 +1,4 @@
-const STORAGE_KEY = 'osmani_admin_panel_device_uid'
+const STORAGE_KEY = 'nassani_admin_panel_device_uid'
 
 /**
  * Stable raw fingerprint string sent to API (server hashes with salt).

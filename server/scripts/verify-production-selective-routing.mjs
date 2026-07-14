@@ -5,7 +5,7 @@ import fs from 'node:fs'
 import https from 'node:https'
 import http from 'node:http'
 
-const API = process.env.API_BASE || 'https://osmani-admin-api.onrender.com'
+const API = process.env.API_BASE || 'https://api.nassanitv.com'
 const MAX = Number(process.env.VERIFY_MAX_CHANNELS) || 20
 
 function fetchText(url, headers = {}, maxRedirects = 5) {
@@ -16,7 +16,7 @@ function fetchText(url, headers = {}, maxRedirects = 5) {
       {
         timeout: 28_000,
         headers: {
-          'User-Agent': 'OsmaniProdVerify/1.0',
+          'User-Agent': 'NassaniProdVerify/1.0',
           Accept: '*/*',
           ...headers,
         },

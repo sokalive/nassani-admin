@@ -226,8 +226,8 @@ function buildConclusions(matrix, totalTelemetry, vpsTotal, renderTotal) {
     versions_vps_only: vpsOnly,
     versions_fully_migrated: fullyMigrated,
     shared_db_note:
-      'VPS and Render both use the same Vultr Postgres (155.138.223.205/osmani_db). Subscription/catalog reads succeed on either host; stream URLs embed the host that served /api/channels.',
+      'VPS and Render both use the same Vultr Postgres (155.138.223.205/nassani_db). Subscription/catalog reads succeed on either host; stream URLs embed the host that served /api/channels.',
     render_stopped_observation:
-      'If Render was stopped and users still streamed, they were either hitting VPS (api.osmanitv.com), using cached channel/subscription data briefly, or playback via URLs already pointing at VPS/Bunny — not proof that Render is unused for all versions.',
+      'If Render was stopped and users still streamed, they were either hitting VPS (api.nassanitv.com), using cached channel/subscription data briefly, or playback via URLs already pointing at VPS/Bunny — not proof that Render is unused for all versions.',
   }
 }

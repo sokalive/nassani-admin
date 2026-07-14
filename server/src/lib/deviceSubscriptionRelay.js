@@ -8,7 +8,7 @@ import { deviceSubscriptionBus } from './deviceSubscriptionBus.js'
 
 const { Client } = pg
 
-const PG_CHANNEL = 'osmani_device_subscription'
+const PG_CHANNEL = 'nassani_device_subscription'
 const INSTANCE_ORIGIN = `${process.pid}-${Date.now().toString(36)}`
 
 let wired = false

@@ -3,7 +3,7 @@
  * Payment Orders search + filter end-to-end verification (VPS-first).
  *
  * Usage:
- *   VPS_API=https://api.osmanitv.com ADMIN_TOKEN=3030 node server/scripts/verify-payment-orders-search.mjs
+ *   VPS_API=https://api.nassanitv.com ADMIN_TOKEN=3030 node server/scripts/verify-payment-orders-search.mjs
  *   PHONE=0615332235 DEVICE_ID=... ORDER_ID=... node server/scripts/verify-payment-orders-search.mjs
  */
 import {
@@ -15,7 +15,7 @@ import {
 } from '../src/lib/paymentOrderLedger.js'
 import { normalizePhoneDigits } from '../src/billingStore.js'
 
-const API = String(process.env.VPS_API || 'https://api.osmanitv.com').replace(/\/+$/, '')
+const API = String(process.env.VPS_API || 'https://api.nassanitv.com').replace(/\/+$/, '')
 const TOKEN = String(process.env.ADMIN_TOKEN || '3030').trim()
 const PHONE = process.env.PHONE || '0615332235'
 const DEVICE_ID = process.env.DEVICE_ID || ''

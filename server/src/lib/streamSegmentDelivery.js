@@ -63,7 +63,7 @@ export function getStreamSegmentRolloutPercent() {
 }
 
 function segmentRolloutSalt() {
-  return String(process.env.STREAM_SEGMENT_ROLLOUT_SALT || 'osmani-seg-v1').trim()
+  return String(process.env.STREAM_SEGMENT_ROLLOUT_SALT || 'nassani-seg-v1').trim()
 }
 
 function bucketEligibleForBunnySegment(sessionId, channelId) {
@@ -244,7 +244,7 @@ export function verifyBunnyOriginRequest(req) {
   const secret = String(process.env.BUNNY_PULL_ORIGIN_SECRET || '').trim()
   if (!secret) return { ok: true }
   const header =
-    String(req.headers['x-bunny-origin-auth'] || req.headers['x-osmani-bunny-origin'] || '').trim()
+    String(req.headers['x-bunny-origin-auth'] || req.headers['x-nassani-bunny-origin'] || '').trim()
   if (header && header === secret) return { ok: true }
   return { ok: false, error: 'Origin auth required', status: 403 }
 }

@@ -15,9 +15,9 @@ const DEFAULT_STATIC_MAX_AGE_SEC = Math.max(
 
 /** Hostnames rewritten to CDN on API read (legacy absolute URLs). */
 const BUILTIN_LEGACY_HOSTS = new Set([
-  'osmani-admin-api.onrender.com',
-  'osmani-admin-mpya.onrender.com',
-  '144.91.117.90',
+  'api.nassanitv.com',
+  'admin.nassanitv.com',
+  '62.171.131.113',
   'localhost',
   '127.0.0.1',
 ])
@@ -82,8 +82,8 @@ export function getCdnBaseUrl() {
   // Contabo VPS cutover: thumbnails live on Bunny (origin disk is empty on Contabo).
   const uploadDir = String(process.env.UPLOAD_DIR || '').toLowerCase()
   const baseUrl = String(process.env.BASE_URL || '').toLowerCase()
-  if (uploadDir.includes('osmani-admin-api') || baseUrl.includes('144.91.117.90')) {
-    return 'https://osmanitv.b-cdn.net'
+  if (uploadDir.includes('nassani-admin-api') || baseUrl.includes('62.171.131.113')) {
+    return ''
   }
   return ''
 }
@@ -121,15 +121,15 @@ export function isHostedApkPath(pathOrUrl) {
 
 /** True when this process stores uploads on Contabo VPS disk (not Render ephemeral). */
 export function uploadsStoredOnVpsDisk() {
-  if (String(process.env.OSMANI_VPS || '').trim() === '1') return true
+  if (String(process.env.NASSANI_VPS || '').trim() === '1') return true
   const uploadDir = String(process.env.UPLOAD_DIR || '').toLowerCase()
-  if (uploadDir.includes('osmani-admin-api') || uploadDir.includes('/var/www/')) return true
+  if (uploadDir.includes('nassani-admin-api') || uploadDir.includes('/var/www/')) return true
   return false
 }
 
 /**
  * Channel/banner/logo images on VPS must use API origin URLs until Bunny pull origin
- * points at api.osmanitv.com. APKs may still use CDN when configured.
+ * points at api.nassanitv.com. APKs may still use CDN when configured.
  */
 export function shouldDeliverUploadViaOrigin(uploadPath = '') {
   if (String(process.env.UPLOADS_SERVE_FROM_ORIGIN || '').trim() === '1') return true

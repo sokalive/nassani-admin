@@ -1,21 +1,21 @@
 #!/usr/bin/env bash
-# Provision Let's Encrypt TLS for osmanitv.com branded hosts on Contabo VPS.
+# Provision Let's Encrypt TLS for nassanitv.com branded hosts on Contabo VPS.
 # Does NOT change Render production — VPS testing domains only.
 #
 # Prerequisites:
-#   A records → 144.91.117.90 for api.osmanitv.com, admin.osmanitv.com, osmanitv.com
+#   A records → 62.171.131.113 for api.nassanitv.com, admin.nassanitv.com, nassanitv.com
 #
 # Usage (on VPS as root):
-#   CERTBOT_EMAIL=you@osmanitv.com bash deploy/contabo/setup-osmanitv-ssl.sh
+#   CERTBOT_EMAIL=you@nassanitv.com bash deploy/contabo/setup-nassanitv-ssl.sh
 set -euo pipefail
 
-ROOT="${OSMANI_ADMIN_ROOT:-/var/www/osmani-admin-api}"
-EMAIL="${CERTBOT_EMAIL:-admin@osmanitv.com}"
-DOMAINS=(api.osmanitv.com admin.osmanitv.com osmanitv.com)
-CERT_NAME="osmanitv.com"
+ROOT="${NASSANI_ADMIN_ROOT:-/var/www/nassani-admin}"
+EMAIL="${CERTBOT_EMAIL:-admin@nassanitv.com}"
+DOMAINS=(api.nassanitv.com admin.nassanitv.com nassanitv.com)
+CERT_NAME="nassanitv.com"
 CERT_DIR="/etc/letsencrypt/live/${CERT_NAME}"
 
-echo "==> Osmani TV domain TLS setup"
+echo "==> Nassani TV domain TLS setup"
 echo "    root: $ROOT"
 echo "    email: $EMAIL"
 
@@ -28,12 +28,12 @@ mkdir -p /var/www/certbot
 mkdir -p /etc/nginx/snippets
 
 echo "==> Install nginx snippets"
-cp "$ROOT/deploy/contabo/nginx/snippets/ssl-params.conf" /etc/nginx/snippets/osmani-ssl-params.conf
-cp "$ROOT/deploy/contabo/nginx/snippets/osmani-node-api.conf" /etc/nginx/snippets/osmani-node-api.conf
+cp "$ROOT/deploy/contabo/nginx/snippets/ssl-params.conf" /etc/nginx/snippets/nassani-ssl-params.conf
+cp "$ROOT/deploy/contabo/nginx/snippets/nassani-node-api.conf" /etc/nginx/snippets/nassani-node-api.conf
 
 deploy_acme_http() {
-  cp "$ROOT/deploy/contabo/nginx/osmanitv-acme-http.conf" /etc/nginx/sites-available/osmanitv-domains
-  ln -sf /etc/nginx/sites-available/osmanitv-domains /etc/nginx/sites-enabled/osmanitv-domains
+  cp "$ROOT/deploy/contabo/nginx/nassanitv-acme-http.conf" /etc/nginx/sites-available/nassanitv-domains
+  ln -sf /etc/nginx/sites-available/nassanitv-domains /etc/nginx/sites-enabled/nassanitv-domains
   nginx -t
   systemctl reload nginx
 }
@@ -43,8 +43,8 @@ deploy_ssl_vhosts() {
     echo "ERROR: cert missing at $CERT_DIR" >&2
     exit 1
   fi
-  cp "$ROOT/deploy/contabo/nginx/osmanitv-domains.conf" /etc/nginx/sites-available/osmanitv-domains
-  ln -sf /etc/nginx/sites-available/osmanitv-domains /etc/nginx/sites-enabled/osmanitv-domains
+  cp "$ROOT/deploy/contabo/nginx/nassanitv-domains.conf" /etc/nginx/sites-available/nassanitv-domains
+  ln -sf /etc/nginx/sites-available/nassanitv-domains /etc/nginx/sites-enabled/nassanitv-domains
   nginx -t
   systemctl reload nginx
 }
@@ -65,7 +65,7 @@ else
   echo "==> Requesting certificate (webroot)"
   certbot certonly --webroot -w /var/www/certbot \
     --cert-name "$CERT_NAME" \
-    -d api.osmanitv.com -d admin.osmanitv.com -d osmanitv.com \
+    -d api.nassanitv.com -d admin.nassanitv.com -d nassanitv.com \
     --email "$EMAIL" --agree-tos --non-interactive --no-eff-email
 
   echo "==> Phase 2: HTTPS vhosts"
@@ -80,9 +80,9 @@ fi
 
 echo "==> Smoke checks"
 for url in \
-  "https://api.osmanitv.com/api/health" \
-  "https://admin.osmanitv.com/" \
-  "https://osmanitv.com/"; do
+  "https://api.nassanitv.com/api/health" \
+  "https://admin.nassanitv.com/" \
+  "https://nassanitv.com/"; do
   if curl -fsS "$url" >/dev/null; then
     echo "    OK $url"
   else

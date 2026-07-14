@@ -1,6 +1,6 @@
 /**
  * App authoritative v2 guards for PROVEN_FINGERPRINT_PAIR merges.
- * Formulas from docs/cross-ai/osmani-physical-device-census-contract.json (App @ 89f840b).
+ * Formulas from docs/cross-ai/nassani-physical-device-census-contract.json (App @ 89f840b).
  */
 import { createHash } from 'node:crypto'
 

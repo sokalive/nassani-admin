@@ -24,8 +24,8 @@ const DEFAULTS = {
   [APP_SETTING_KEYS.whatsappEnabled]: 'true',
   [APP_SETTING_KEYS.whatsappUrl]: 'https://wa.me/255700000000',
   [APP_SETTING_KEYS.popupMode]: 'show_once',
-  [APP_SETTING_KEYS.popupTitle]: 'Osmani TV',
-  [APP_SETTING_KEYS.popupGreeting]: 'Karibu Osmani TV!',
+  [APP_SETTING_KEYS.popupTitle]: 'Nassani TV',
+  [APP_SETTING_KEYS.popupGreeting]: 'Karibu Nassani TV!',
   [APP_SETTING_KEYS.popupBulletPoints]: '[]',
   [APP_SETTING_KEYS.popupDisclaimer]: '',
 }

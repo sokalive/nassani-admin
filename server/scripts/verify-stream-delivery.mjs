@@ -25,7 +25,7 @@ import { resetStreamDeliveryMetrics } from '../src/lib/streamDeliveryMetrics.js'
 process.env.STREAM_DELIVERY_MODE = 'hybrid'
 process.env.DIRECT_STREAM_SIGNING_ENABLED = '1'
 process.env.DIRECT_STREAM_SIGNING_SECRET = 'test-secret-min-16-chars!!'
-process.env.BASE_URL = 'https://osmani-admin-api.onrender.com'
+process.env.BASE_URL = 'https://api.nassanitv.com'
 process.env.DIRECT_STREAM_CUTOVER_ENABLED = '1'
 process.env.STREAM_PLAYBACK_FORCE_PROXY = '0'
 process.env.DIRECT_STREAM_ROLLOUT_PERCENT = '0'
@@ -56,7 +56,7 @@ assert.equal(excluded.eligible, false)
 const mockReq = {
   protocol: 'https',
   headers: {},
-  get: () => 'osmani-admin-api.onrender.com',
+  get: () => 'api.nassanitv.com',
 }
 
 const deliveryAllow = buildChannelStreamDelivery(mockReq, {
@@ -92,7 +92,7 @@ assert.ok(rollback.playbackUrl.includes('/stream-proxy'))
 const health = getStreamDeliveryHealthSnapshot()
 assert.equal(health.cutover_enabled, true)
 
-process.env.BUNNY_STREAM_CDN_BASE_URL = 'https://osmanitv.b-cdn.net'
+process.env.BUNNY_STREAM_CDN_BASE_URL = ''
 process.env.STREAM_SEGMENT_DELIVERY = 'bunny'
 process.env.STREAM_SEGMENT_FORCE_PROXY = '0'
 assert.equal(getStreamSegmentDeliveryMode(), 'bunny')
@@ -114,7 +114,7 @@ const bunnyUrl = buildSignedBunnySegmentUrl(
   { referer: 'https://provider.example/' },
   { channelId: '42', sessionId: 'sess-a' },
 )
-assert.ok(bunnyUrl.startsWith('https://osmanitv.b-cdn.net/'))
+assert.ok(bunnyUrl.startsWith('/'))
 assert.ok(bunnyUrl.includes('tok='))
 
 const manifestOnly = verifyDirectStreamToken(segTok.token)

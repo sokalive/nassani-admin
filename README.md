@@ -1,16 +1,29 @@
-# React + Vite
+# Nassani Admin
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Independent Nassani TV production admin + API.
 
-Currently, two official plugins are available:
+- **GitHub:** https://github.com/sokalive/nassani-admin
+- **VPS path:** `/var/www/nassani-admin`
+- **Stack:** Nginx → PM2 Node API (`:10001`) + Vite admin SPA; PostgreSQL on Contabo
+- **Video:** channel metadata on VPS; HLS (`.m3u8` / `.ts`) on CDN/storage only
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Fresh Contabo bootstrap
 
-## React Compiler
+On a new Ubuntu VPS as root:
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+```bash
+curl -fsSL https://raw.githubusercontent.com/sokalive/nassani-admin/main/deploy/contabo/bootstrap-nassani-vps.sh -o /tmp/bootstrap-nassani-vps.sh
+chmod +x /tmp/bootstrap-nassani-vps.sh
+export NASSANI_VPS_IP='YOUR.VPS.IP'
+# optional after DNS:
+# export NASSANI_ROOT_DOMAIN='nassanitv.com'
+bash /tmp/bootstrap-nassani-vps.sh
+```
 
-## Expanding the ESLint configuration
+Credentials land in `/root/nassani-bootstrap-credentials.txt`.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Updates
+
+```bash
+cd /var/www/nassani-admin && bash deploy/contabo/pull-and-apply.sh
+```

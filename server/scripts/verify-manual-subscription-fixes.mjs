@@ -4,14 +4,14 @@
  *
  * Usage:
  *   node scripts/verify-manual-subscription-fixes.mjs
- *   VPS_API=https://api.osmanitv.com ADMIN_TOKEN=3030 node scripts/verify-manual-subscription-fixes.mjs
+ *   VPS_API=https://api.nassanitv.com ADMIN_TOKEN=3030 node scripts/verify-manual-subscription-fixes.mjs
  */
 import { grantCustomManualDeviceSubscription } from '../src/billingStore.js'
 import { getPool } from '../src/db/pool.js'
 import { replayStackedExpiryFromEvents } from '../src/lib/subscriptionExpiryAudit.js'
 
-const BASE = String(process.env.VPS_API || 'https://api.osmanitv.com').replace(/\/+$/, '')
-const RENDER_API = String(process.env.RENDER_API || 'https://osmani-admin-mpya.onrender.com').replace(
+const BASE = String(process.env.VPS_API || 'https://api.nassanitv.com').replace(/\/+$/, '')
+const RENDER_API = String(process.env.RENDER_API || 'https://admin.nassanitv.com').replace(
   /\/+$/,
   '',
 )
@@ -154,7 +154,7 @@ async function testPinAndPhoneRequired(base, label) {
     }),
   })
   if (missingPhone.status === 400 && String(missingPhone.body?.error || '').includes('phone')) {
-    ok(`${label} /grant requires phone (Osmani extension)`)
+    ok(`${label} /grant requires phone (Nassani extension)`)
   } else {
     fail(`${label} /grant missing phone gate (HTTP ${missingPhone.status})`)
   }

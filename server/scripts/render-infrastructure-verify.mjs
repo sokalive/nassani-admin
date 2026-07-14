@@ -22,8 +22,8 @@ import { fileURLToPath } from 'node:url'
 const __dir = dirname(fileURLToPath(import.meta.url))
 const KEY = String(process.env.RENDER_API_KEY || '').trim()
 const AUDIT_DAYS = Number(process.env.AUDIT_DAYS) || 7
-const TARGET_SERVICES = ['osmani-admin-api', 'osmani-tv']
-const TARGET_DBS = ['osmani-db', 'tv-db']
+const TARGET_SERVICES = ['nassani-admin-api', 'nassani-tv']
+const TARGET_DBS = ['nassani-db', 'tv-db']
 
 const now = Date.now()
 const endIso = new Date(now).toISOString()
@@ -320,9 +320,9 @@ async function main() {
       },
       matched_postgres_name: matched?.name || null,
       matched_postgres_id: matched?.id || null,
-      verdict_osmani_db_vs_tv_db:
-        matched?.name === 'osmani-db'
-          ? 'osmani-db'
+      verdict_nassani_db_vs_tv_db:
+        matched?.name === 'nassani-db'
+          ? 'nassani-db'
           : matched?.name === 'tv-db'
             ? 'tv-db'
             : matched?.name || 'UNMATCHED — compare host in Dashboard manually',
@@ -338,7 +338,7 @@ async function main() {
     }
     const linked = []
     for (const svc of services) {
-      if (!TARGET_SERVICES.includes(svc.name) && !String(svc.name || '').includes('osmani')) continue
+      if (!TARGET_SERVICES.includes(svc.name) && !String(svc.name || '').includes('nassani')) continue
       try {
         const env = await getServiceEnvVars(svc.id)
         const fp = parseDbUrl(env.DATABASE_URL || env.DATABASE_URL_PRIVATE || '')
@@ -362,8 +362,8 @@ async function main() {
   }
 
   const traffic = {}
-  const tv = byName('osmani-tv')
-  const api = byName('osmani-admin-api')
+  const tv = byName('nassani-tv')
+  const api = byName('nassani-admin-api')
   if (tv) {
     const req7 = await metricsHttpRequests(tv.id, startIso, endIso)
     const req30 = await metricsHttpRequests(tv.id, start30Iso, endIso)
@@ -377,30 +377,30 @@ async function main() {
       }
     }
     const apiReq7 = api ? await metricsHttpRequests(api.id, startIso, endIso) : null
-    traffic.osmani_tv = {
+    traffic.nassani_tv = {
       window_days: AUDIT_DAYS,
       http_requests_count_metrics: req7,
       http_requests_count_30d_metrics: req30,
       request_logs_sampled_count: logs7,
       bandwidth_mb: bw7mb,
       bandwidth_gb: bw7mb == null ? null : Number((bw7mb / 1000).toFixed(4)),
-      osmani_admin_api_requests_7d_for_ratio: apiReq7,
+      nassani_admin_api_requests_7d_for_ratio: apiReq7,
       production_traffic_verdict:
         req7 === 0 && (logs7 === 0 || logs7 === null)
           ? 'NO measurable traffic in window — effectively unused'
           : req7 != null && apiReq7 != null && req7 < apiReq7 * 0.01
-            ? 'NEGLIGIBLE vs osmani-admin-api (<1% requests)'
+            ? 'NEGLIGIBLE vs nassani-admin-api (<1% requests)'
             : req7 != null && req7 > 0
               ? 'ACTIVE — do not delete without investigating top paths in Dashboard logs'
-              : 'INCONCLUSIVE — check Dashboard → osmani-tv → Metrics/Logs',
+              : 'INCONCLUSIVE — check Dashboard → nassani-tv → Metrics/Logs',
     }
   }
 
   const snapshot = loadBillingSnapshot()
   const costs = {
-    osmani_tv: {
-      service: byName('osmani-tv') ? planMonthlyUsd(byName('osmani-tv')) : null,
-      billing_snapshot_line: billingLineFor(snapshot, 'osmani-tv'),
+    nassani_tv: {
+      service: byName('nassani-tv') ? planMonthlyUsd(byName('nassani-tv')) : null,
+      billing_snapshot_line: billingLineFor(snapshot, 'nassani-tv'),
     },
     tv_db: {
       postgres: pgByName('tv-db') ? postgresMonthlyUsd(pgByName('tv-db')) : null,
@@ -409,32 +409,32 @@ async function main() {
     note: 'Exact monthly cost = Dashboard → Billing accrued charges. Estimates use public list prices only.',
   }
 
-  const adminApiDb = connections['osmani-admin-api']?.verdict_osmani_db_vs_tv_db
-  const tvSvcDb = connections['osmani-tv']?.verdict_osmani_db_vs_tv_db
-  const tvTraffic = traffic.osmani_tv?.production_traffic_verdict || 'unknown'
+  const adminApiDb = connections['nassani-admin-api']?.verdict_nassani_db_vs_tv_db
+  const tvSvcDb = connections['nassani-tv']?.verdict_nassani_db_vs_tv_db
+  const tvTraffic = traffic.nassani_tv?.production_traffic_verdict || 'unknown'
 
-  let safe_suspend_osmani_tv = 'UNVERIFIED — run this script with RENDER_API_KEY'
+  let safe_suspend_nassani_tv = 'UNVERIFIED — run this script with RENDER_API_KEY'
   let safe_delete_tv_db = 'UNVERIFIED — run this script with RENDER_API_KEY'
 
   if (adminApiDb && adminApiDb !== 'tv-db') {
     if (tvSvcDb === 'tv-db' || tvSvcDb === 'UNMATCHED') {
       if (tvTraffic.startsWith('NO') || tvTraffic.startsWith('NEGLIGIBLE')) {
-        safe_suspend_osmani_tv =
-          'LIKELY YES after manual Billing check — suspend first, monitor 72h; production uses osmani-admin-api + osmani-db'
+        safe_suspend_nassani_tv =
+          'LIKELY YES after manual Billing check — suspend first, monitor 72h; production uses nassani-admin-api + nassani-db'
       } else if (tvTraffic.startsWith('ACTIVE')) {
-        safe_suspend_osmani_tv = 'NO until traffic source identified (Dashboard logs)'
+        safe_suspend_nassani_tv = 'NO until traffic source identified (Dashboard logs)'
       }
     }
     if (
       dbConnectedServices['tv-db']?.linked_services?.length === 1 &&
-      dbConnectedServices['tv-db'].linked_services[0]?.name === 'osmani-tv' &&
-      adminApiDb === 'osmani-db' &&
+      dbConnectedServices['tv-db'].linked_services[0]?.name === 'nassani-tv' &&
+      adminApiDb === 'nassani-db' &&
       (tvTraffic.startsWith('NO') || tvTraffic.startsWith('NEGLIGIBLE'))
     ) {
       safe_delete_tv_db =
-        'LIKELY YES after pg_dump backup — only osmani-tv linked; admin-api not on tv-db'
-    } else if (dbConnectedServices['tv-db']?.linked_services?.some((s) => s.name === 'osmani-admin-api')) {
-      safe_delete_tv_db = 'NO — osmani-admin-api is linked to tv-db'
+        'LIKELY YES after pg_dump backup — only nassani-tv linked; admin-api not on tv-db'
+    } else if (dbConnectedServices['tv-db']?.linked_services?.some((s) => s.name === 'nassani-admin-api')) {
+      safe_delete_tv_db = 'NO — nassani-admin-api is linked to tv-db'
     }
   }
 
@@ -443,14 +443,14 @@ async function main() {
     owner_id: ownerId,
     audit_window: { start: startIso, end: endIso, days: AUDIT_DAYS },
     answers: {
-      '1_osmani_admin_api_database': connections['osmani-admin-api'] ?? null,
-      '2_osmani_tv_database': connections['osmani-tv'] ?? null,
+      '1_nassani_admin_api_database': connections['nassani-admin-api'] ?? null,
+      '2_nassani_tv_database': connections['nassani-tv'] ?? null,
       '3_connected_services_per_database': dbConnectedServices,
-      '4_osmani_tv_traffic': traffic.osmani_tv ?? null,
+      '4_nassani_tv_traffic': traffic.nassani_tv ?? null,
       '5_monthly_costs': costs,
     },
     safety_verdict: {
-      suspend_osmani_tv: safe_suspend_osmani_tv,
+      suspend_nassani_tv: safe_suspend_nassani_tv,
       delete_tv_db: safe_delete_tv_db,
       disclaimer:
         'Final safety requires matching this output to Dashboard → Billing + 72h post-suspend monitoring of APK/admin/payments.',

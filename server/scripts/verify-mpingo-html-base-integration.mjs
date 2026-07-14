@@ -15,7 +15,7 @@ const raw = await fetch(upstream, {
 assert.equal(resolveMpingoHtmlBaseHref(upstream), 'https://nur.mpingotv.com/v3/')
 
 const proxied = injectMpingoHtmlBaseHref(raw, upstream)
-const baseMatch = proxied.match(/<base href="([^"]+)"[^>]*data-osmani-mpingo-base="1"/i)
+const baseMatch = proxied.match(/<base href="([^"]+)"[^>]*data-nassani-mpingo-base="1"/i)
 assert.ok(baseMatch, 'injected base tag missing')
 assert.equal(baseMatch[1], 'https://nur.mpingotv.com/v3/')
 

@@ -47,7 +47,7 @@ export function hashDeviceFingerprint(fingerprint) {
   if (!raw) return null
   return crypto
     .createHash('sha256')
-    .update(`${String(process.env.FINGERPRINT_HASH_SALT || 'osmani-fp-v1')}::${raw}`)
+    .update(`${String(process.env.FINGERPRINT_HASH_SALT || 'nassani-fp-v1')}::${raw}`)
     .digest('hex')
 }
 

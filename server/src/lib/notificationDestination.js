@@ -7,7 +7,7 @@ export const DESTINATION_TYPES = new Set(['home', 'channel', 'custom'])
 export function channelDeepLink(channelId) {
   const id = Number(channelId)
   if (!Number.isFinite(id) || id <= 0) return null
-  return `osmani://channel/${Math.trunc(id)}`
+  return `nassani://channel/${Math.trunc(id)}`
 }
 
 export function buildNotificationDestination(input = {}) {
@@ -25,9 +25,9 @@ export function buildNotificationDestination(input = {}) {
       : null
   const channelName = String(nested.channelName ?? nested.channel_name ?? '').trim().slice(0, 200)
 
-  let deepLink = 'osmani://home'
+  let deepLink = 'nassani://home'
   if (type === 'home') {
-    deepLink = 'osmani://home'
+    deepLink = 'nassani://home'
   } else if (type === 'channel') {
     if (!channelId) throw new Error('channelId is required when destination is channel')
     deepLink = channelDeepLink(channelId)
@@ -59,14 +59,14 @@ export function destinationFromPayloadAndTargetType(payload, targetType) {
       type: String(p.destination.type),
       channelId: p.destination.channelId ?? p.destination.channel_id ?? null,
       channelName: p.destination.channelName ?? p.destination.channel_name ?? null,
-      deepLink: String(p.destination.deepLink ?? targetType ?? 'osmani://home'),
+      deepLink: String(p.destination.deepLink ?? targetType ?? 'nassani://home'),
     }
   }
-  const link = String(targetType ?? '').trim() || 'osmani://home'
-  if (link === 'osmani://home') {
+  const link = String(targetType ?? '').trim() || 'nassani://home'
+  if (link === 'nassani://home') {
     return { type: 'home', channelId: null, channelName: null, deepLink: link }
   }
-  const channelMatch = /^osmani:\/\/channel\/(\d+)$/i.exec(link)
+  const channelMatch = /^nassani:\/\/channel\/(\d+)$/i.exec(link)
   if (channelMatch) {
     return {
       type: 'channel',

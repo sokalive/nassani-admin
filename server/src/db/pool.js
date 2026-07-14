@@ -8,8 +8,8 @@ if (!process.env.DATABASE_URL) {
 
 export function isVpsProduction() {
   return (
-    String(process.env.OSMANI_VPS || '').trim() === '1' ||
-    /api\.osmanitv\.com/i.test(String(process.env.BASE_URL || '')) ||
+    String(process.env.NASSANI_VPS || '').trim() === '1' ||
+    /api\.nassanitv\.com/i.test(String(process.env.BASE_URL || '')) ||
     /144\.91\.117\.90/.test(String(process.env.BASE_URL || ''))
   )
 }

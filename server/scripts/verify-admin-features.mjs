@@ -1,12 +1,12 @@
 #!/usr/bin/env node
 /**
  * Smoke verification for account-update, VIDEO channel, transfer/search fixes.
- * Usage: node server/scripts/verify-admin-features.mjs [--base http://144.91.117.90/api]
+ * Usage: node server/scripts/verify-admin-features.mjs [--base http://62.171.131.113/api]
  */
 const base = (() => {
   const i = process.argv.indexOf('--base')
   if (i >= 0 && process.argv[i + 1]) return String(process.argv[i + 1]).replace(/\/$/, '')
-  return String(process.env.OSMANI_API_BASE || 'http://144.91.117.90/api').replace(/\/$/, '')
+  return String(process.env.NASSANI_API_BASE || 'http://62.171.131.113/api').replace(/\/$/, '')
 })()
 
 const adminToken = String(process.env.ADMIN_API_TOKEN || process.env.APP_UPDATE_ADMIN_TOKEN || '').trim()

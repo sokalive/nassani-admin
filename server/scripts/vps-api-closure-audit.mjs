@@ -11,7 +11,7 @@ import { fileURLToPath } from 'node:url'
 import { parseMovedTransactionId } from '../src/lib/paymentOrderRecoveryClassifier.js'
 
 const __dir = dirname(fileURLToPath(import.meta.url))
-const API = String(process.env.VPS_API || 'https://api.osmanitv.com').replace(/\/+$/, '')
+const API = String(process.env.VPS_API || 'https://api.nassanitv.com').replace(/\/+$/, '')
 const TOKEN = String(process.env.ADMIN_TOKEN || '3030').trim()
 const PREVIOUS_STRANDED = 99
 const PREVIOUS_SM = 146
@@ -293,7 +293,7 @@ async function main() {
   else report.final_verdict = 'PARTIAL_PASS'
 
   report.remaining_sql_gap =
-    'Direct workstation DATABASE_URL unavailable. Run on VPS: cd /var/www/osmani-admin-api/server && node scripts/final-sql-closure-audit.mjs — confirms fingerprint-only global targets outside phone cluster (prior audit: 0).'
+    'Direct workstation DATABASE_URL unavailable. Run on VPS: cd /var/www/nassani-admin/server && node scripts/final-sql-closure-audit.mjs — confirms fingerprint-only global targets outside phone cluster (prior audit: 0).'
 
   const outPath = resolve(__dir, '../../tmp-sql-closure-report.json')
   writeFileSync(outPath, JSON.stringify(report, null, 2))

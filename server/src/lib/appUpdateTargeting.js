@@ -18,7 +18,7 @@ export const APP_UPDATE_NEVER_MIN = Math.max(
 export const CHANNEL_PLAYBACK_BLOCK_TITLE =
   'Huwezi kutazama channel hii hadi ufanye update'
 export const CHANNEL_PLAYBACK_BLOCK_MESSAGE =
-  'Bonyeza UPDATE kupata toleo jipya. Baada ya update, utaendelea kutumia Osmani TV kwenye mfumo mpya.'
+  'Bonyeza UPDATE kupata toleo jipya. Baada ya update, utaendelea kutumia Nassani TV kwenye mfumo mpya.'
 
 /**
  * When admin enables channel gate, only clients below APP_UPDATE_NEVER_MIN receive block flags.

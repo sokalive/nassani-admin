@@ -1,6 +1,6 @@
 /**
  * Deterministic physical-device census via identity graph (union-find).
- * Rules: docs/cross-ai/osmani-physical-device-census-contract.json
+ * Rules: docs/cross-ai/nassani-physical-device-census-contract.json
  */
 import { readFileSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
@@ -12,7 +12,7 @@ import { queryMigrationDevicePopulationSummary } from './appVersionMigration.js'
 import { evaluateFingerprintPairProof, redactDeviceId } from './fingerprintMergeProof.js'
 
 const __dir = dirname(fileURLToPath(import.meta.url))
-const CONTRACT_PATH = join(__dir, '../../../docs/cross-ai/osmani-physical-device-census-contract.json')
+const CONTRACT_PATH = join(__dir, '../../../docs/cross-ai/nassani-physical-device-census-contract.json')
 
 const MAX_COMPONENT_SIZE_ABORT = Math.max(
   10,

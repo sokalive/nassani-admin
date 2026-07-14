@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Trigger Render deploys for osmani-admin-api + osmani-admin-mpya via Render REST API.
+ * Trigger Render deploys for nassani-admin-api + nassani-admin-mpya via Render REST API.
  *
  * Requires: RENDER_API_KEY (https://dashboard.render.com/u/settings#api-keys)
  *
@@ -10,7 +10,7 @@
  */
 const KEY = String(process.env.RENDER_API_KEY || '').trim()
 const EXPECT_COMMIT = String(process.env.EXPECT_COMMIT || 'b2d7e12').trim()
-const SERVICES = ['osmani-admin-api', 'osmani-admin-mpya']
+const SERVICES = ['nassani-admin-api', 'nassani-admin-mpya']
 
 async function renderFetch(path, opts = {}) {
   const res = await fetch(`https://api.render.com/v1${path}`, {
@@ -122,9 +122,9 @@ async function main() {
   }
 
   console.log('\n=== Verify production commits ===')
-  await waitForCommit('https://osmani-admin-api.onrender.com', EXPECT_COMMIT)
+  await waitForCommit('https://api.nassanitv.com', EXPECT_COMMIT)
 
-  const mpyaHome = await fetch('https://osmani-admin-mpya.onrender.com/').then((r) => r.text())
+  const mpyaHome = await fetch('https://admin.nassanitv.com/').then((r) => r.text())
   const bundle = mpyaHome.match(/src="(\/assets\/[^"]+\.js)"/)?.[1]
   console.log('Render admin bundle:', bundle || '(unknown)')
 

@@ -6,7 +6,7 @@ import fs from 'node:fs'
 import https from 'node:https'
 import http from 'node:http'
 
-const API = process.env.API_BASE || 'https://osmani-admin-api.onrender.com'
+const API = process.env.API_BASE || 'https://api.nassanitv.com'
 const MAX_CHANNELS = Number(process.env.VERIFY_MAX_CHANNELS) || 6
 
 function fetchText(url, maxRedirects = 5) {
@@ -14,7 +14,7 @@ function fetchText(url, maxRedirects = 5) {
     const lib = url.startsWith('https') ? https : http
     const req = lib.get(
       url,
-      { timeout: 25_000, headers: { 'User-Agent': 'OsmaniHlsVerify/1.0', Accept: '*/*' } },
+      { timeout: 25_000, headers: { 'User-Agent': 'NassaniHlsVerify/1.0', Accept: '*/*' } },
       (res) => {
         if ([301, 302, 307, 308].includes(res.statusCode) && res.headers.location && maxRedirects > 0) {
           const loc = res.headers.location.startsWith('http')
@@ -49,7 +49,7 @@ function head(url) {
     const lib = url.startsWith('https') ? https : http
     const req = lib.request(
       url,
-      { method: 'HEAD', timeout: 20_000, headers: { 'User-Agent': 'OsmaniHlsVerify/1.0' } },
+      { method: 'HEAD', timeout: 20_000, headers: { 'User-Agent': 'NassaniHlsVerify/1.0' } },
       (res) => {
         resolve({
           status: res.statusCode,

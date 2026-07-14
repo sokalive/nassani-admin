@@ -3,15 +3,15 @@
  *
  * Usage:
  *   node scripts/verify-analytics-widgets.mjs
- *   VPS_API=https://api.osmanitv.com node scripts/verify-analytics-widgets.mjs
+ *   VPS_API=https://api.nassanitv.com node scripts/verify-analytics-widgets.mjs
  */
 import fs from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { parseChannelIdFromPayload, TOP5_MIN_VIEWERS } from '../src/lib/analyticsPresence.js'
 
-const BASE = String(process.env.VPS_API || 'https://api.osmanitv.com').replace(/\/+$/, '')
-const RENDER_API = String(process.env.RENDER_API || 'https://osmani-admin-api.onrender.com').replace(
+const BASE = String(process.env.VPS_API || 'https://api.nassanitv.com').replace(/\/+$/, '')
+const RENDER_API = String(process.env.RENDER_API || 'https://api.nassanitv.com').replace(
   /\/+$/,
   '',
 )

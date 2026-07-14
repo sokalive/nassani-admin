@@ -3,8 +3,8 @@
  * Usage: node scripts/audit-update-check-matrix.mjs
  */
 const HOSTS = [
-  { label: 'VPS', base: 'https://api.osmanitv.com' },
-  { label: 'Render', base: 'https://osmani-admin-api.onrender.com' },
+  { label: 'VPS', base: 'https://api.nassanitv.com' },
+  { label: 'Render', base: 'https://api.nassanitv.com' },
 ]
 
 async function fetchJson(url, opts = {}) {

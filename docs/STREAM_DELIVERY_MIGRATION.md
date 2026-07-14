@@ -42,7 +42,7 @@ BUNNY_STREAM_CDN_BASE_URL=               # defaults to BUNNY_CDN_BASE_URL if set
 BUNNY_STREAM_SEGMENT_PATH=hls/seg        # public path on Bunny zone
 BUNNY_SEGMENT_CACHE_MAX_AGE_SEC=86400    # origin Cache-Control for .ts/.m4s
 STREAM_SEGMENT_ROLLOUT_PERCENT=100       # hybrid mode: 0–100
-STREAM_SEGMENT_ROLLOUT_SALT=osmani-seg-v1
+STREAM_SEGMENT_ROLLOUT_SALT=nassani-seg-v1
 
 # Optional: restrict origin-pull to Bunny (edge rule sends header)
 BUNNY_PULL_ORIGIN_SECRET=<shared secret>
@@ -61,7 +61,7 @@ Default when `STREAM_SEGMENT_DELIVERY=bunny` and `STREAM_SEGMENT_SELECTIVE_ROUTI
 
 | Provider type | Example | Segment URL in manifest |
 |---------------|---------|-------------------------|
-| **Public / CDN HLS** | `cdn.example.com/*.ts` | `https://osmanitv.b-cdn.net/hls/seg?tok=…` |
+| **Public / CDN HLS** | `cdn.example.com/*.ts` | `/hls/seg?tok=…` |
 | **Protected (referer/token)** | `ycn-redirect.com`, `lanexa.online`, `?t=&e=` | `https://api…/stream-proxy?url=…` |
 
 Auto-detected protected suffixes: `ycn-redirect.com`, `lanexa.online`, `netvidra.online`, `netstack.online`, plus `STREAM_SEGMENT_PROTECTED_HOSTS`.
@@ -82,9 +82,9 @@ Metrics: `GET /api/health/stream-delivery` → `metrics.segment_routes_by_provid
 
 ## Bunny pull zone configuration
 
-Use the **same** pull zone as static assets (`osmanitv.b-cdn.net`) or a dedicated stream zone.
+Use the **same** pull zone as static assets (``) or a dedicated stream zone.
 
-1. **Origin URL:** `https://osmani-admin-api.onrender.com` (no trailing path)
+1. **Origin URL:** `https://api.nassanitv.com` (no trailing path)
 2. **Host header:** forward client host or set to API host per Bunny docs
 3. **Cache:** enable caching; segment responses send `Cache-Control: public, max-age=86400`
 4. **Manifest origin responses:** `Cache-Control: no-store` (variant playlists rewritten per request)
@@ -92,8 +92,8 @@ Use the **same** pull zone as static assets (`osmanitv.b-cdn.net`) or a dedicate
 
 Verify path mapping:
 
-- Client requests: `https://osmanitv.b-cdn.net/hls/seg?tok=…`
-- Bunny pulls: `https://osmani-admin-api.onrender.com/hls/seg?tok=…`
+- Client requests: `/hls/seg?tok=…`
+- Bunny pulls: `https://api.nassanitv.com/hls/seg?tok=…`
 
 ## Enabling segment offload (production-safe)
 
@@ -109,13 +109,13 @@ STREAM_SEGMENT_FORCE_PROXY=1
 ```bash
 STREAM_SEGMENT_DELIVERY=bunny
 STREAM_SEGMENT_FORCE_PROXY=0
-BUNNY_STREAM_CDN_BASE_URL=https://osmanitv.b-cdn.net
+BUNNY_STREAM_CDN_BASE_URL=
 STREAM_PLAYBACK_FORCE_PROXY=0
 DIRECT_STREAM_CUTOVER_ENABLED=1
 DIRECT_STREAM_ROLLOUT_CHANNEL_IDS=<test-id>
 ```
 
-Play test channel; confirm manifest segment lines use `osmanitv.b-cdn.net/hls/seg?tok=`.
+Play test channel; confirm manifest segment lines use `/hls/seg?tok=`.
 
 ### Step 3 — Hybrid percent
 
@@ -140,8 +140,8 @@ STREAM_SEGMENT_ROLLOUT_PERCENT=100
 
 Manifest may include hints:
 
-- `#EXT-X-OSMANI-SESSION:<id>`
-- `#EXT-X-OSMANI-SEG-DELIVERY:bunny|proxy`
+- `#EXT-X-NASSANI-SESSION:<id>`
+- `#EXT-X-NASSANI-SEG-DELIVERY:bunny|proxy`
 
 ## Instant rollback
 

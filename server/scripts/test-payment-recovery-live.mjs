@@ -3,7 +3,7 @@
  * Live VPS API verification for safe Payment Orders recovery (read-only + blocked paths).
  * No customer mutations unless PAYMENT_RECOVERY_LIVE_MUTATE=1 with synthetic fixture orders.
  */
-const VPS = String(process.env.VPS_API || 'https://api.osmanitv.com').replace(/\/+$/, '')
+const VPS = String(process.env.VPS_API || 'https://api.nassanitv.com').replace(/\/+$/, '')
 const TOKEN = String(process.env.ADMIN_TOKEN || process.env.ADMIN_API_TOKEN || '3030').trim()
 const PIN = String(process.env.ADMIN_PIN || '3030').trim()
 

@@ -2,7 +2,7 @@
  * One-shot production recovery: migrate active sub onto inactive user device (fixes ping-pong).
  *   cd server && node scripts/fix-shadow-direction-recovery.mjs
  */
-const API = String(process.env.API_BASE || 'https://api.osmanitv.com').replace(/\/$/, '')
+const API = String(process.env.API_BASE || 'https://api.nassanitv.com').replace(/\/$/, '')
 const TOKEN = process.env.ADMIN_TOKEN || '3030'
 
 async function audit() {

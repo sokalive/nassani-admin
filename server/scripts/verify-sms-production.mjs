@@ -11,10 +11,10 @@ import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 const __dir = path.dirname(fileURLToPath(import.meta.url))
-const VPS = String(process.env.VPS_API || 'https://api.osmanitv.com').replace(/\/$/, '')
-const RENDER = String(process.env.RENDER_API || 'https://osmani-admin-api.onrender.com').replace(/\/$/, '')
+const VPS = String(process.env.VPS_API || 'https://api.nassanitv.com').replace(/\/$/, '')
+const RENDER = String(process.env.RENDER_API || 'https://api.nassanitv.com').replace(/\/$/, '')
 const TOKEN = String(process.env.ADMIN_TOKEN || process.env.ADMIN_API_TOKEN || '3030').trim()
-const APPROVED_SENDER = 'OSMANITVMAX'
+const APPROVED_SENDER = 'NASSANITVMAX'
 const TEST_PHONE = String(process.env.TEST_SMS_PHONE || '').trim()
 
 const report = { time: new Date().toISOString(), hosts: {}, pass: true }
@@ -114,7 +114,7 @@ async function verifyHost(base, label) {
   if (TEST_PHONE && label === 'vps') {
     const send = await adminPost(base, '/admin/sms/send', {
       phone: TEST_PHONE,
-      message: `Osmani TV SMS test ${new Date().toISOString().slice(11, 19)} UTC`,
+      message: `Nassani TV SMS test ${new Date().toISOString().slice(11, 19)} UTC`,
     })
     hostReport.liveSend = send.body
     if (send.body?.ok === true) {

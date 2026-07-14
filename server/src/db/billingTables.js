@@ -258,7 +258,7 @@ export async function ensureBillingTables(client) {
       message TEXT NOT NULL DEFAULT '',
       image TEXT NOT NULL DEFAULT '',
       target_audience TEXT NOT NULL DEFAULT 'all',
-      target_type TEXT NOT NULL DEFAULT 'osmani://home',
+      target_type TEXT NOT NULL DEFAULT 'nassani://home',
       status TEXT NOT NULL DEFAULT 'draft',
       delivery_state TEXT NOT NULL DEFAULT 'pending',
       severity TEXT NOT NULL DEFAULT 'info',
@@ -651,12 +651,12 @@ export async function ensureBillingTables(client) {
   `)
   await client.query(`
     UPDATE sonicpesa_settings SET
-      webhook_url = 'https://api.osmanitv.com/api/payments/sonicpesa/webhook',
+      webhook_url = 'https://api.nassanitv.com/api/payments/sonicpesa/webhook',
       updated_at = now()
     WHERE id = 1
       AND (
         webhook_url ILIKE '%onrender.com%'
-        OR webhook_url ILIKE '%osmani-admin-api%'
+        OR webhook_url ILIKE '%nassani-admin-api%'
         OR trim(webhook_url) = ''
       );
   `)
@@ -855,7 +855,7 @@ export async function ensureBillingTables(client) {
   `)
 
   /**
-   * Osmani admin panel login (separate from subscriber admin_devices + transfer admin_otp_codes).
+   * Nassani admin panel login (separate from subscriber admin_devices + transfer admin_otp_codes).
    */
   await client.query(`
     CREATE TABLE IF NOT EXISTS admin_panel_users (
@@ -928,11 +928,11 @@ export async function ensureBillingTables(client) {
   `)
   await client.query(`
     UPDATE beem_settings
-    SET sender_name = 'OSMANITVMAX', updated_at = now()
+    SET sender_name = 'NASSANITVMAX', updated_at = now()
     WHERE id = 1
       AND (
         trim(sender_name) = ''
-        OR sender_name ILIKE '%osmani%tv%max%'
+        OR sender_name ILIKE '%nassani%tv%max%'
         OR sender_name ~ '[[:space:]]'
         OR length(regexp_replace(sender_name, '[^A-Za-z0-9]', '', 'g')) > 11
       )
@@ -950,7 +950,7 @@ export async function ensureBillingTables(client) {
   const defaultSmsTemplates = [
     [
       'subscription_activated',
-      'Asante kwa kununua kifurushi cha Osmani TV. Kifurushi chako kimewezeshwa.',
+      'Asante kwa kununua kifurushi cha Nassani TV. Kifurushi chako kimewezeshwa.',
       'Sent when a subscription is activated after payment or manual grant',
     ],
     [
@@ -960,7 +960,7 @@ export async function ensureBillingTables(client) {
     ],
     [
       'subscription_expired',
-      'Kifurushi chako kimekwisha. Lipia upya kuendelea kutumia Osmani TV.',
+      'Kifurushi chako kimekwisha. Lipia upya kuendelea kutumia Nassani TV.',
       'Sent when subscription expires',
     ],
   ]

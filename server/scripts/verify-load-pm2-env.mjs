@@ -15,4 +15,4 @@ if (!String(env.DATABASE_URL || '').trim()) {
 }
 console.log('OK DATABASE_URL', env.DATABASE_URL.length, 'chars')
 console.log('OK BUNNY', env.BUNNY_CDN_BASE_URL || '(unset)')
-console.log('OK commit', env.OSMANI_GIT_COMMIT || '(unknown)')
+console.log('OK commit', env.NASSANI_GIT_COMMIT || '(unknown)')

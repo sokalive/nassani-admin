@@ -4,7 +4,7 @@
 import { defaultPublicApiOrigin } from './deployMeta.js'
 
 const CANONICAL_VPS_WEBHOOK =
-  'https://api.osmanitv.com/api/payments/sonicpesa/webhook'
+  'https://api.nassanitv.com/api/payments/sonicpesa/webhook'
 
 /** Production callback SonicPesa dashboard must target. */
 export function canonicalSonicpesaProductionWebhookUrl() {
@@ -22,7 +22,7 @@ export function canonicalSonicpesaProductionWebhookUrl() {
 export function isLegacyRenderWebhookUrl(url) {
   const u = String(url ?? '').trim().toLowerCase()
   if (!u) return false
-  return u.includes('onrender.com') || u.includes('osmani-admin-api.onrender')
+  return u.includes('onrender.com') || u.includes('nassani-admin-api.onrender')
 }
 
 /** Normalize stored/env webhook URLs — replace legacy Render with authoritative VPS. */

@@ -136,7 +136,7 @@ async function handleSecurityReport(req, res) {
 
 /** Runtime client anti-tamper report (no admin auth). */
 deviceSecurityReportsRouter.post('/runtime/security-report', handleSecurityReport)
-/** Alias used by OsmaniTvExpo `api/security.js`. */
+/** Alias used by NassaniTvExpo `api/security.js`. */
 deviceSecurityReportsRouter.post('/security/device-report', handleSecurityReport)
 
 deviceSecurityReportsRouter.use('/security', requireAdminPanelAccess)

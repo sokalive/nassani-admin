@@ -4,7 +4,7 @@
  */
 import assert from 'node:assert/strict'
 
-const API = (process.argv[2] || process.env.API_BASE || 'https://osmani-admin-api.onrender.com').replace(
+const API = (process.argv[2] || process.env.API_BASE || 'https://api.nassanitv.com').replace(
   /\/$/,
   '',
 )

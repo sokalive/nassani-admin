@@ -2,7 +2,7 @@
 /**
  * Safe concurrency probe with status distribution (engineering probes only).
  */
-const API = process.env.VPS_API || 'https://api.osmanitv.com'
+const API = process.env.VPS_API || 'https://api.nassanitv.com'
 const levels = [50, 100, 250, 500]
 
 async function burst(n) {
@@ -15,7 +15,7 @@ async function burst(n) {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'X-Osmani-Engineering-Probe': '1',
+        'X-Nassani-Engineering-Probe': '1',
       },
       body: JSON.stringify({
         order_id: `synthetic_concurrency_${Date.now()}_${i}`,

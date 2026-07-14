@@ -12,8 +12,8 @@ import {
   resolvePublicAssetUrl,
 } from '../src/lib/cdnAssets.js'
 
-const ORIGIN = 'https://osmani-admin-api.onrender.com'
-const CDN = 'https://osmani-media.b-cdn.net'
+const ORIGIN = 'https://api.nassanitv.com'
+const CDN = 'https://nassani-media.b-cdn.net'
 
 process.env.BASE_URL = ORIGIN
 process.env.BUNNY_CDN_BASE_URL = CDN
@@ -31,12 +31,12 @@ const apk = resolvePublicAssetUrl('/uploads/apks/app-v1.apk', null)
 assert.equal(apk, `${CDN}/uploads/apks/app-v1.apk`)
 assert.equal(isHostedApkPath(apk), true)
 assert.equal(
-  resolveHostedApkDownloadUrl(`${ORIGIN}/uploads/apks/osmani-v17.apk`, null),
-  `${CDN}/uploads/apks/osmani-v17.apk`,
+  resolveHostedApkDownloadUrl(`${ORIGIN}/uploads/apks/nassani-v17.apk`, null),
+  `${CDN}/uploads/apks/nassani-v17.apk`,
 )
 
-const playUrl = resolveHostedApkDownloadUrl('https://play.google.com/store/apps/details?id=tv.osmani', null)
-assert.equal(playUrl, 'https://play.google.com/store/apps/details?id=tv.osmani')
+const playUrl = resolveHostedApkDownloadUrl('https://play.google.com/store/apps/details?id=tv.nassani', null)
+assert.equal(playUrl, 'https://play.google.com/store/apps/details?id=tv.nassani')
 
 const external = resolvePublicAssetUrl('https://cdn.example.com/promo.png', null)
 assert.equal(external, 'https://cdn.example.com/promo.png')
@@ -47,7 +47,7 @@ assert.equal(fallback, `${ORIGIN}/uploads/x.png`)
 const apkFallback = resolveHostedApkDownloadUrl('/uploads/apks/x.apk', null)
 assert.equal(apkFallback, `${ORIGIN}/uploads/apks/x.apk`)
 
-assert.equal(extractUploadPath('https://osmani-admin-api.onrender.com/uploads/foo.webp'), '/uploads/foo.webp')
+assert.equal(extractUploadPath('https://api.nassanitv.com/uploads/foo.webp'), '/uploads/foo.webp')
 
 assert.equal(
   isBunnyCdnOriginPullRequest({ headers: { 'user-agent': 'BunnyCDN/1.0' } }),

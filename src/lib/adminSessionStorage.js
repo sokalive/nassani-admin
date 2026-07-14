@@ -1,7 +1,7 @@
-export const ADMIN_TOKEN_KEY = 'osmani_admin_token'
-export const ADMIN_EMAIL_KEY = 'osmani_admin_email'
-export const PENDING_OTP_KEY = 'osmani_admin_pending_otp_token'
-export const PENDING_EMAIL_KEY = 'osmani_admin_pending_email'
+export const ADMIN_TOKEN_KEY = 'nassani_admin_token'
+export const ADMIN_EMAIL_KEY = 'nassani_admin_email'
+export const PENDING_OTP_KEY = 'nassani_admin_pending_otp_token'
+export const PENDING_EMAIL_KEY = 'nassani_admin_pending_email'
 
 function readLegacySessionToken() {
   if (typeof sessionStorage === 'undefined') return null

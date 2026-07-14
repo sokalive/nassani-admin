@@ -32,22 +32,22 @@ function assert(cond, msg) {
 
 // Destination
 const home = buildNotificationDestination({ destinationType: 'home' })
-assert(home.type === 'home' && home.deepLink === 'osmani://home', 'home destination')
+assert(home.type === 'home' && home.deepLink === 'nassani://home', 'home destination')
 
 const ch = buildNotificationDestination({
   destinationType: 'channel',
   channelId: 42,
   channelName: 'Test TV',
 })
-assert(ch.deepLink === 'osmani://channel/42' && ch.channelName === 'Test TV', 'channel destination')
+assert(ch.deepLink === 'nassani://channel/42' && ch.channelName === 'Test TV', 'channel destination')
 
 const custom = buildNotificationDestination({
   destinationType: 'custom',
-  customDeepLink: 'osmani://settings',
+  customDeepLink: 'nassani://settings',
 })
-assert(custom.deepLink === 'osmani://settings', 'custom destination')
+assert(custom.deepLink === 'nassani://settings', 'custom destination')
 
-const derived = destinationFromPayloadAndTargetType({}, 'osmani://channel/7')
+const derived = destinationFromPayloadAndTargetType({}, 'nassani://channel/7')
 assert(derived.type === 'channel' && derived.channelId === 7, 'derive channel from target_type')
 
 const osData = oneSignalDataFromDestination(ch)
@@ -65,10 +65,10 @@ const imgBody = buildProductionOneSignalBody({
   appId: 'app',
   title: 'T',
   message: 'M',
-  imageUrl: 'https://api.osmanitv.com/uploads/notif-test.jpg',
+  imageUrl: 'https://api.nassanitv.com/uploads/notif-test.jpg',
 })
 assert(
-  imgBody.big_picture?.includes('api.osmanitv.com') &&
+  imgBody.big_picture?.includes('api.nassanitv.com') &&
     imgBody.chrome_web_image === imgBody.big_picture,
   'push image uses VPS origin + chrome_web_image',
 )

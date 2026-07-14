@@ -3,9 +3,9 @@
  * Production-safe image upload pipeline verification (read + optional multipart smoke).
  *
  *   node server/scripts/verify-image-upload-production.mjs
- *   API=https://api.osmanitv.com ADMIN_API_TOKEN=... node server/scripts/verify-image-upload-production.mjs
+ *   API=https://api.nassanitv.com ADMIN_API_TOKEN=... node server/scripts/verify-image-upload-production.mjs
  */
-const API = String(process.env.API || process.env.VPS_API || 'https://api.osmanitv.com').replace(/\/$/, '')
+const API = String(process.env.API || process.env.VPS_API || 'https://api.nassanitv.com').replace(/\/$/, '')
 const TOKEN = String(process.env.ADMIN_TOKEN || process.env.ADMIN_API_TOKEN || '3030').trim()
 
 const checks = []

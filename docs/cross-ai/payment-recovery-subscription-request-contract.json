@@ -1,6 +1,6 @@
 {
   "contract_version": "2026-07-04-payment-recovery-subscription-requests",
-  "authoritative_api": "https://api.osmanitv.com",
+  "authoritative_api": "https://api.nassanitv.com",
   "system_a_payment_orders": {
     "admin_list": "GET /api/admin/payment-orders",
     "admin_detail": "GET /api/admin/payment-orders/:orderId",

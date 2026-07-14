@@ -14,11 +14,11 @@
   <h1>Push notification image verification</h1>
   <p>Commit <code>99361e5</code> — VPS origin URL reachable; Bunny CDN returns 404 for notif files.</p>
   <h2>Working push image (VPS origin)</h2>
-  <p><code>https://api.osmanitv.com/uploads/notif-1782562415553-5cee0aac.jpg</code></p>
+  <p><code>https://api.nassanitv.com/uploads/notif-1782562415553-5cee0aac.jpg</code></p>
   <p class="ok">HEAD 200 — image/jpeg (321 bytes test asset)</p>
   <img src="push-image-verify.jpg" alt="Push notification test image" width="400" />
   <h2>Broken CDN URL (regression)</h2>
-  <p><code>https://osmanitv.b-cdn.net/uploads/notif-1782562415553-5cee0aac.jpg</code></p>
+  <p><code>/uploads/notif-1782562415553-5cee0aac.jpg</code></p>
   <p class="fail">HEAD 404 — Bunny pull zone still origins from Render; notif files live on VPS only.</p>
   <h2>OneSignal test send</h2>
   <ul>

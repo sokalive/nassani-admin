@@ -8,7 +8,7 @@ import { invalidateApiCacheNamespace } from './apiResponseCache.js'
 
 const { Client } = pg
 
-const PG_CHANNEL = 'osmani_api_cache_bust'
+const PG_CHANNEL = 'nassani_api_cache_bust'
 const INSTANCE_ORIGIN = `cache-bust-${process.pid}-${Date.now().toString(36)}`
 
 let wired = false

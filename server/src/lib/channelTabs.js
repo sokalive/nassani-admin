@@ -1,5 +1,5 @@
 /**
- * Osmani TV bottom tabs + admin parity.
+ * Nassani TV bottom tabs + admin parity.
  *
  * Mobile filtering (app not in this repo — contract for APK):
  * - Home: `visibleTabs` includes "Home" (mixed featured / cross-section).

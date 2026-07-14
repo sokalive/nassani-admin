@@ -133,7 +133,7 @@ channelsRouter.get('/', apiResponseCacheExact('channels'), async (req, res) => {
           })
         : list
     const skipWarm =
-      String(req.headers['x-osmani-skip-mpingo-warm'] || req.query.lite || '').trim() === '1' ||
+      String(req.headers['x-nassani-skip-mpingo-warm'] || req.query.lite || '').trim() === '1' ||
       String(process.env.MPINGO_WARM_ON_CHANNEL_LIST || 'background').toLowerCase() === 'off'
     if (skipWarm) {
       /* admin lite / disabled */

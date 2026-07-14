@@ -2,7 +2,7 @@
  * Verifies production /api/plans matches manual-grant dropdown expectations.
  * Usage: node scripts/verify-manual-grant-plans.mjs [baseUrl]
  */
-const base = (process.argv[2] || 'https://osmani-admin-api.onrender.com').replace(/\/$/, '')
+const base = (process.argv[2] || 'https://api.nassanitv.com').replace(/\/$/, '')
 
 function formatTsh(amount) {
   const n = Number(amount)

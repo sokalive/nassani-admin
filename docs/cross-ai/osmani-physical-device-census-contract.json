@@ -3,7 +3,7 @@
   "contract_status": "APP_AUTHORITATIVE",
   "generated_from_app_commit": "afe9428f156607cf44399f9c3dd63441cfd2365b",
   "backend_implementation_reference": "df63a76",
-  "metric_label": "TOTAL UNIQUE PHYSICAL OSMANI TV DEVICES",
+  "metric_label": "TOTAL UNIQUE PHYSICAL NASSANI TV DEVICES",
   "census_feasibility_class": "B",
   "census_feasibility_description": "Reconstructable with deterministic historical aliases where co-occurrence is stored in PostgreSQL. Perfect physical-phone truth is impossible when reinstall emits a new install_instance_id without durable hardware-id linkage rows.",
   "supported_versions": ["16", "17", "18", "19", "20", "21", "22", "23", "24"],
@@ -29,7 +29,7 @@
     },
     "stable_hardware_id": {
       "description": "Widevine MediaDrm PROPERTY_DEVICE_UNIQUE_ID hex",
-      "app_source": "modules/osmani-security SecurityAuditor.getStableHardwareId",
+      "app_source": "modules/nassani-security SecurityAuditor.getStableHardwareId",
       "durable": true,
       "db_persisted": false,
       "may_be_used_as_device_id": true,
@@ -42,7 +42,7 @@
       "derivation_verifiable": true
     },
     "install_instance_id": {
-      "description": "AsyncStorage osmani:install_uuid",
+      "description": "AsyncStorage nassani:install_uuid",
       "durable": false,
       "install_session_only": true,
       "count_as_physical_device_alone": false
@@ -67,7 +67,7 @@
       "era": "era_a",
       "device_id_source": "getAndroidId() OR install_instance_id",
       "fingerprint_source": "SHA256(deviceId|applicationId|installInstanceId)",
-      "install_id_source": "AsyncStorage osmani:install_uuid",
+      "install_id_source": "AsyncStorage nassani:install_uuid",
       "native_bridge": false,
       "survives_app_update": "PROVEN",
       "survives_uninstall": "SSAID PROVEN; install UUID DISPROVEN",
@@ -231,7 +231,7 @@
       "inputs": {
         "deviceId": "getAndroidId() or install_instance_id fallback",
         "applicationId": "expo-application applicationId",
-        "installInstanceId": "osmani:install_uuid"
+        "installInstanceId": "nassani:install_uuid"
       },
       "backend_may_recompute": true,
       "conditions": "packageName and install_instance_id must be known from co-located row"
@@ -246,7 +246,7 @@
       "inputs": {
         "subscriptionDeviceId": "legacyPackageAndroidId || stableHardwareId || packageAndroidId || installInstanceId",
         "packageName": "applicationId (com.burudanitv.app)",
-        "installInstanceId": "osmani:install_uuid"
+        "installInstanceId": "nassani:install_uuid"
       },
       "legacy_variant": {
         "formula": "SHA256(`${legacyIdForFp}|com.osmantv.app|${installInstanceId}`)",
@@ -640,13 +640,13 @@
   ],
   "admin_sync": {
     "synced_at_utc": "2026-07-05T09:35:00Z",
-    "app_repo": "https://github.com/sokalive/osmani-tv",
+    "app_repo": "https://github.com/sokalive/nassani-tv",
     "app_authoritative_commit": "89f840b9f1b9b2295b81810328f2c02bf59106e1",
     "contract_sha256": "3fc6a5ba07b466c9408176be5ae551e029167e18f65b285f178991915b33df43",
-    "prior_admin_misread": "Checked osmani-admin origin/main for App commit — cross-repo confusion confirmed"
+    "prior_admin_misread": "Checked nassani-admin origin/main for App commit — cross-repo confusion confirmed"
   },
   "backend_contract_comparison": {
-    "prior_backend_contract": "1.0.0-backend-validated at OsmaniAdmin/docs/cross-ai (created at df63a76 when App contract absent)",
+    "prior_backend_contract": "1.0.0-backend-validated at NassaniAdmin/docs/cross-ai (created at df63a76 when App contract absent)",
     "classification_of_prior_app_file": "A — Original App forensic draft (incomplete schema)",
     "verdict": "MATCH on feasibility class B, synthetic filters, forbidden merges, install_instance alias",
     "app_contract_adds_rules": [
@@ -688,7 +688,7 @@
     }
   },
   "admin_ai_handoff": {
-    "authoritative_source": "Synced from sokalive/osmani-tv @ 89f840b into OsmaniAdmin/docs/cross-ai",
+    "authoritative_source": "Synced from sokalive/nassani-tv @ 89f840b into NassaniAdmin/docs/cross-ai",
     "action_required": "PROVEN_FINGERPRINT_PAIR tightened per App v2 — hash rederivation or install_instance co-anchor",
     "do_not_use_for_census": ["device_subscriptions", "transactions", "payment_attempts", "sse_sessions", "verify_call_count"],
     "recommended_future_persistence": [

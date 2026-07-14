@@ -3,7 +3,7 @@
  *
  * Usage:
  *   node scripts/verify-auraxpay-routes.mjs
- *   BASE_URL=https://api.osmanitv.com node scripts/verify-auraxpay-routes.mjs
+ *   BASE_URL=https://api.nassanitv.com node scripts/verify-auraxpay-routes.mjs
  */
 import { readFileSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
@@ -18,7 +18,7 @@ import {
 
 const root = path.join(path.dirname(fileURLToPath(import.meta.url)), '..')
 const src = path.join(root, 'src')
-const BASE_URL = String(process.env.BASE_URL || process.env.VPS_API || 'https://api.osmanitv.com').replace(
+const BASE_URL = String(process.env.BASE_URL || process.env.VPS_API || 'https://api.nassanitv.com').replace(
   /\/$/,
   '',
 )

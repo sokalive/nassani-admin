@@ -75,10 +75,10 @@ function logTokenDiagnostics(urlStr, status) {
 function appendManifestSessionHint(text, sessionId, segmentDelivery, tokenExpSec) {
   if (!sessionId) return text
   const lines = [text]
-  lines.push(`#EXT-X-OSMANI-SESSION:${sessionId}`)
-  lines.push(`#EXT-X-OSMANI-SEG-DELIVERY:${segmentDelivery}`)
+  lines.push(`#EXT-X-NASSANI-SESSION:${sessionId}`)
+  lines.push(`#EXT-X-NASSANI-SEG-DELIVERY:${segmentDelivery}`)
   if (tokenExpSec) {
-    lines.push(`#EXT-X-OSMANI-SEG-EXP:${tokenExpSec}`)
+    lines.push(`#EXT-X-NASSANI-SEG-EXP:${tokenExpSec}`)
   }
   return lines.join('\n')
 }

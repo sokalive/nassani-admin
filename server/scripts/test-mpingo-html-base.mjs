@@ -18,10 +18,10 @@ assert.equal(resolveMpingoHtmlBaseHref(upstream), 'https://nur.mpingotv.com/v3/'
 
 const html = '<!DOCTYPE html><html><head><title>x</title></head><body></body></html>'
 const out = injectMpingoHtmlBaseHref(html, upstream)
-assert.match(out, /<base href="https:\/\/nur\.mpingotv\.com\/v3\/" data-osmani-mpingo-base="1">/)
+assert.match(out, /<base href="https:\/\/nur\.mpingotv\.com\/v3\/" data-nassani-mpingo-base="1">/)
 assert.equal(
-  new URL('subscriptions.php?expired=1', 'https://osmani-admin-api.onrender.com/stream-direct?token=x').href,
-  'https://osmani-admin-api.onrender.com/subscriptions.php?expired=1',
+  new URL('subscriptions.php?expired=1', 'https://api.nassanitv.com/stream-direct?token=x').href,
+  'https://api.nassanitv.com/subscriptions.php?expired=1',
 )
 // With base tag in document, browser resolves relative to base href (simulated):
 const baseMatch = out.match(/<base href="([^"]+)"/)
@@ -38,7 +38,7 @@ assert.equal(
 const withExisting = '<html><head><base href="https://wrong.example/"></head></html>'
 const replaced = injectMpingoHtmlBaseHref(withExisting, upstream)
 assert.ok(!replaced.includes('wrong.example'))
-assert.match(replaced, /data-osmani-mpingo-base="1"/)
+assert.match(replaced, /data-nassani-mpingo-base="1"/)
 
 const idempotent = injectMpingoHtmlBaseHref(out, upstream)
 assert.equal(idempotent, out)

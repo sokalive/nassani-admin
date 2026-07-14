@@ -11,7 +11,7 @@ const base = (process.argv[2] || process.env.ADMIN_API_BASE || 'http://127.0.0.1
 async function probe(path, label) {
   const url = `${base}${path}`
   const headers = {}
-  const token = process.env.ADMIN_PANEL_TOKEN || process.env.OSMANI_ADMIN_TOKEN || process.env.ADMIN_TOKEN || ''
+  const token = process.env.ADMIN_PANEL_TOKEN || process.env.NASSANI_ADMIN_TOKEN || process.env.ADMIN_TOKEN || ''
   if (token) {
     headers['X-Admin-Token'] = token
     headers.Authorization = `Bearer ${token}`

@@ -1,7 +1,7 @@
 {
   "generated_at_utc": "2026-07-05T09:40:00Z",
   "app_source": {
-    "repo": "https://github.com/sokalive/osmani-tv",
+    "repo": "https://github.com/sokalive/nassani-tv",
     "commit": "89f840b9f1b9b2295b81810328f2c02bf59106e1",
     "contract_version": "2026-07-05-app-authoritative-v2",
     "contract_sha256": "3fc6a5ba07b466c9408176be5ae551e029167e18f65b285f178991915b33df43"
@@ -10,11 +10,11 @@
     "commit": "df00d693dd6d61600804e0f3d8a43dd37e00fee1",
     "contract_version": "1.0.0-final-frozen",
     "contract_status": "FINAL_FROZEN",
-    "misread_note": "Prior finalization searched osmani-admin origin/main for App commit 89f840b — wrong repository"
+    "misread_note": "Prior finalization searched nassani-admin origin/main for App commit 89f840b — wrong repository"
   },
   "cross_repo_confusion": {
     "verdict": "CONFIRMED",
-    "explanation": "App contract lives in sokalive/osmani-tv (OsmaniTvExpo). Admin repo is sokalive/osmani-admin. Commit 89f840b exists on osmani-tv origin/main, not on osmani-admin."
+    "explanation": "App contract lives in sokalive/nassani-tv (NassaniTvExpo). Admin repo is sokalive/nassani-admin. Commit 89f840b exists on nassani-tv origin/main, not on nassani-admin."
   },
   "rule_diff": [
     {

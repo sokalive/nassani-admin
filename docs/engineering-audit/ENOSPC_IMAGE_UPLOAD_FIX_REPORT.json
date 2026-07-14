@@ -8,7 +8,7 @@
     "current_vps_disk_state": "NOT_EXHAUSTED",
     "bytes_or_inodes": "Neither bytes nor inodes exhausted at investigation time. Root 5% used (~138 GiB free). Inodes 2% on /.",
     "likely_historical_cause": "Cumulative VPS disk consumption from PM2 logs (1.1 GiB), systemd journal (913 MiB), nginx logs (263 MiB), and upload directory growth. Multer diskStorage wrote directly to UPLOADS_DIR without preflight; a full filesystem produced raw ENOSPC in admin UI.",
-    "failing_path": "/var/www/osmani-admin-api/server/uploads (UPLOADS_DIR on production VPS)",
+    "failing_path": "/var/www/nassani-admin/server/uploads (UPLOADS_DIR on production VPS)",
     "secondary_contributors": [
       "/root/.pm2/logs (1.1G)",
       "/var/log/journal (913.5M)",
@@ -22,7 +22,7 @@
       "total_bytes": 154894188544,
       "free_bytes": 147799556096,
       "used_percent": 4.58,
-      "uploads_dir": "/var/www/osmani-admin-api/server/uploads",
+      "uploads_dir": "/var/www/nassani-admin/server/uploads",
       "uploads_file_count": 613
     },
     "after_fix": {

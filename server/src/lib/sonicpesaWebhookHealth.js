@@ -5,7 +5,7 @@ import { getPool } from '../db/pool.js'
 import { canonicalSonicpesaProductionWebhookUrl } from './sonicpesaWebhookConfig.js'
 
 export function isEngineeringWebhookProbe(req, body) {
-  const hdr = String(req?.headers?.['x-osmani-engineering-probe'] ?? '').trim().toLowerCase()
+  const hdr = String(req?.headers?.['x-nassani-engineering-probe'] ?? '').trim().toLowerCase()
   if (hdr === '1' || hdr === 'true' || hdr === 'yes') return true
   const o = body && typeof body === 'object' ? body : {}
   if (o.synthetic_fixture === true || o.engineering_probe === true) return true

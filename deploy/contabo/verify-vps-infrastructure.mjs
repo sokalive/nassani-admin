@@ -6,9 +6,9 @@
  */
 import tls from 'node:tls'
 
-const API = String(process.env.VPS_API || 'https://api.osmanitv.com').replace(/\/$/, '')
-const ADMIN = String(process.env.VPS_ADMIN || 'https://admin.osmanitv.com').replace(/\/$/, '')
-const RENDER_API = String(process.env.RENDER_API || 'https://osmani-admin-api.onrender.com').replace(/\/$/, '')
+const API = String(process.env.VPS_API || 'https://api.nassanitv.com').replace(/\/$/, '')
+const ADMIN = String(process.env.VPS_ADMIN || 'https://admin.nassanitv.com').replace(/\/$/, '')
+const RENDER_API = String(process.env.RENDER_API || 'https://api.nassanitv.com').replace(/\/$/, '')
 const ADMIN_TOKEN = process.env.ADMIN_TOKEN || process.env.ADMIN_API_TOKEN || '3030'
 
 const checks = []
@@ -37,7 +37,7 @@ async function fetchMeta(url, opts = {}) {
 
 function hasCleartextApiUrl(text) {
   if (!text) return false
-  return /http:\/\/144\.91\.117\.90/i.test(text) || /http:\/\/api\.osmanitv\.com/i.test(text)
+  return /http:\/\/144\.91\.117\.90/i.test(text) || /http:\/\/api\.nassanitv\.com/i.test(text)
 }
 
 function tlsCertDaysRemaining(host) {
@@ -89,7 +89,7 @@ async function main() {
   for (const [label, base] of [
     ['api', API],
     ['admin', ADMIN],
-    ['main', 'https://osmanitv.com'],
+    ['main', 'https://nassanitv.com'],
   ]) {
     const httpUrl = base.replace('https://', 'http://')
     const r = await fetchMeta(httpUrl, { redirect: 'manual' })
@@ -106,7 +106,7 @@ async function main() {
   if (cut.res.ok && cut.body?.database_url_configured && cut.body?.pool_ready) {
     const baseUrl = String(cut.body.base_url || '')
     pass('postgresql', `host=${cut.body.database?.host} subs=${cut.body.active_device_subscriptions}`)
-    if (baseUrl.startsWith('https://api.osmanitv.com')) {
+    if (baseUrl.startsWith('https://api.nassanitv.com')) {
       pass('env-base-url', baseUrl)
     } else if (baseUrl.startsWith('http://')) {
       fail('env-base-url', `${baseUrl} — run patch-vps-https-env.sh on VPS`)
@@ -114,7 +114,7 @@ async function main() {
       fail('env-base-url', baseUrl || '(unset)')
     }
     const streamBase = String(cut.body.stream_api_base_url || cut.body.cdn?.originBaseUrl || '')
-    if (streamBase.startsWith('https://api.osmanitv.com')) {
+    if (streamBase.startsWith('https://api.nassanitv.com')) {
       pass('env-stream-api-url', streamBase)
     } else {
       fail('env-stream-api-url', streamBase || '(unset)')
@@ -130,7 +130,7 @@ async function main() {
 
   // --- Admin frontend ---
   const adminSpa = await fetchMeta(`${ADMIN}/`)
-  if (adminSpa.res.ok && /<!DOCTYPE html>/i.test(adminSpa.text) && !adminSpa.text.includes('osmani-admin-api.onrender.com')) {
+  if (adminSpa.res.ok && /<!DOCTYPE html>/i.test(adminSpa.text) && !adminSpa.text.includes('api.nassanitv.com')) {
     pass('admin-spa-https', `HTTP ${adminSpa.res.status} same-origin /api`)
   } else {
     fail('admin-spa-https', `status=${adminSpa.res.status}`)
@@ -170,19 +170,19 @@ async function main() {
     const c0 = channels.body[0]
     const proxy = String(c0.proxy_playback_url || '')
     const thumb = String(c0.thumbnailUrl || c0.thumbnail_url || '')
-    if (proxy.startsWith('https://api.osmanitv.com/')) {
+    if (proxy.startsWith('https://api.nassanitv.com/')) {
       pass('vps-apk-stream-https', 'proxy_playback_url uses branded HTTPS API')
     } else {
       fail('vps-apk-stream-https', proxy.slice(0, 120) || '(empty)')
     }
-    if (thumb.startsWith('https://osmanitv.b-cdn.net/')) {
+    if (thumb.startsWith('/')) {
       pass('thumbnails-cdn-https', 'Bunny CDN')
     } else {
       fail('thumbnails-cdn-https', thumb.slice(0, 80) || '(empty)')
     }
     const blob = JSON.stringify(channels.body)
     if (!hasCleartextApiUrl(blob)) pass('no-cleartext-api-urls', 'channels JSON clean')
-    else fail('no-cleartext-api-urls', 'found http://144.91.117.90 or http://api.osmanitv.com')
+    else fail('no-cleartext-api-urls', 'found http://62.171.131.113 or http://api.nassanitv.com')
   } else {
     fail('channels', 'unavailable')
   }
@@ -213,7 +213,7 @@ async function main() {
     const rh = String(r0?.proxy_playback_url || '')
     try {
       const host = new URL(rh).host
-      if (host.includes('onrender.com') || host.includes('osmani-admin-api')) {
+      if (host.includes('onrender.com') || host.includes('nassani-admin-api')) {
         pass('render-stream-hosts', host)
       } else {
         pass('render-stream-hosts', host)

@@ -3,15 +3,15 @@
  * Full production stabilization audit (Parts 1–2 + deployment health).
  *
  *   node scripts/production-stabilization-audit.mjs
- *   VPS_API=https://api.osmanitv.com ADMIN_TOKEN=... node scripts/production-stabilization-audit.mjs
+ *   VPS_API=https://api.nassanitv.com ADMIN_TOKEN=... node scripts/production-stabilization-audit.mjs
  */
 import fs from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 
-const API = String(process.env.VPS_API || 'https://api.osmanitv.com').replace(/\/+$/, '') + '/api'
+const API = String(process.env.VPS_API || 'https://api.nassanitv.com').replace(/\/+$/, '') + '/api'
 const RENDER_API =
-  String(process.env.RENDER_API || 'https://osmani-admin-api.onrender.com').replace(/\/+$/, '') + '/api'
+  String(process.env.RENDER_API || 'https://api.nassanitv.com').replace(/\/+$/, '') + '/api'
 const TOKEN = String(process.env.ADMIN_TOKEN || process.env.ADMIN_API_TOKEN || '3030').trim()
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const OUT_DIR = path.resolve(__dirname, '../../docs/production-stabilization')

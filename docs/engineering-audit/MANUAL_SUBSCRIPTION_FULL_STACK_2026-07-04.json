@@ -35,7 +35,7 @@
     { "file": "server/src/lib/manualSubscriptionSseContract.js", "function": "writeManualGrantSseEvents", "reason": "Cross-AI compatible SSE event names + payloads for app af1b108" },
     { "file": "server/src/billingStore.js", "function": "grantManualDeviceSubscription", "reason": "Replace notifySubscriptionActivated with publishManualGrantActivationRealtime on all manual grant paths" },
     { "file": "server/src/routes/subscription.js", "function": "subscription-stream handlers", "reason": "manual_gift SSE + wake aliases; TDZ fix; device_subscription wake" },
-    { "file": "deploy/contabo/nginx/snippets/osmani-node-api.conf", "function": "location = /api/subscription-stream", "reason": "Disable proxy buffering for SSE through api.osmanitv.com" }
+    { "file": "deploy/contabo/nginx/snippets/nassani-node-api.conf", "function": "location = /api/subscription-stream", "reason": "Disable proxy buffering for SSE through api.nassanitv.com" }
   ],
   "github_evidence": {
     "backend_head": "cea3d5c2f3550ee7260ccad434eebdb7c3d209b5",
@@ -46,13 +46,13 @@
   "deployment_evidence": {
     "vps_backend_deployed_commit": "cea3d5c2f3550ee7260ccad434eebdb7c3d209b5",
     "github_actions_run": "28715139385 — success",
-    "pm2_process": "osmani-admin-api",
-    "health_url": "https://api.osmanitv.com/api/health",
+    "pm2_process": "nassani-admin-api",
+    "health_url": "https://api.nassanitv.com/api/health",
     "health_commit_verified": "cea3d5c2f3550ee7260ccad434eebdb7c3d209b5",
-    "vps_admin_bundle": "/assets/index-N5v6ykWW.js → api.osmanitv.com",
-    "render_admin_bundle": "/assets/index-DznlsxIm.js → api.osmanitv.com",
-    "render_api_commit": "929616b (legacy; admins bypass via api.osmanitv.com)",
-    "db_target": "155.138.223.205:5432/osmani_db"
+    "vps_admin_bundle": "/assets/index-N5v6ykWW.js → api.nassanitv.com",
+    "render_admin_bundle": "/assets/index-DznlsxIm.js → api.nassanitv.com",
+    "render_api_commit": "929616b (legacy; admins bypass via api.nassanitv.com)",
+    "db_target": "155.138.223.205:5432/nassani_db"
   },
   "grants_77_80_matrix": [
     {
@@ -136,13 +136,13 @@
   },
   "vps_admin_test": {
     "bundle": "index-N5v6ykWW.js",
-    "api_target": "https://api.osmanitv.com/api",
+    "api_target": "https://api.nassanitv.com/api",
     "grant_path": "POST /api/admin/manual-subscription/grant",
     "result": "PASS — controlled grants 81-94 via harness"
   },
   "render_admin_test": {
     "bundle": "index-DznlsxIm.js",
-    "api_target": "https://api.osmanitv.com/api",
+    "api_target": "https://api.nassanitv.com/api",
     "result": "PASS — grants route to VPS API (same as VPS admin)"
   },
   "slo_results": {
@@ -171,7 +171,7 @@
   "remaining_limitations": [
     "Grant 80 user may need re-grant on confirmed app device_id",
     "Probe devices 3C849B55163CF and 58b32841ec6ae98 have no production grant records",
-    "Render API osmani-admin-api.onrender.com still on 929616b — not used by current admin bundles",
+    "Render API api.nassanitv.com still on 929616b — not used by current admin bundles",
     "E2E SLO not met from remote test harness; in-region client measurement recommended"
   ],
   "cross_ai_handoff_path": "docs/cross-ai/manual-subscription-realtime-contract.json"

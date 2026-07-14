@@ -2,8 +2,8 @@
 /**
  * Production-safe Admin data stability + unique-device forensics (read-only).
  */
-const VPS = String(process.env.VPS_API || 'https://api.osmanitv.com').replace(/\/+$/, '')
-const RENDER = String(process.env.RENDER_API || 'https://osmani-admin-api.onrender.com').replace(/\/+$/, '')
+const VPS = String(process.env.VPS_API || 'https://api.nassanitv.com').replace(/\/+$/, '')
+const RENDER = String(process.env.RENDER_API || 'https://api.nassanitv.com').replace(/\/+$/, '')
 const TOKEN = String(process.env.ADMIN_TOKEN || '3030').trim()
 
 let failed = 0

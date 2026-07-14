@@ -1,14 +1,14 @@
 /**
- * Verify osmanitv.com branded HTTPS endpoints (VPS testing — Render stays production for legacy APK).
+ * Verify nassanitv.com branded HTTPS endpoints (VPS testing — Render stays production for legacy APK).
  *
- *   node deploy/contabo/verify-osmanitv-domains.mjs
+ *   node deploy/contabo/verify-nassanitv-domains.mjs
  */
-const RENDER_API = String(process.env.RENDER_API || 'https://osmani-admin-api.onrender.com').replace(/\/$/, '')
+const RENDER_API = String(process.env.RENDER_API || 'https://api.nassanitv.com').replace(/\/$/, '')
 
 const HOSTS = {
-  api: 'https://api.osmanitv.com',
-  admin: 'https://admin.osmanitv.com',
-  main: 'https://osmanitv.com',
+  api: 'https://api.nassanitv.com',
+  admin: 'https://admin.nassanitv.com',
+  main: 'https://nassanitv.com',
 }
 
 const checks = []
@@ -50,7 +50,7 @@ async function assertHttpsRedirect(httpUrl) {
 }
 
 async function main() {
-  console.log('=== osmanitv.com domain verification ===\n')
+  console.log('=== nassanitv.com domain verification ===\n')
 
   for (const base of Object.values(HOSTS)) {
     await assertHttpsRedirect(base.replace('https://', 'http://'))
@@ -71,7 +71,7 @@ async function main() {
   }
 
   const main = await fetchMeta(`${HOSTS.main}/`)
-  if (main.res.ok && /Osmani TV/i.test(main.text)) {
+  if (main.res.ok && /Nassani TV/i.test(main.text)) {
     pass('main-site', `status ${main.res.status}`)
   } else {
     fail('main-site', `status ${main.res.status}`)

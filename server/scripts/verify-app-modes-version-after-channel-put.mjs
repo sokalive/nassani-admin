@@ -1,7 +1,7 @@
 /**
  * Verify whether GET /api/runtime/app-modes reflects configVersion bumps from channel writes.
  */
-const API_BASE = String(process.env.API_BASE || 'https://osmani-admin-api.onrender.com').replace(/\/$/, '')
+const API_BASE = String(process.env.API_BASE || 'https://api.nassanitv.com').replace(/\/$/, '')
 const TOKEN = process.env.ADMIN_TOKEN || '3030'
 
 async function getAppModes() {

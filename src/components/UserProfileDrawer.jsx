@@ -423,7 +423,7 @@ export default function UserProfileDrawer({ row, onClose, onEditSubscription }) 
     report?.customer?.phone_normalized ||
     '—'
 
-  const fullName = reg?.userId || acct?.userId || intelligence?.account?.userId || 'Mtumiaji Osmani'
+  const fullName = reg?.userId || acct?.userId || intelligence?.account?.userId || 'Mtumiaji Nassani'
 
   const latestLogin = intelligence?.loginActivity?.[0]
   const loginToday =

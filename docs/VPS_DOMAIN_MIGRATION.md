@@ -1,14 +1,14 @@
-# VPS domain migration (osmanitv.com) — testing only
+# VPS domain migration (nassanitv.com) — testing only
 
-Migrate **branded HTTPS hosts** on Contabo while **Render API** (`osmani-admin-api.onrender.com`) remains production for legacy APK users.
+Migrate **branded HTTPS hosts** on Contabo while **Render API** (`api.nassanitv.com`) remains production for legacy APK users.
 
-## DNS (A records → `144.91.117.90`)
+## DNS (A records → `62.171.131.113`)
 
 | Host | Purpose |
 |------|---------|
-| `api.osmanitv.com` | Node API (HTTPS) — **testing only** until APK cutover approved |
-| `admin.osmanitv.com` | Admin SPA + `/api` proxy |
-| `osmanitv.com` | Public landing page |
+| `api.nassanitv.com` | Node API (HTTPS) — **testing only** until APK cutover approved |
+| `admin.nassanitv.com` | Admin SPA + `/api` proxy |
+| `nassanitv.com` | Public landing page |
 
 **Do not** change legacy APK `API_BASE` to VPS until explicit cutover approval.
 
@@ -16,10 +16,10 @@ Migrate **branded HTTPS hosts** on Contabo while **Render API** (`osmani-admin-a
 
 | File | Role |
 |------|------|
-| `deploy/contabo/nginx/osmanitv-domains.conf` | HTTPS vhosts + HTTP→HTTPS redirect |
-| `deploy/contabo/nginx/osmanitv-acme-http.conf` | ACME webroot (pre-cert) |
-| `deploy/contabo/nginx/snippets/osmani-node-api.conf` | Shared API proxy |
-| `deploy/contabo/nginx-osmani-admin.conf` | IP `144.91.117.90` HTTP (unchanged) |
+| `deploy/contabo/nginx/nassanitv-domains.conf` | HTTPS vhosts + HTTP→HTTPS redirect |
+| `deploy/contabo/nginx/nassanitv-acme-http.conf` | ACME webroot (pre-cert) |
+| `deploy/contabo/nginx/snippets/nassani-node-api.conf` | Shared API proxy |
+| `deploy/contabo/nginx-nassani-admin.conf` | IP `62.171.131.113` HTTP (unchanged) |
 
 ## TLS (Let's Encrypt)
 
@@ -27,24 +27,24 @@ On VPS as root (after DNS propagates):
 
 ```bash
 # Recommended — firewall + ACME + HTTPS vhosts + verification
-curl -fsSL https://raw.githubusercontent.com/sokalive/osmani-admin/main/deploy/contabo/fix-osmanitv-https.sh | bash
+curl -fsSL https://raw.githubusercontent.com/sokalive/nassani-admin/main/deploy/contabo/setup-nassanitv-ssl.sh | bash
 ```
 
 Or from repo clone:
 
 ```bash
-cd /var/www/osmani-admin-api
+cd /var/www/nassani-admin
 git pull origin main
-CERTBOT_EMAIL=admin@osmanitv.com bash deploy/contabo/fix-osmanitv-https.sh
+CERTBOT_EMAIL=admin@nassanitv.com bash deploy/contabo/setup-nassanitv-ssl.sh
 ```
 
 Legacy script (still works):
 
 ```bash
-CERTBOT_EMAIL=admin@osmanitv.com bash deploy/contabo/setup-osmanitv-ssl.sh
+CERTBOT_EMAIL=admin@nassanitv.com bash deploy/contabo/setup-nassanitv-ssl.sh
 ```
 
-Full cutover + SSL (runs `fix-osmanitv-https.sh` at end of `apply-cutover.sh`):
+Full cutover + SSL (runs `setup-nassanitv-ssl.sh` at end of `apply-cutover.sh`):
 
 ```bash
 bash deploy/contabo/pull-and-apply.sh
@@ -54,29 +54,29 @@ bash deploy/contabo/pull-and-apply.sh
 
 1. Contabo panel → **Firewall** → allow **80/tcp** and **443/tcp** inbound.
 2. On VPS: `ss -tulpn | grep 443` — must show `nginx`.
-3. `certbot certificates` — must list `osmanitv.com` SANs.
+3. `certbot certificates` — must list `nassanitv.com` SANs.
 4. `nginx -t && systemctl status nginx`
 
 ### After nginx config changes only
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/sokalive/osmani-admin/main/deploy/contabo/reload-osmanitv-nginx.sh | bash
+curl -fsSL https://raw.githubusercontent.com/sokalive/nassani-admin/main/deploy/contabo/reload-nassanitv-nginx.sh | bash
 ```
 
 ## Verify
 
 ```bash
-curl -fsS https://api.osmanitv.com/api/health
-curl -fsSI https://admin.osmanitv.com | head
-curl -fsS https://osmanitv.com | head
+curl -fsS https://api.nassanitv.com/api/health
+curl -fsSI https://admin.nassanitv.com | head
+curl -fsS https://nassanitv.com | head
 
-node deploy/contabo/verify-osmanitv-domains.mjs
+node deploy/contabo/verify-nassanitv-domains.mjs
 ```
 
 Render safety (unchanged):
 
 ```bash
-curl -fsS https://osmani-admin-api.onrender.com/api/health
+curl -fsS https://api.nassanitv.com/api/health
 ```
 
 ## Google Play / HTTPS
@@ -89,5 +89,5 @@ curl -fsS https://osmani-admin-api.onrender.com/api/health
 
 | Service | Status |
 |---------|--------|
-| `osmani-admin-api` | **Keep live** |
-| `osmani-admin-mpya` | Optional suspend after VPS admin verified |
+| `nassani-admin-api` | **Keep live** |
+| `nassani-admin-mpya` | Optional suspend after VPS admin verified |

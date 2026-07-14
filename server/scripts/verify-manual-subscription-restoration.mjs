@@ -4,10 +4,10 @@
  *
  * Usage:
  *   node scripts/verify-manual-subscription-restoration.mjs
- *   VPS_API=https://api.osmanitv.com RENDER_API=https://osmani-admin-api.onrender.com node scripts/verify-manual-subscription-restoration.mjs
+ *   VPS_API=https://api.nassanitv.com RENDER_API=https://api.nassanitv.com node scripts/verify-manual-subscription-restoration.mjs
  */
-const VPS = String(process.env.VPS_API || 'https://api.osmanitv.com').replace(/\/+$/, '')
-const RENDER = String(process.env.RENDER_API || 'https://osmani-admin-api.onrender.com').replace(/\/+$/, '')
+const VPS = String(process.env.VPS_API || 'https://api.nassanitv.com').replace(/\/+$/, '')
+const RENDER = String(process.env.RENDER_API || 'https://api.nassanitv.com').replace(/\/+$/, '')
 const TOKEN = String(process.env.ADMIN_TOKEN || process.env.APP_UPDATE_ADMIN_TOKEN || '3030').trim()
 
 let failed = 0
@@ -94,7 +94,7 @@ async function verifyBase(base, label) {
     body: JSON.stringify({ device_id: `rest_${Date.now()}`, duration_days: days, pin: '3030' }),
   })
   if (noPhone.status === 400 && String(noPhone.body?.error || '').includes('phone')) {
-    ok(`${label} grant requires phone (Osmani preserved)`)
+    ok(`${label} grant requires phone (Nassani preserved)`)
   } else {
     fail(`${label} grant phone gate (HTTP ${noPhone.status})`)
   }

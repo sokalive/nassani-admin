@@ -2,8 +2,8 @@
 /**
  * VPS + Render payment pipeline parity (commits, create-order latency, guard, providers).
  */
-const VPS = String(process.env.VPS_API || 'https://api.osmanitv.com').replace(/\/$/, '')
-const RENDER = String(process.env.RENDER_API || 'https://osmani-admin-api.onrender.com').replace(/\/$/, '')
+const VPS = String(process.env.VPS_API || 'https://api.nassanitv.com').replace(/\/$/, '')
+const RENDER = String(process.env.RENDER_API || 'https://api.nassanitv.com').replace(/\/$/, '')
 const EXPECT = String(process.env.EXPECT_COMMIT || '').trim()
 const TARGET_MS = Number(process.env.CREATE_ORDER_TARGET_MS || 2500)
 

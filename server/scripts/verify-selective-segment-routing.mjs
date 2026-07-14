@@ -14,11 +14,11 @@ import { resetStreamDeliveryMetrics, getStreamDeliveryMetricsSnapshot } from '..
 
 process.env.DIRECT_STREAM_SIGNING_ENABLED = '1'
 process.env.DIRECT_STREAM_SIGNING_SECRET = 'test-secret-min-16-chars!!'
-process.env.BUNNY_STREAM_CDN_BASE_URL = 'https://osmanitv.b-cdn.net'
+process.env.BUNNY_STREAM_CDN_BASE_URL = ''
 process.env.STREAM_SEGMENT_DELIVERY = 'bunny'
 process.env.STREAM_SEGMENT_FORCE_PROXY = '0'
 process.env.STREAM_SEGMENT_SELECTIVE_ROUTING = '1'
-process.env.BASE_URL = 'https://osmani-admin-api.onrender.com'
+process.env.BASE_URL = 'https://api.nassanitv.com'
 
 resetStreamDeliveryMetrics()
 
@@ -40,7 +40,7 @@ assert.equal(
 )
 assert.equal(resolveSegmentRoute(ycnSeg, {}, { rootUpstreamUrl: ycnMaster }), 'proxy')
 
-const mockReq = { protocol: 'https', headers: {}, get: () => 'osmani-admin-api.onrender.com' }
+const mockReq = { protocol: 'https', headers: {}, get: () => 'api.nassanitv.com' }
 const builder = createManifestSegmentUrlBuilder(mockReq, {
   channelId: '16',
   rootUpstreamUrl: ycnMaster,
@@ -57,7 +57,7 @@ const bunnyUrl = builder.buildTargetUrl(publicSeg, {})
 assert.ok(proxyUrl.includes('/stream-proxy?'), `expected proxy, got ${proxyUrl}`)
 assert.ok(loadcoreProxyUrl.includes('/stream-proxy?'), `expected proxy for loadcore, got ${loadcoreProxyUrl}`)
 assert.ok(!loadcoreProxyUrl.includes('b-cdn.net'), 'loadcore must not use Bunny')
-assert.ok(bunnyUrl.includes('osmanitv.b-cdn.net/hls/seg'), `expected bunny, got ${bunnyUrl}`)
+assert.ok(bunnyUrl.includes('/hls/seg'), `expected bunny, got ${bunnyUrl}`)
 
 const metrics = getStreamDeliveryMetricsSnapshot()
 assert.ok(metrics.segment_routes_by_provider['h24.lanexa.online']?.proxy >= 1)

@@ -1,11 +1,11 @@
 /**
- * PM2 ecosystem for Contabo osmani-admin-api.
+ * PM2 ecosystem for Contabo nassani-admin-api.
  * Env is loaded from server/.env + repo .env via loadPm2Env.cjs (not shell-dependent).
  */
 const path = require('node:path')
 const { loadContaboPm2Env } = require('./loadPm2Env.cjs')
 
-const ROOT = process.env.OSMANI_ADMIN_ROOT || '/var/www/osmani-admin-api'
+const ROOT = process.env.NASSANI_ADMIN_ROOT || '/var/www/nassani-admin'
 const API_DIR = path.join(ROOT, 'server')
 const fileEnv = loadContaboPm2Env(ROOT)
 
@@ -29,13 +29,13 @@ const SECRET_ENV_KEYS = [
 const pm2Env = {
   NODE_ENV: 'production',
   PORT: '10001',
-  OSMANI_ADMIN_ROOT: ROOT,
-  OSMANI_LOAD_CUTOVER_ENV: '1',
+  NASSANI_ADMIN_ROOT: ROOT,
+  NASSANI_LOAD_CUTOVER_ENV: '1',
   ...fileEnv,
 }
 
 const VPS_POOL_DEFAULTS = {
-  OSMANI_VPS: '1',
+  NASSANI_VPS: '1',
   PG_POOL_MAX: '30',
   PG_POOL_CONNECT_TIMEOUT_MS: '5000',
   PG_QUERY_TIMEOUT_MS: '8000',
@@ -72,7 +72,7 @@ if (!String(pm2Env.DATABASE_URL || '').trim()) {
 module.exports = {
       apps: [
     {
-      name: 'osmani-admin-api',
+      name: 'nassani-admin-api',
       cwd: API_DIR,
       script: 'src/index.js',
       interpreter: 'node',

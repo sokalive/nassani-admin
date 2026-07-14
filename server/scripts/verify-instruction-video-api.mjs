@@ -2,7 +2,7 @@
 /**
  * Verify VIDEO instruction channel API returns aligned VPS playback URLs.
  */
-const VPS = String(process.env.VPS_API || 'https://api.osmanitv.com').replace(/\/$/, '')
+const VPS = String(process.env.VPS_API || 'https://api.nassanitv.com').replace(/\/$/, '')
 const CHANNEL_ID = Number(process.env.INSTRUCTION_VIDEO_CHANNEL_ID || 19)
 
 let pass = true
@@ -28,7 +28,7 @@ async function main() {
       continue
     }
     const canon = String(ch.video_url || ch.instruction_video_url || '').trim()
-    if (!canon.startsWith('https://api.osmanitv.com/uploads/videos/')) {
+    if (!canon.startsWith('https://api.nassanitv.com/uploads/videos/')) {
       fail(`version_code=${vc}: video_url not VPS HTTPS: ${canon}`)
       continue
     }

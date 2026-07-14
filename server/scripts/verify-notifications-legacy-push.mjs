@@ -5,11 +5,11 @@
  * Sends real test notifications (text-only + image) via VPS admin API (shared OneSignal app).
  * Usage: node server/scripts/verify-notifications-legacy-push.mjs
  */
-const RENDER_API = String(process.env.RENDER_API_BASE || 'https://osmani-admin-api.onrender.com').replace(
+const RENDER_API = String(process.env.RENDER_API_BASE || 'https://api.nassanitv.com').replace(
   /\/$/,
   '',
 )
-const VPS_API = String(process.env.VPS_API_BASE || 'https://api.osmanitv.com').replace(/\/$/, '')
+const VPS_API = String(process.env.VPS_API_BASE || 'https://api.nassanitv.com').replace(/\/$/, '')
 const TOKEN = process.env.ADMIN_TOKEN || process.env.ADMIN_API_TOKEN || '3030'
 const SEND_LIVE = process.env.SEND_LIVE !== '0'
 
@@ -149,7 +149,7 @@ async function main() {
     fail(`prepare-image failed HTTP ${prep.res.status}`)
   } else {
     const pushUrl = prep.body.pushImageUrl
-    if (pushUrl.includes('api.osmanitv.com')) pass(`pushImageUrl uses VPS origin: ${pushUrl.slice(0, 80)}…`)
+    if (pushUrl.includes('api.nassanitv.com')) pass(`pushImageUrl uses VPS origin: ${pushUrl.slice(0, 80)}…`)
     else fail(`pushImageUrl must use VPS origin, got: ${pushUrl}`)
 
     const headOk = await headImage(pushUrl)

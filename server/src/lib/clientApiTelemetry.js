@@ -13,7 +13,7 @@ const TRACKED_PREFIXES = [
   '/api/settings',
 ]
 
-/** Known Osmani TV versionName → versionCode (extend as releases ship). */
+/** Known Nassani TV versionName → versionCode (extend as releases ship). */
 export const VERSION_NAME_TO_CODE = Object.freeze({
   '1.5.0': 15,
   '1.6.0': 16,
@@ -72,7 +72,7 @@ export function requestHostLabel(req) {
     .trim()
     .toLowerCase()
   if (!host) return 'unknown'
-  if (host.includes('api.osmanitv.com') || host.includes('144.91.117.90')) return 'vps'
+  if (host.includes('api.nassanitv.com') || host.includes('62.171.131.113')) return 'vps'
   if (host.includes('onrender.com')) return 'render'
   return host
 }

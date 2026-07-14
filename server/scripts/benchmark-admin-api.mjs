@@ -1,7 +1,7 @@
 /**
  * Benchmark admin dashboard API endpoints (timing report).
  */
-const VPS_API = String(process.env.VPS_API || 'https://api.osmanitv.com').replace(/\/+$/, '')
+const VPS_API = String(process.env.VPS_API || 'https://api.nassanitv.com').replace(/\/+$/, '')
 
 const ENDPOINTS = [
   '/api/health',

@@ -329,7 +329,7 @@ runtimePublicRouter.get('/sonicpesa-webhook-readiness', requireLegacyAdminToken,
       webhook: health,
       inbox,
       pool: getPoolStats(),
-      osmani_endpoint_ready: true,
+      nassani_endpoint_ready: true,
       provider_endpoint_configured: health?.last_provider_webhook_at != null,
     })
   } catch (e) {
@@ -919,11 +919,11 @@ runtimePublicRouter.post('/storage-cleanup-disposable', requireLegacyAdminToken,
 runtimePublicRouter.post('/reload-nginx', requireLegacyAdminToken, async (_req, res) => {
   try {
     res.setHeader('Cache-Control', 'no-store, private')
-    const root = process.env.OSMANI_ADMIN_ROOT || '/var/www/osmani-admin-api'
-    const script = path.join(root, 'deploy/contabo/reload-osmanitv-nginx.sh')
+    const root = process.env.NASSANI_ADMIN_ROOT || '/var/www/nassani-admin'
+    const script = path.join(root, 'deploy/contabo/reload-nassanitv-nginx.sh')
     const raw =
-      'https://raw.githubusercontent.com/sokalive/osmani-admin/main/deploy/contabo/reload-osmanitv-nginx.sh'
-    const env = { ...process.env, OSMANI_ADMIN_ROOT: root }
+      'https://raw.githubusercontent.com/sokalive/nassani-admin/main/deploy/contabo/reload-nassanitv-nginx.sh'
+    const env = { ...process.env, NASSANI_ADMIN_ROOT: root }
     const result = fs.existsSync(script)
       ? spawnSync('bash', [script], { cwd: root, env, encoding: 'utf8', timeout: 120_000 })
       : spawnSync('bash', ['-c', `curl -fsSL "${raw}" | bash`], { env, encoding: 'utf8', timeout: 120_000 })
@@ -947,14 +947,14 @@ runtimePublicRouter.post('/reload-nginx', requireLegacyAdminToken, async (_req, 
 runtimePublicRouter.post('/provision-https', requireLegacyAdminToken, async (_req, res) => {
   try {
     res.setHeader('Cache-Control', 'no-store, private')
-    const root = process.env.OSMANI_ADMIN_ROOT || '/var/www/osmani-admin-api'
-    const script = path.join(root, 'deploy/contabo/fix-osmanitv-https.sh')
+    const root = process.env.NASSANI_ADMIN_ROOT || '/var/www/nassani-admin'
+    const script = path.join(root, 'deploy/contabo/setup-nassanitv-ssl.sh')
     const raw =
-      'https://raw.githubusercontent.com/sokalive/osmani-admin/main/deploy/contabo/fix-osmanitv-https.sh'
+      'https://raw.githubusercontent.com/sokalive/nassani-admin/main/deploy/contabo/setup-nassanitv-ssl.sh'
     const env = {
       ...process.env,
-      OSMANI_ADMIN_ROOT: root,
-      CERTBOT_EMAIL: String(process.env.CERTBOT_EMAIL || 'admin@osmanitv.com').trim(),
+      NASSANI_ADMIN_ROOT: root,
+      CERTBOT_EMAIL: String(process.env.CERTBOT_EMAIL || 'admin@nassanitv.com').trim(),
     }
     const result = fs.existsSync(script)
       ? spawnSync('bash', [script], { cwd: root, env, encoding: 'utf8', timeout: 600_000 })

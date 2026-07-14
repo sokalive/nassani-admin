@@ -9,7 +9,7 @@ function shortSha(s) {
 }
 
 function DeployFooter() {
-  const build = typeof globalThis !== 'undefined' ? globalThis.__OSMANI_ADMIN_BUILD__ : null
+  const build = typeof globalThis !== 'undefined' ? globalThis.__NASSANI_ADMIN_BUILD__ : null
   const buildCommit = build?.commit ?? '—'
   const [apiHealth, setApiHealth] = useState(null)
   const [panel, setPanel] = useState(null)
@@ -76,7 +76,7 @@ function DeployFooter() {
       </div>
       <p className="mx-auto mt-1 max-w-[1400px] text-[9px] text-slate-600">
         Compare UI build vs API commit after each deploy. Mismatch means stale static assets or wrong service.
-        Open console for <code className="text-slate-500">__OSMANI_ADMIN_BUILD__</code>.
+        Open console for <code className="text-slate-500">__NASSANI_ADMIN_BUILD__</code>.
       </p>
     </footer>
   )

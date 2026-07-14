@@ -2,7 +2,7 @@
  * T0–T8 channel accessType propagation harness.
  * Env: API_BASE, ADMIN_TOKEN, CHANNEL_ID, RAPID_TOGGLES (default 0), REVERT (default 1).
  */
-const API_BASE = String(process.env.API_BASE || 'https://api.osmanitv.com').replace(/\/$/, '')
+const API_BASE = String(process.env.API_BASE || 'https://api.nassanitv.com').replace(/\/$/, '')
 const TOKEN =
   process.env.ADMIN_TOKEN ||
   process.env.ADMIN_LEGACY_TOKEN ||

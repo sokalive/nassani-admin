@@ -1,4 +1,4 @@
-# Final migration audit — Osmani TV
+# Final migration audit — Nassani TV
 
 Run: `node deploy/contabo/verify-final-migration-audit.mjs`
 
@@ -6,17 +6,17 @@ Run: `node deploy/contabo/verify-final-migration-audit.mjs`
 
 | Service | URL | Role | Keep ON? |
 |---------|-----|------|----------|
-| **osmani-admin-api** | `https://osmani-admin-api.onrender.com` | Legacy APK API | **YES** until APK cutover |
-| **osmani-admin-mpya** | `https://osmani-admin-mpya.onrender.com` | Render admin SPA | Optional after VPS admin verified |
-| **osmani-tv** | `https://osmani-tv.onrender.com` | Placeholder (28B) | Safe to suspend |
-| **VPS API + Admin** | `http://144.91.117.90` | New APK + admin UI | **YES** |
-| **Vultr PostgreSQL** | `155.138.223.205` / `osmani_db` | Shared DB | **YES** |
+| **nassani-admin-api** | `https://api.nassanitv.com` | Legacy APK API | **YES** until APK cutover |
+| **nassani-admin-mpya** | `https://admin.nassanitv.com` | Render admin SPA | Optional after VPS admin verified |
+| **nassani-tv** | `https://nassanitv.com` | Placeholder (28B) | Safe to suspend |
+| **VPS API + Admin** | `http://62.171.131.113` | New APK + admin UI | **YES** |
+| **Vultr PostgreSQL** | `155.138.223.205` / `nassani_db` | Shared DB | **YES** |
 
 ## Vultr DB parity evidence
 
 Both Render API and VPS API read the same database:
 
-- Host: `155.138.223.205:5432` / `osmani_db`
+- Host: `155.138.223.205:5432` / `nassani_db`
 - Active device subscriptions: **202** (both hosts)
 - Plan subscriber counts: `3:122, 4:64, 5:0, 6:1` (identical)
 - Channels: **17** (names match)
@@ -29,7 +29,7 @@ All legacy public endpoints pass on Render (`verify:apk-backward-compat` → **0
 
 - channels, banners, plans, subscription-status, payments, update-check (force off)
 - server-health, settings, popup-settings (public read restored)
-- Stream delivery URLs use `osmani-admin-api.onrender.com` (not VPS)
+- Stream delivery URLs use `api.nassanitv.com` (not VPS)
 
 ## New APK (VPS) — action required
 
@@ -39,7 +39,7 @@ VPS must run latest `main` (`apply-cutover.sh`) for legacy public routes:
 - After deploy: same contracts as Render
 
 ```bash
-cd /var/www/osmani-admin-api
+cd /var/www/nassani-admin
 git pull origin main
 bash deploy/contabo/apply-cutover.sh
 node deploy/contabo/verify-final-migration-audit.mjs
@@ -55,20 +55,20 @@ Same `device_id` + shared Vultr DB → subscription state preserved:
 
 ## Safe to suspend (after VPS admin verified)
 
-- `osmani-admin-mpya` (Render static admin)
-- `osmani-tv` (placeholder only)
-- `osmani-tv-web.onrender.com` (404 / unused)
+- `nassani-admin-mpya` (Render static admin)
+- `nassani-tv` (placeholder only)
+- `nassanitv.com` (404 / unused)
 
 ## Do NOT suspend
 
-- **osmani-admin-api** (Render Node) — legacy production APK
+- **nassani-admin-api** (Render Node) — legacy production APK
 - Vultr PostgreSQL
 - VPS nginx + Node + admin SPA
 
 ## Contabo independence
 
-VPS can operate without Render **static admin** or **osmani-tv**:
+VPS can operate without Render **static admin** or **nassani-tv**:
 
-- Admin UI: `http://144.91.117.90` (same-origin `/api`)
+- Admin UI: `http://62.171.131.113` (same-origin `/api`)
 - API, DB, CDN thumbnails, subscriptions: all on VPS path
 - Legacy APK still needs Render **API** until app update cutover

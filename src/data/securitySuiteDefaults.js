@@ -1,7 +1,7 @@
 import { LS_SECURITY_SUITE } from '../constants/storageKeys'
 import { generateSecurityAlerts } from './securityAlertsSeed'
 
-const LEGACY_ALERTS_KEY = 'osmani_security_alerts_v1'
+const LEGACY_ALERTS_KEY = 'nassani_security_alerts_v1'
 
 function id() {
   return typeof crypto !== 'undefined' && crypto.randomUUID
@@ -15,7 +15,7 @@ export function generateDefaultWhitelist() {
     { id: id(), value: '41.59.21.88 · CDN edge' },
     { id: id(), value: 'Pixel 8 · +255712000001' },
     { id: id(), value: 'TV-Box A12 · living-room' },
-    { id: id(), value: 'api.osmani.tv · health probe' },
+    { id: id(), value: 'api.nassanitv.com · health probe' },
     { id: id(), value: '197.250.8.1 · Partner POP' },
   ]
 }

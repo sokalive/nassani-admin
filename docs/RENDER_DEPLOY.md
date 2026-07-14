@@ -4,8 +4,8 @@ GitHub Actions **cannot** deploy Render services until these secrets exist:
 
 | GitHub secret | Where to get it |
 |---------------|-----------------|
-| `RENDER_API_DEPLOY_HOOK` | [Render Dashboard](https://dashboard.render.com) → **osmani-admin-api** → Settings → **Deploy Hook** → copy URL |
-| `RENDER_MPYA_DEPLOY_HOOK` | Same → **osmani-admin-mpya** → Settings → **Deploy Hook** |
+| `RENDER_API_DEPLOY_HOOK` | [Render Dashboard](https://dashboard.render.com) → **nassani-admin-api** → Settings → **Deploy Hook** → copy URL |
+| `RENDER_MPYA_DEPLOY_HOOK` | Same → **nassani-admin-mpya** → Settings → **Deploy Hook** |
 
 Add secrets: GitHub repo → Settings → Secrets and variables → Actions → New repository secret.
 
@@ -27,11 +27,11 @@ $env:EXPECT_COMMIT = "b2d7e12"
 npm run deploy:render
 ```
 
-This triggers **osmani-admin-api** and **osmani-admin-mpya** deploys for commit `b2d7e12` and waits until live.
+This triggers **nassani-admin-api** and **nassani-admin-mpya** deploys for commit `b2d7e12` and waits until live.
 
 ## Option C — Manual dashboard
 
-For each service (**osmani-admin-api**, **osmani-admin-mpya**):
+For each service (**nassani-admin-api**, **nassani-admin-mpya**):
 
 1. Open service in Render Dashboard  
 2. **Manual Deploy** → **Deploy latest commit** (or **Deploy a specific commit** → `b2d7e12`)  

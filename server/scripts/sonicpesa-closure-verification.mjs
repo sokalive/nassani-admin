@@ -1,10 +1,10 @@
 #!/usr/bin/env node
 /**
  * SonicPesa closure verification — production API probes + optional admin runtime ops.
- * Usage: VPS_API=https://api.osmanitv.com ADMIN_API_TOKEN=3030 node scripts/sonicpesa-closure-verification.mjs
+ * Usage: VPS_API=https://api.nassanitv.com ADMIN_API_TOKEN=3030 node scripts/sonicpesa-closure-verification.mjs
  */
-const API = String(process.env.VPS_API || 'https://api.osmanitv.com').replace(/\/+$/, '')
-const RENDER = String(process.env.RENDER_API || 'https://osmani-admin-api.onrender.com').replace(/\/+$/, '')
+const API = String(process.env.VPS_API || 'https://api.nassanitv.com').replace(/\/+$/, '')
+const RENDER = String(process.env.RENDER_API || 'https://api.nassanitv.com').replace(/\/+$/, '')
 const TOKEN = String(process.env.ADMIN_API_TOKEN || process.env.ADMIN_TOKEN || '3030').trim()
 
 const results = { checks: [], metrics: null, dry_run: null, critical_repair: null }
@@ -46,7 +46,7 @@ async function main() {
 
   const forged = await fetch(`${API}/api/payments/sonicpesa/webhook`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json', 'X-Osmani-Engineering-Probe': '1' },
+    headers: { 'Content-Type': 'application/json', 'X-Nassani-Engineering-Probe': '1' },
     body: JSON.stringify({
       order_id: 'synthetic_forged_success_closure',
       payment_status: 'SUCCESS',

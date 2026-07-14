@@ -15,7 +15,7 @@ On Render, the container filesystem is **ephemeral** unless you write under a **
 2. **Set environment variable** on that service (must match the disk mount):
    - `UPLOAD_DIR=/var/render/media`
 
-3. **Apply Blueprint** (optional): this repo’s `render.yaml` declares `osmani-admin-api` with `disk.mountPath` and `UPLOAD_DIR` aligned. If you already have an API service with a different name, set the same env + disk on that service instead of creating a duplicate.
+3. **Apply Blueprint** (optional): this repo’s `render.yaml` declares `nassani-admin-api` with `disk.mountPath` and `UPLOAD_DIR` aligned. If you already have an API service with a different name, set the same env + disk on that service instead of creating a duplicate.
 
 4. **Redeploy** after changing disk or env. Watch logs for:
    - `[uploads] resolved UPLOAD_DIR: ...`

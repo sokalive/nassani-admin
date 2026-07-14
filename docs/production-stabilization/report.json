@@ -3,10 +3,10 @@
   "finished_at": "2026-07-03T16:38:31.119Z",
   "environments": {
     "vps": {
-      "api": "https://api.osmanitv.com/api",
+      "api": "https://api.nassanitv.com/api",
       "health": {
         "ok": true,
-        "service": "osmani-admin-api",
+        "service": "nassani-admin-api",
         "time": "2026-07-03T16:38:05.165Z",
         "commit": "838b7e60552387d507018735cf4a1edffe99dfa4",
         "startup": {
@@ -34,10 +34,10 @@
       }
     },
     "render": {
-      "api": "https://osmani-admin-api.onrender.com/api",
+      "api": "https://api.nassanitv.com/api",
       "health": {
         "ok": true,
-        "service": "osmani-admin-api",
+        "service": "nassani-admin-api",
         "time": "2026-07-03T16:38:04.900Z",
         "commit": "57f3b9c236bc0fbb5ccb0433fa8f59226d3c6e43",
         "startup": {

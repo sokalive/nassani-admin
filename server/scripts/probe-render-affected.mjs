@@ -10,7 +10,7 @@ const results = []
 let bad = 0
 for (const d of renderIds) {
   const raw = execSync(
-    `curl.exe --max-time 45 -s "https://api.osmanitv.com/api/subscription-status?device_id=${encodeURIComponent(d)}"`,
+    `curl.exe --max-time 45 -s "https://api.nassanitv.com/api/subscription-status?device_id=${encodeURIComponent(d)}"`,
     { encoding: 'utf8' },
   )
   const b = JSON.parse(raw)

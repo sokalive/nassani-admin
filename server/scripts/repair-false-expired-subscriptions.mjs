@@ -6,7 +6,7 @@
  *   node scripts/repair-false-expired-subscriptions.mjs --repair
  *   node scripts/repair-false-expired-subscriptions.mjs --full
  */
-const API = String(process.env.VPS_API || 'https://api.osmanitv.com').replace(/\/+$/, '') + '/api'
+const API = String(process.env.VPS_API || 'https://api.nassanitv.com').replace(/\/+$/, '') + '/api'
 const TOKEN = String(process.env.ADMIN_TOKEN || process.env.ADMIN_API_TOKEN || '3030').trim()
 const args = new Set(process.argv.slice(2))
 const doAudit = args.has('--audit') || args.has('--full') || args.size === 0

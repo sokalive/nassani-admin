@@ -4,10 +4,10 @@
  * Usage: EXPECT_COMMIT=7dc0a84 node deploy/render/verify-admin-ui-parity.mjs
  */
 const EXPECT = String(process.env.EXPECT_COMMIT || '7dc0a84').trim()
-const VPS_ADMIN = 'https://admin.osmanitv.com'
-const RENDER_ADMIN = 'https://osmani-admin-mpya.onrender.com'
-const VPS_API = 'https://api.osmanitv.com'
-const RENDER_API = 'https://osmani-admin-api.onrender.com'
+const VPS_ADMIN = 'https://admin.nassanitv.com'
+const RENDER_ADMIN = 'https://admin.nassanitv.com'
+const VPS_API = 'https://api.nassanitv.com'
+const RENDER_API = 'https://api.nassanitv.com'
 const TOKEN = process.env.ADMIN_TOKEN || process.env.ADMIN_API_TOKEN || '3030'
 const headers = { 'X-Admin-Token': TOKEN, 'Cache-Control': 'no-cache' }
 
@@ -60,7 +60,7 @@ async function adminAssets(adminUrl) {
     return [...new Uint8Array(digest)].map((b) => b.toString(16).padStart(2, '0')).join('')
   }
   const normalizedJs = js
-    .replace(/https:\/\/osmani-admin-api\.onrender\.com/g, '__API__')
+    .replace(/https:\/\/nassani-admin-api\.onrender\.com/g, '__API__')
     .replace(/var \w+=``/g, '__API__')
   return {
     jsPath,

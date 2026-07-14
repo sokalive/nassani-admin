@@ -4,10 +4,10 @@
  *
  * Usage:
  *   node scripts/verify-render-cache-stability.mjs
- *   RENDER_API=https://osmani-admin-api.onrender.com node scripts/verify-render-cache-stability.mjs
+ *   RENDER_API=https://api.nassanitv.com node scripts/verify-render-cache-stability.mjs
  */
-const RENDER = String(process.env.RENDER_API || 'https://osmani-admin-api.onrender.com').replace(/\/+$/, '')
-const VPS = String(process.env.VPS_API || 'https://api.osmanitv.com').replace(/\/+$/, '')
+const RENDER = String(process.env.RENDER_API || 'https://api.nassanitv.com').replace(/\/+$/, '')
+const VPS = String(process.env.VPS_API || 'https://api.nassanitv.com').replace(/\/+$/, '')
 const PROBE = `cache_stability_${Date.now()}`
 
 let failed = 0

@@ -8,10 +8,10 @@ import { fileURLToPath } from 'node:url'
 import { dirname, join } from 'node:path'
 
 const EXPECT = String(process.env.EXPECT_COMMIT || '7dc0a84').trim()
-const VPS_API = 'https://api.osmanitv.com'
-const RENDER_API = 'https://osmani-admin-api.onrender.com'
-const VPS_ADMIN = 'https://admin.osmanitv.com'
-const RENDER_ADMIN = 'https://osmani-admin-mpya.onrender.com'
+const VPS_API = 'https://api.nassanitv.com'
+const RENDER_API = 'https://api.nassanitv.com'
+const VPS_ADMIN = 'https://admin.nassanitv.com'
+const RENDER_ADMIN = 'https://admin.nassanitv.com'
 
 const checks = []
 

@@ -39,14 +39,14 @@ function loadEnvFile(filePath, into, { override = false } = {}) {
 }
 
 function shouldLoadCutoverEnv(into) {
-  const flag = String(into.OSMANI_LOAD_CUTOVER_ENV ?? '1').trim().toLowerCase()
+  const flag = String(into.NASSANI_LOAD_CUTOVER_ENV ?? '1').trim().toLowerCase()
   if (['0', 'false', 'no', 'off'].includes(flag)) return false
   if (String(into.RENDER || '').trim().toLowerCase() === 'true') return false
   return true
 }
 
 /**
- * @param {string} root Repo root (e.g. /var/www/osmani-admin-api)
+ * @param {string} root Repo root (e.g. /var/www/nassani-admin)
  */
 function loadContaboPm2Env(root) {
   const apiDir = path.join(root, 'server')
@@ -68,15 +68,15 @@ function loadContaboPm2Env(root) {
     path.join(root, '.env.local'),
     path.join(apiDir, '.env.backup'),
     path.join(root, '.env.backup'),
-    '/root/.osmani-admin.env',
+    '/root/.nassani-admin.env',
   ]) {
     loadEnvFile(filePath, merged, { override: true })
   }
 
   merged.NODE_ENV = merged.NODE_ENV || 'production'
   merged.PORT = merged.PORT || '10001'
-  merged.OSMANI_ADMIN_ROOT = root
-  merged.OSMANI_LOAD_CUTOVER_ENV = merged.OSMANI_LOAD_CUTOVER_ENV || '1'
+  merged.NASSANI_ADMIN_ROOT = root
+  merged.NASSANI_LOAD_CUTOVER_ENV = merged.NASSANI_LOAD_CUTOVER_ENV || '1'
 
   try {
     const { execSync } = require('node:child_process')
@@ -85,7 +85,7 @@ function loadContaboPm2Env(root) {
       encoding: 'utf8',
       stdio: ['ignore', 'pipe', 'ignore'],
     }).trim()
-    if (sha) merged.OSMANI_GIT_COMMIT = sha.slice(0, 40)
+    if (sha) merged.NASSANI_GIT_COMMIT = sha.slice(0, 40)
   } catch {
     // ignore
   }

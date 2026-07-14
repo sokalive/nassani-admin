@@ -40,10 +40,10 @@ export function AdminAuthProvider({ children }) {
       setTokenState(getAdminSessionToken())
       setEmail(getAdminSessionEmail())
     }
-    window.addEventListener('osmani-admin-auth', onStorage)
+    window.addEventListener('nassani-admin-auth', onStorage)
     window.addEventListener('storage', onStorage)
     return () => {
-      window.removeEventListener('osmani-admin-auth', onStorage)
+      window.removeEventListener('nassani-admin-auth', onStorage)
       window.removeEventListener('storage', onStorage)
     }
   }, [])
@@ -57,7 +57,7 @@ export function AdminAuthProvider({ children }) {
     }
     setTokenState(t ?? null)
     setEmail(em ?? null)
-    window.dispatchEvent(new Event('osmani-admin-auth'))
+    window.dispatchEvent(new Event('nassani-admin-auth'))
   }, [])
 
   const setPendingOtp = useCallback((pendingToken, em) => {
@@ -74,7 +74,7 @@ export function AdminAuthProvider({ children }) {
     setTokenState(null)
     setEmail(null)
     setSessionChecked(true)
-    window.dispatchEvent(new Event('osmani-admin-auth'))
+    window.dispatchEvent(new Event('nassani-admin-auth'))
   }, [])
 
   useEffect(() => {

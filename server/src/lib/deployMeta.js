@@ -7,7 +7,7 @@ export function getServerGitCommit() {
     process.env.GITHUB_SHA ||
     process.env.VERCEL_GIT_COMMIT_SHA ||
     process.env.CI_COMMIT_SHA ||
-    process.env.OSMANI_GIT_COMMIT ||
+    process.env.NASSANI_GIT_COMMIT ||
     ''
   const s = String(raw || '').trim()
   if (s) return s.slice(0, 40)
@@ -26,7 +26,7 @@ export function defaultPublicApiOrigin() {
     .trim()
     .replace(/\/+$/, '')
   if (fromEnv) return fromEnv
-  return 'https://api.osmanitv.com'
+  return 'https://api.nassanitv.com'
 }
 
 /** Non-secret fingerprint so ops can confirm all instances point at the same DB. */

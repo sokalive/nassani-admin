@@ -1,5 +1,5 @@
 /**
- * Canonical OSMANI App unique device count for dashboard analytics.
+ * Canonical NASSANI App unique device count for dashboard analytics.
  * Counts distinct canonical device_id from app_installs + verified App telemetry,
  * excluding synthetic/benchmark/admin probe IDs.
  */

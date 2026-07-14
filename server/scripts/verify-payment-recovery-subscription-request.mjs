@@ -2,7 +2,7 @@
 /**
  * Live verification: payment recovery + subscription request systems.
  */
-const VPS = String(process.env.VPS_API || 'https://api.osmanitv.com').replace(/\/+$/, '')
+const VPS = String(process.env.VPS_API || 'https://api.nassanitv.com').replace(/\/+$/, '')
 const TOKEN = String(process.env.ADMIN_TOKEN || '3030').trim()
 const PIN = String(process.env.ADMIN_PIN || '3030').trim()
 

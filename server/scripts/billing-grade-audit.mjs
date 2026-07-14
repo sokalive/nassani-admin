@@ -9,7 +9,7 @@
  *
  * Optional:
  *   RENDER_OWNER_ID          workspace id (tea-…); auto-discovered if omitted
- *   RENDER_SERVICE_ID        force osmani-admin-api id
+ *   RENDER_SERVICE_ID        force nassani-admin-api id
  *   BUNNY_API_KEY
  *   BUNNY_PULL_ZONE_ID
  *   API_BASE                 production API for stream metrics
@@ -25,7 +25,7 @@ import { fileURLToPath } from 'node:url'
 import { dirname, join } from 'node:path'
 
 const __dir = dirname(fileURLToPath(import.meta.url))
-const API = (process.env.API_BASE || 'https://osmani-admin-api.onrender.com').replace(/\/$/, '')
+const API = (process.env.API_BASE || 'https://api.nassanitv.com').replace(/\/$/, '')
 const RENDER_KEY = String(process.env.RENDER_API_KEY || '').trim()
 const BUNNY_KEY = String(process.env.BUNNY_API_KEY || process.env.BUNNY_ACCOUNT_API_KEY || '').trim()
 const HOURS = Number(process.env.AUDIT_HOURS) || 24
@@ -99,9 +99,9 @@ async function discoverWorkspaceAndServices() {
   const services = await renderFetch('/services', { limit: 100 })
   const list = (services || []).map((s) => s.service || s)
   const api =
-    list.find((s) => s.name === 'osmani-admin-api') ||
+    list.find((s) => s.name === 'nassani-admin-api') ||
     list.find((s) => String(s.name || '').includes('admin-api'))
-  const mpya = list.find((s) => s.name === 'osmani-admin-mpya')
+  const mpya = list.find((s) => s.name === 'nassani-admin-mpya')
   const pg = list.filter((s) => s.type === 'postgres' || String(s.name || '').includes('postgres'))
 
   return { ownerId, ownerList, services: list, apiService: api, staticService: mpya, postgres: pg }
@@ -171,7 +171,7 @@ async function bunnyBandwidth(startIso, endIso) {
       headers: { AccessKey: BUNNY_KEY },
     }).then((r) => r.json())
     const match = (Array.isArray(zones) ? zones : zones?.Items || []).find((z) =>
-      JSON.stringify(z).toLowerCase().includes('osmanitv'),
+      JSON.stringify(z).toLowerCase().includes('nassanitv'),
     )
     zoneId = match?.Id ? String(match.Id) : ''
   }

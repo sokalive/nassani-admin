@@ -10,15 +10,15 @@ Analysis based on this repo’s architecture, production health checks (May 2026
 
 | Service | In repo | Blueprint / typical plan | Role |
 |---------|---------|--------------------------|------|
-| **osmani-admin-api** | Yes (`render.yaml`) | **Starter** ($7/mo) + **1 GB disk** | Node API, Postgres client, stream proxy, SSE, uploads mount |
-| **osmani-admin-mpya** | Yes | **Static** (free) | Vite admin SPA |
-| **osmani-tv** / **osmani-tv-web** | Not in this repo | Unknown | Likely separate web/player service — **size via Dashboard only** |
+| **nassani-admin-api** | Yes (`render.yaml`) | **Starter** ($7/mo) + **1 GB disk** | Node API, Postgres client, stream proxy, SSE, uploads mount |
+| **nassani-admin-mpya** | Yes | **Static** (free) | Vite admin SPA |
+| **nassani-tv** / **nassani-tv-web** | Not in this repo | Unknown | Likely separate web/player service — **size via Dashboard only** |
 
-Production API commit observed: `6ef0e0c` · CDN: `https://osmanitv.b-cdn.net` · disk: 86 files under `/var/render/media`.
+Production API commit observed: `6ef0e0c` · CDN: `` · disk: 86 files under `/var/render/media`.
 
 ---
 
-## 2. RAM & CPU — osmani-admin-api (inferred)
+## 2. RAM & CPU — nassani-admin-api (inferred)
 
 ### Memory drivers
 
@@ -89,11 +89,11 @@ Render Postgres **Starter** allows limited connections; one API instance at 8 is
 
 | Asset | Verdict |
 |-------|---------|
-| **osmani-admin-api Starter + 1GB disk** | **Appropriate minimum** for persistent uploads + stream proxy. Not safely reducible to Free. |
-| **osmani-admin-mpya Static** | Already minimal cost. |
+| **nassani-admin-api Starter + 1GB disk** | **Appropriate minimum** for persistent uploads + stream proxy. Not safely reducible to Free. |
+| **nassani-admin-mpya Static** | Already minimal cost. |
 | **Background health probes (all channels)** | Was **oversized** for 24/7 — now **disabled by default**. |
 | **Postgres** | Verify in Metrics; may be oversized if tier > actual storage/CPU. |
-| **osmani-tv** | Unknown — inspect separately. |
+| **nassani-tv** | Unknown — inspect separately. |
 
 ---
 
@@ -108,7 +108,7 @@ Render Postgres **Starter** allows limited connections; one API instance at 8 is
 
 ### Tier 2 — Dashboard checks (no downgrade yet)
 
-5. Render → **osmani-admin-api** → Metrics: 7-day RAM p95, CPU p95, HTTP requests.
+5. Render → **nassani-admin-api** → Metrics: 7-day RAM p95, CPU p95, HTTP requests.
 6. Postgres → storage used, connection count p95.
 7. If RAM p95 < 40% and CPU p95 < 30% for 7 days, note headroom — still **cannot** drop below Starter with disk.
 
@@ -116,7 +116,7 @@ Render Postgres **Starter** allows limited connections; one API instance at 8 is
 
 8. **Postgres storage/tier** downsize if disk & CPU low (safest dollar savings).
 9. **Remove duplicate/unused Render services** (old APIs, test workers).
-10. **osmani-tv**: if Static or idle Starter, align to Static or sleep (if not user-facing 24/7).
+10. **nassani-tv**: if Static or idle Starter, align to Static or sleep (if not user-facing 24/7).
 
 ### Tier 4 — Do not do without migration plan
 
@@ -146,7 +146,7 @@ Render Postgres **Starter** allows limited connections; one API instance at 8 is
 1. Deploy commit with health background default **off** + pool env docs.
 2. Watch 48h Metrics (CPU, RAM, response times, payment success).
 3. Adjust Postgres tier/storage in Dashboard if underutilized.
-4. Audit **osmani-tv** service separately.
+4. Audit **nassani-tv** service separately.
 5. Revisit multi-instance / Standard tier only if RAM p95 > 80% or CPU sustained high.
 
 ---
@@ -157,8 +157,8 @@ Render Postgres **Starter** allows limited connections; one API instance at 8 is
 # Logs should show:
 # [SERVER_HEALTH] background probes disabled — ...
 
-curl -s https://osmani-admin-api.onrender.com/api/health
-curl -sI https://osmani-admin-api.onrender.com/api/channels  # X-Api-Cache on miss/hit in dev
+curl -s https://api.nassanitv.com/api/health
+curl -sI https://api.nassanitv.com/api/channels  # X-Api-Cache on miss/hit in dev
 
 # Admin: Server Health page → manual Refresh still works
 # Android: streams, payments, SSE unchanged

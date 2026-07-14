@@ -42,7 +42,7 @@ function loadEnvFile(filePath, { override = false } = {}) {
 }
 
 function shouldLoadCutoverEnv() {
-  const flag = String(process.env.OSMANI_LOAD_CUTOVER_ENV ?? '').trim().toLowerCase()
+  const flag = String(process.env.NASSANI_LOAD_CUTOVER_ENV ?? '').trim().toLowerCase()
   if (['1', 'true', 'yes', 'on'].includes(flag)) return true
   if (['0', 'false', 'no', 'off'].includes(flag)) return false
   // Repo ships Contabo defaults in .env.cutover — never auto-apply on Render (breaks legacy APK stream URLs).
@@ -52,7 +52,7 @@ function shouldLoadCutoverEnv() {
 
 /**
  * Load env files for Contabo/Render:
- * 1. .env.cutover — Contabo-only when OSMANI_LOAD_CUTOVER_ENV=1 (or non-Render local cutover testing)
+ * 1. .env.cutover — Contabo-only when NASSANI_LOAD_CUTOVER_ENV=1 (or non-Render local cutover testing)
  * 2. server/.env, repo-root/.env — secrets (DATABASE_URL); override cutover
  */
 export function loadProcessEnv() {

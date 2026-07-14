@@ -9,7 +9,7 @@
  */
 import { computeStackedExpiryIso } from '../src/lib/subscriptionStacking.js'
 
-const VPS = String(process.env.VPS_API || 'https://api.osmanitv.com').replace(/\/$/, '')
+const VPS = String(process.env.VPS_API || 'https://api.nassanitv.com').replace(/\/$/, '')
 const API = `${VPS}/api`
 const TOKEN = String(process.env.ADMIN_TOKEN || process.env.ADMIN_API_TOKEN || '3030').trim()
 const DO_REPAIR = String(process.env.REPAIR || '0').trim() === '1'

@@ -1,16 +1,16 @@
 #!/usr/bin/env bash
-# Fix HTTPS for api.osmanitv.com / admin.osmanitv.com / osmanitv.com on Contabo VPS.
+# Fix HTTPS for api.nassanitv.com / admin.nassanitv.com / nassanitv.com on Contabo VPS.
 # Does NOT touch Render production.
 #
 # Contabo web console one-liner:
-#   curl -fsSL https://raw.githubusercontent.com/sokalive/osmani-admin/main/deploy/contabo/fix-osmanitv-https.sh | bash
+#   curl -fsSL https://raw.githubusercontent.com/sokalive/nassani-admin/main/deploy/contabo/setup-nassanitv-ssl.sh | bash
 #
 # From repo clone:
-#   CERTBOT_EMAIL=admin@osmanitv.com bash deploy/contabo/fix-osmanitv-https.sh
+#   CERTBOT_EMAIL=admin@nassanitv.com bash deploy/contabo/setup-nassanitv-ssl.sh
 set -euo pipefail
 
-ROOT="${OSMANI_ADMIN_ROOT:-/var/www/osmani-admin-api}"
-EMAIL="${CERTBOT_EMAIL:-admin@osmanitv.com}"
+ROOT="${NASSANI_ADMIN_ROOT:-/var/www/nassani-admin}"
+EMAIL="${CERTBOT_EMAIL:-admin@nassanitv.com}"
 
 diag() {
   echo "==> Diagnostics"
@@ -31,7 +31,7 @@ if [[ "$(id -u)" -ne 0 ]]; then
   exit 1
 fi
 
-echo "==> Osmani TV HTTPS fix"
+echo "==> Nassani TV HTTPS fix"
 echo "    root: $ROOT"
 echo "    email: $EMAIL"
 
@@ -61,17 +61,17 @@ mkdir -p /var/www/certbot
 mkdir -p /etc/nginx/snippets
 
 echo "==> Install nginx snippets"
-cp "$ROOT/deploy/contabo/nginx/snippets/ssl-params.conf" /etc/nginx/snippets/osmani-ssl-params.conf
-cp "$ROOT/deploy/contabo/nginx/snippets/osmani-node-api.conf" /etc/nginx/snippets/osmani-node-api.conf
+cp "$ROOT/deploy/contabo/nginx/snippets/ssl-params.conf" /etc/nginx/snippets/nassani-ssl-params.conf
+cp "$ROOT/deploy/contabo/nginx/snippets/nassani-node-api.conf" /etc/nginx/snippets/nassani-node-api.conf
 
 echo "==> Base HTTP site (IP + ACME fallback)"
-cp "$ROOT/deploy/contabo/nginx-osmani-admin.conf" /etc/nginx/sites-available/osmani-admin
-ln -sf /etc/nginx/sites-available/osmani-admin /etc/nginx/sites-enabled/osmani-admin
+cp "$ROOT/deploy/contabo/nginx-nassani-admin.conf" /etc/nginx/sites-available/nassani-admin
+ln -sf /etc/nginx/sites-available/nassani-admin /etc/nginx/sites-enabled/nassani-admin
 rm -f /etc/nginx/sites-enabled/default
 
 echo "==> Phase 1: domain HTTP for ACME"
-cp "$ROOT/deploy/contabo/nginx/osmanitv-acme-http.conf" /etc/nginx/sites-available/osmanitv-domains
-ln -sf /etc/nginx/sites-available/osmanitv-domains /etc/nginx/sites-enabled/osmanitv-domains
+cp "$ROOT/deploy/contabo/nginx/nassanitv-acme-http.conf" /etc/nginx/sites-available/nassanitv-domains
+ln -sf /etc/nginx/sites-available/nassanitv-domains /etc/nginx/sites-enabled/nassanitv-domains
 nginx -t
 systemctl enable nginx
 systemctl restart nginx
@@ -82,18 +82,18 @@ if ! command -v certbot >/dev/null 2>&1; then
   DEBIAN_FRONTEND=noninteractive apt-get install -y certbot
 fi
 
-CERT_DIR="/etc/letsencrypt/live/osmanitv.com"
+CERT_DIR="/etc/letsencrypt/live/nassanitv.com"
 if [[ ! -f "$CERT_DIR/fullchain.pem" ]]; then
   echo "==> Requesting Let's Encrypt certificate (webroot)"
   certbot certonly --webroot -w /var/www/certbot \
-    --cert-name osmanitv.com \
-    -d api.osmanitv.com -d admin.osmanitv.com -d osmanitv.com \
+    --cert-name nassanitv.com \
+    -d api.nassanitv.com -d admin.nassanitv.com -d nassanitv.com \
     --email "$EMAIL" --agree-tos --non-interactive --no-eff-email
 fi
 
 echo "==> Phase 2: HTTPS vhosts"
-cp "$ROOT/deploy/contabo/nginx/osmanitv-domains.conf" /etc/nginx/sites-available/osmanitv-domains
-ln -sf /etc/nginx/sites-available/osmanitv-domains /etc/nginx/sites-enabled/osmanitv-domains
+cp "$ROOT/deploy/contabo/nginx/nassanitv-domains.conf" /etc/nginx/sites-available/nassanitv-domains
+ln -sf /etc/nginx/sites-available/nassanitv-domains /etc/nginx/sites-enabled/nassanitv-domains
 nginx -t
 systemctl reload nginx
 
@@ -110,9 +110,9 @@ diag
 
 echo "==> HTTPS verification"
 fail=0
-health_code="$(curl -sS -o /dev/null -w '%{http_code}' --max-time 20 'https://api.osmanitv.com/api/health' || echo 000)"
-root_code="$(curl -sS -o /dev/null -w '%{http_code}' --max-time 20 'https://api.osmanitv.com/' || echo 000)"
-for pair in "https://api.osmanitv.com/api/health:${health_code}" "https://api.osmanitv.com/:${root_code}"; do
+health_code="$(curl -sS -o /dev/null -w '%{http_code}' --max-time 20 'https://api.nassanitv.com/api/health' || echo 000)"
+root_code="$(curl -sS -o /dev/null -w '%{http_code}' --max-time 20 'https://api.nassanitv.com/' || echo 000)"
+for pair in "https://api.nassanitv.com/api/health:${health_code}" "https://api.nassanitv.com/:${root_code}"; do
   url="${pair%%:*}"
   code="${pair##*:}"
   if [[ "$code" == "200" ]]; then

@@ -2,8 +2,8 @@
 /** Side-by-side API snapshot for both admin backends (production proof). */
 import { writeFileSync } from 'node:fs'
 
-const VPS = 'https://api.osmanitv.com'
-const RENDER = 'https://osmani-admin-api.onrender.com'
+const VPS = 'https://api.nassanitv.com'
+const RENDER = 'https://api.nassanitv.com'
 const TOKEN = process.env.ADMIN_TOKEN || '3030'
 const h = { 'X-Admin-Token': TOKEN }
 

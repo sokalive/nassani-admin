@@ -4,7 +4,7 @@
  */
 import assert from 'node:assert/strict'
 
-const API = (process.argv[2] || process.env.API_BASE || 'https://osmani-admin-api.onrender.com').replace(
+const API = (process.argv[2] || process.env.API_BASE || 'https://api.nassanitv.com').replace(
   /\/$/,
   '',
 )
@@ -36,7 +36,7 @@ for (const ch of mpingo.slice(0, 3)) {
       headers: { 'User-Agent': 'Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 Chrome/124 Mobile' },
     })
     const body = await r.text()
-    const baseMatch = body.match(/<base href="([^"]+)"[^>]*data-osmani-mpingo-base="1"/i)
+    const baseMatch = body.match(/<base href="([^"]+)"[^>]*data-nassani-mpingo-base="1"/i)
     Object.assign(entry, {
       status: r.status,
       has_base_tag: Boolean(baseMatch),
@@ -74,7 +74,7 @@ for (const ch of ycn.slice(0, 2)) {
     name: ch.name,
     status: r.status,
     extm3u: body.trimStart().startsWith('#EXTM3U'),
-    has_mpingo_base: body.includes('data-osmani-mpingo-base'),
+    has_mpingo_base: body.includes('data-nassani-mpingo-base'),
   }
   try {
     assert.equal(r.status, 200, `ycn ${ch.id} status`)

@@ -1,55 +1,55 @@
 # Admin frontend migration: Render → VPS
 
-Migrate **admin UI only** (`osmani-admin-mpya`) to Contabo. Keep **Render API** (`osmani-admin-api`) online for legacy production APK users until final APK cutover.
+Migrate **admin UI only** (`nassani-admin-mpya`) to Contabo. Keep **Render API** (`nassani-admin-api`) online for legacy production APK users until final APK cutover.
 
 ## Current architecture
 
 | Service | Host | Role |
 |---------|------|------|
-| **osmani-admin-mpya** (Render static) | `https://osmani-admin-mpya.onrender.com` | Admin SPA (legacy deploy; bundle may reference Render API) |
-| **osmani-admin-api** (Render Node) | `https://osmani-admin-api.onrender.com` | **Legacy APK API** — keep running |
-| **VPS nginx + Node** | `http://144.91.117.90` | Admin SPA + API (same-origin `/api`) |
+| **nassani-admin-mpya** (Render static) | `https://admin.nassanitv.com` | Admin SPA (legacy deploy; bundle may reference Render API) |
+| **nassani-admin-api** (Render Node) | `https://api.nassanitv.com` | **Legacy APK API** — keep running |
+| **VPS nginx + Node** | `http://62.171.131.113` | Admin SPA + API (same-origin `/api`) |
 
 Both APIs use the same Vultr PostgreSQL database.
 
 ## Render static site (`render.yaml`)
 
 ```yaml
-name: osmani-admin-mpya
+name: nassani-admin-mpya
 runtime: static
 buildCommand: npm ci && npm run build
 staticPublishPath: dist
 routes: /* → /index.html
 ```
 
-Render builds **without** `VITE_API_BASE_URL`, so newer builds use same-origin `/api` — but the **hosted URL** is still `osmani-admin-mpya.onrender.com`, which proxies to Render’s CDN, not VPS.
+Render builds **without** `VITE_API_BASE_URL`, so newer builds use same-origin `/api` — but the **hosted URL** is still `admin.nassanitv.com`, which proxies to Render’s CDN, not VPS.
 
 ## VPS admin (implemented)
 
 `deploy/contabo/apply-cutover.sh`:
 
 1. `VITE_API_BASE_URL=` (empty) → admin uses `https://<host>/api` via nginx
-2. `npm run build` → `dist/` synced to `/var/www/osmani-admin-api/dist`
+2. `npm run build` → `dist/` synced to `/var/www/nassani-admin/dist`
 3. nginx serves SPA + proxies `/api/` → Node `:10001`
 
-nginx config: `deploy/contabo/nginx-osmani-admin.conf`
+nginx config: `deploy/contabo/nginx-nassani-admin.conf`
 
 ## Domain routing (optional)
 
-Point DNS **A record** for admin hostname to `144.91.117.90`:
+Point DNS **A record** for admin hostname to `62.171.131.113`:
 
 | Record | Value |
 |--------|--------|
-| `admin.osmani.tv` | `144.91.117.90` |
+| `admin.nassanitv.com` | `62.171.131.113` |
 
-nginx `server_name` includes `admin.osmani.tv`. After DNS propagates, use `http://admin.osmani.tv` (add TLS with certbot when ready).
+nginx `server_name` includes `admin.nassanitv.com`. After DNS propagates, use `http://admin.nassanitv.com` (add TLS with certbot when ready).
 
-**Do not** point `api.osmani.tv` or APK API hostnames at VPS until legacy APK cutover is complete.
+**Do not** point `api.nassanitv.com` or APK API hostnames at VPS until legacy APK cutover is complete.
 
 ## Deploy admin to VPS
 
 ```bash
-cd /var/www/osmani-admin-api
+cd /var/www/nassani-admin
 git pull origin main
 bash deploy/contabo/apply-cutover.sh
 node deploy/contabo/verify-admin-vps.mjs
@@ -66,7 +66,7 @@ Run from any machine:
 node deploy/contabo/verify-admin-vps.mjs
 ```
 
-Manual browser checks on `http://144.91.117.90` (or `admin.osmani.tv`):
+Manual browser checks on `http://62.171.131.113` (or `admin.nassanitv.com`):
 
 - [ ] Login / admin token or email OTP
 - [ ] Channels — list loads, edit saves
@@ -93,28 +93,28 @@ Render API must stay **200** on all legacy endpoints.
 - [ ] `verify-admin-vps.mjs` → `failed: 0`
 - [ ] `verify-cutover.mjs` → `failed: 0`
 - [ ] `verify:apk-backward-compat` → Render **0 failures** (legacy APK)
-- [ ] Team uses VPS URL (`http://144.91.117.90` or `admin.osmani.tv`) for daily admin work
+- [ ] Team uses VPS URL (`http://62.171.131.113` or `admin.nassanitv.com`) for daily admin work
 - [ ] DNS updated if using custom admin domain
 
 ### Steps (Render Dashboard)
 
-1. Open [Render Dashboard](https://dashboard.render.com) → **osmani-admin-mpya** (Static Site).
-2. **Do not** suspend or delete **osmani-admin-api** (Node API).
-3. For **osmani-admin-mpya** only:
+1. Open [Render Dashboard](https://dashboard.render.com) → **nassani-admin-mpya** (Static Site).
+2. **Do not** suspend or delete **nassani-admin-api** (Node API).
+3. For **nassani-admin-mpya** only:
    - **Option A (recommended):** Settings → **Suspend** service (stops billing, reversible).
    - **Option B:** Delete static site (only if suspend is unavailable).
-4. Optional: add redirect on DNS/CDN from `osmani-admin-mpya.onrender.com` to VPS admin URL (not required if team bookmarks VPS).
-5. Re-run `npm run verify:apk-backward-compat` — confirm legacy APK endpoints on `osmani-admin-api.onrender.com` still pass.
+4. Optional: add redirect on DNS/CDN from `admin.nassanitv.com` to VPS admin URL (not required if team bookmarks VPS).
+5. Re-run `npm run verify:apk-backward-compat` — confirm legacy APK endpoints on `api.nassanitv.com` still pass.
 
 ### What stays on Render
 
 | Service | Action |
 |---------|--------|
-| `osmani-admin-api` | **Keep live** — legacy APK |
-| `osmani-admin-mpya` | Suspend after VPS verified |
+| `nassani-admin-api` | **Keep live** — legacy APK |
+| `nassani-admin-mpya` | Suspend after VPS verified |
 | Postgres (if Render-hosted) | Unchanged — production DB is Vultr |
 
 ### Rollback
 
-1. Resume **osmani-admin-mpya** on Render.
+1. Resume **nassani-admin-mpya** on Render.
 2. VPS admin remains available in parallel (no conflict).

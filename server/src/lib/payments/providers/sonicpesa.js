@@ -114,8 +114,8 @@ export function buildCreateOrderPayload(cred, { phone, amount, orderId, currency
   const amountInt = Math.round(Number(amount))
   const accountId = String(process.env.SONICPESA_ACCOUNT_ID || cred?.accountId || '').trim()
   const payload = {
-    buyer_email: String(process.env.SONICPESA_BUYER_EMAIL || 'customer@osmani.tv').trim(),
-    buyer_name: String(process.env.SONICPESA_BUYER_NAME || 'Osmani Customer').trim(),
+    buyer_email: String(process.env.SONICPESA_BUYER_EMAIL || 'customer@nassanitv.com').trim(),
+    buyer_name: String(process.env.SONICPESA_BUYER_NAME || 'Nassani Customer').trim(),
     buyer_phone: buyerPhone,
     amount: amountInt,
     currency: String(currency || 'TZS').trim() || 'TZS',

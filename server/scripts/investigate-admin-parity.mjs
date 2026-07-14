@@ -2,11 +2,11 @@
 /**
  * Production admin parity investigation — VPS vs Render vs GitHub.
  */
-const VPS_ADMIN = 'https://admin.osmanitv.com'
-const RENDER_ADMIN = 'https://osmani-admin-mpya.onrender.com'
-const VPS_API = 'https://api.osmanitv.com'
-const RENDER_API = 'https://osmani-admin-api.onrender.com'
-const GITHUB = 'https://api.github.com/repos/sokalive/osmani-admin/commits/main'
+const VPS_ADMIN = 'https://admin.nassanitv.com'
+const RENDER_ADMIN = 'https://admin.nassanitv.com'
+const VPS_API = 'https://api.nassanitv.com'
+const RENDER_API = 'https://api.nassanitv.com'
+const GITHUB = 'https://api.github.com/repos/sokalive/nassani-admin/commits/main'
 
 const MARKERS = [
   'Muhtasari',

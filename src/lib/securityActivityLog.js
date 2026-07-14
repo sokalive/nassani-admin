@@ -18,4 +18,4 @@ export async function appendSecurityLog(entry) {
 }
 
 /** @deprecated kept for compatibility; use appendSecurityLog only */
-export const SECURITY_LOGS_SYNC = 'osmani-security-logs-sync'
+export const SECURITY_LOGS_SYNC = 'nassani-security-logs-sync'

@@ -110,7 +110,7 @@ function Sidebar() {
         className="mb-5 shrink-0 rounded-2xl border border-slate-700/50 bg-slate-800/40 px-4 py-3 shadow-[0_10px_30px_rgba(0,0,0,0.25)] transition-opacity hover:opacity-95"
       >
         <p className="text-xs uppercase tracking-[0.3em] text-slate-400">Streaming</p>
-        <h1 className="mt-1 text-2xl font-bold text-white">Osmani TV</h1>
+        <h1 className="mt-1 text-2xl font-bold text-white">Nassani TV</h1>
       </NavLink>
 
       <nav

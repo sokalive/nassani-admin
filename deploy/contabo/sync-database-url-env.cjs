@@ -3,14 +3,14 @@
  * Find live DATABASE_URL (disk + PM2) and ensure a quoted line in server/.env.
  * Bash `source` on .env breaks when passwords contain $, !, &, etc.; Node parsing does not.
  *
- * Usage: node deploy/contabo/sync-database-url-env.cjs [/var/www/osmani-admin-api]
+ * Usage: node deploy/contabo/sync-database-url-env.cjs [/var/www/nassani-admin]
  */
 const fs = require('node:fs')
 const path = require('node:path')
 const { execSync } = require('node:child_process')
 const { loadContaboPm2Env, loadEnvFile } = require('./loadPm2Env.cjs')
 
-const ROOT = process.argv[2] || process.env.OSMANI_ADMIN_ROOT || '/var/www/osmani-admin-api'
+const ROOT = process.argv[2] || process.env.NASSANI_ADMIN_ROOT || '/var/www/nassani-admin'
 const API_DIR = path.join(ROOT, 'server')
 const ENV_FILE = path.join(API_DIR, '.env')
 
@@ -21,7 +21,7 @@ const FILE_CANDIDATES = [
   path.join(ROOT, '.env.local'),
   path.join(API_DIR, '.env.backup'),
   path.join(ROOT, '.env.backup'),
-  '/root/.osmani-admin.env',
+  '/root/.nassani-admin.env',
 ]
 
 function fingerprint(url) {
@@ -52,11 +52,11 @@ function readFromPm2() {
       stdio: ['ignore', 'pipe', 'ignore'],
     })
     const list = JSON.parse(raw)
-    const app = list.find((a) => a && a.name === 'osmani-admin-api')
+    const app = list.find((a) => a && a.name === 'nassani-admin-api')
     const env = app?.pm2_env || {}
     const value = String(env.DATABASE_URL || env.env?.DATABASE_URL || '').trim()
     if (!value) return null
-    return { value, source: 'pm2:osmani-admin-api' }
+    return { value, source: 'pm2:nassani-admin-api' }
   } catch {
     return null
   }

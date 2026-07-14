@@ -31,7 +31,7 @@ deviceSecurityRouter.use('/security-logs', requireAdminPanelAccess)
 deviceSecurityRouter.use('/transfer-codes', requireAdminPanelAccess)
 
 const TRANSFER_CODE_TTL_MINUTES = Math.max(5, Number(process.env.TRANSFER_CODE_TTL_MINUTES) || 30)
-const FINGERPRINT_SALT = String(process.env.FINGERPRINT_HASH_SALT || 'osmani-fp-v1')
+const FINGERPRINT_SALT = String(process.env.FINGERPRINT_HASH_SALT || 'nassani-fp-v1')
 
 function text(v, max = 256) {
   return String(v ?? '')

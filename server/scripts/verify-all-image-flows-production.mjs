@@ -4,7 +4,7 @@
  *
  *   node server/scripts/verify-all-image-flows-production.mjs
  */
-const API = String(process.env.API || 'https://api.osmanitv.com').replace(/\/$/, '')
+const API = String(process.env.API || 'https://api.nassanitv.com').replace(/\/$/, '')
 const TOKEN = String(process.env.ADMIN_TOKEN || process.env.ADMIN_API_TOKEN || '3030').trim()
 const AZAM_CHANNEL_ID = Number(process.env.AZAM_CHANNEL_ID || 18)
 

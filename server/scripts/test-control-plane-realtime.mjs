@@ -16,7 +16,7 @@ function assert(name, ok, detail = '') {
 const root = path.join(__dirname, '..')
 const read = (rel) => fs.readFileSync(path.join(root, rel), 'utf8')
 
-assert('device subscription relay exists', read('src/lib/deviceSubscriptionRelay.js').includes('osmani_device_subscription'))
+assert('device subscription relay exists', read('src/lib/deviceSubscriptionRelay.js').includes('nassani_device_subscription'))
 assert('relay wired in index', read('src/index.js').includes('wireDeviceSubscriptionRelay'))
 assert('lookup endpoint', read('src/routes/users.js').includes("usersRouter.get('/lookup'"))
 assert('admin user lookup lib', read('src/lib/adminUserLookup.js').includes('lookupAdminUserHistory'))
@@ -36,7 +36,7 @@ assert(
 )
 
 async function liveChecks() {
-  const API = String(process.env.VPS_API || 'https://api.osmanitv.com').replace(/\/+$/, '')
+  const API = String(process.env.VPS_API || 'https://api.nassanitv.com').replace(/\/+$/, '')
   const TOKEN = String(process.env.ADMIN_TOKEN || '3030').trim()
   async function admin(p, opts = {}) {
     const res = await fetch(`${API}${p}`, {

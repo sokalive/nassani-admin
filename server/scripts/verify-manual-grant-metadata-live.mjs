@@ -2,7 +2,7 @@
  * Production verify: manual-grant metadata vs grant history (read-only HTTP).
  * Usage: node server/scripts/verify-manual-grant-metadata-live.mjs [baseUrl] [adminToken]
  */
-const base = (process.argv[2] || 'https://osmani-admin-api.onrender.com').replace(/\/$/, '')
+const base = (process.argv[2] || 'https://api.nassanitv.com').replace(/\/$/, '')
 const adminToken = process.argv[3] || process.env.ADMIN_PANEL_TOKEN || '3030'
 
 const EXPECT = {

@@ -2,8 +2,8 @@
 /**
  * SonicPesa real webhook + match-day closure harness (engineering probes only — no real charges).
  */
-const API = String(process.env.VPS_API || 'https://api.osmanitv.com').replace(/\/+$/, '')
-const RENDER = String(process.env.RENDER_API || 'https://osmani-admin-api.onrender.com').replace(/\/+$/, '')
+const API = String(process.env.VPS_API || 'https://api.nassanitv.com').replace(/\/+$/, '')
+const RENDER = String(process.env.RENDER_API || 'https://api.nassanitv.com').replace(/\/+$/, '')
 const TOKEN = String(process.env.ADMIN_API_TOKEN || '3030').trim()
 
 const results = { checks: [], concurrency: null, readiness: null, dry_run: null }
@@ -52,7 +52,7 @@ async function burst(n) {
           transid: `TXN_${i}`,
           synthetic_fixture: true,
         },
-        { 'X-Osmani-Engineering-Probe': '1' },
+        { 'X-Nassani-Engineering-Probe': '1' },
       ).then((code) => {
         latencies.push(Date.now() - s)
         statusCounts[code] = (statusCounts[code] || 0) + 1
@@ -91,14 +91,14 @@ async function main() {
     transid: 'TXN_OWNER_SCHEMA',
     synthetic_fixture: true,
   }
-  const ownerStatus = await postWebhook(ownerSchema, { 'X-Osmani-Engineering-Probe': '1' })
+  const ownerStatus = await postWebhook(ownerSchema, { 'X-Nassani-Engineering-Probe': '1' })
   pass('owner payload schema accepted', ownerStatus === 200, `HTTP ${ownerStatus}`)
 
   pass('empty body rejected', (await postWebhook({})) === 400)
   pass('malformed rejected', (await postWebhook('not-json')) === 400 || true) // express may 400
 
   const dupOrder = `dup_closure_${Date.now()}`
-  const dupCodes = await Promise.all(Array.from({ length: 10 }, () => postWebhook({ ...ownerSchema, order_id: dupOrder }, { 'X-Osmani-Engineering-Probe': '1' })))
+  const dupCodes = await Promise.all(Array.from({ length: 10 }, () => postWebhook({ ...ownerSchema, order_id: dupOrder }, { 'X-Nassani-Engineering-Probe': '1' })))
   pass('duplicate x10 idempotent', dupCodes.every((c) => c === 200), dupCodes.join(','))
 
   const metrics = (await adminJson(`${API}/api/runtime/sonicpesa-reliability-metrics?days=30`)).body

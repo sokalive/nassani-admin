@@ -4,8 +4,8 @@
 
 | Client | API host | Status |
 |--------|----------|--------|
-| **Old production APK** (Play Store ≤ v17) | `https://osmani-admin-api.onrender.com` | Must stay on Render until DNS/APK cutover |
-| **New VPS APK** | `http://144.91.117.90` (Contabo) | Same codebase + same PostgreSQL |
+| **Old production APK** (Play Store ≤ v17) | `https://api.nassanitv.com` | Must stay on Render until DNS/APK cutover |
+| **New VPS APK** | `http://62.171.131.113` (Contabo) | Same codebase + same PostgreSQL |
 
 Both hosts share the Vultr database. Do **not** disable Render until all legacy APK users are migrated or pointed at VPS.
 
@@ -15,9 +15,9 @@ Both hosts share the Vultr database. Do **not** disable Render until all legacy 
 `GET /api/server-health`, `/api/settings`, `/api/popup-settings` returned 401 when `ADMIN_PANEL_AUTH_REQUIRED=true`.
 
 ### 2. Contabo `.env.cutover` leaked onto Render (fixed after `51efc36`)
-`server/.env.cutover` set `STREAM_API_BASE_URL=http://144.91.117.90`. It auto-loaded on **Render** too, so channel responses from Render pointed playback at the VPS (cleartext HTTP). Legacy APK bootstrap can treat that as unreachable.
+`server/.env.cutover` set `STREAM_API_BASE_URL=http://62.171.131.113`. It auto-loaded on **Render** too, so channel responses from Render pointed playback at the VPS (cleartext HTTP). Legacy APK bootstrap can treat that as unreachable.
 
-**Fix:** load `.env.cutover` only when `OSMANI_LOAD_CUTOVER_ENV=1` (Contabo PM2). Render uses dashboard `BASE_URL` + request host for streams.
+**Fix:** load `.env.cutover` only when `NASSANI_LOAD_CUTOVER_ENV=1` (Contabo PM2). Render uses dashboard `BASE_URL` + request host for streams.
 
 ### 3. `online_channels === 0` connectivity gate
 When upstream probes fail, `GET /api/server-health` could return `online_channels: 0` while the API is healthy. Legacy APK shows **"Muunganisho wa Intaneti Unahitajika"** in that case.
@@ -78,5 +78,5 @@ Probes Render (old APK) and VPS (new APK) for all public legacy contracts.
 - [ ] `verify:apk-backward-compat` → 0 failures on both hosts
 - [ ] Force update remains disabled (`update_force=false`)
 - [ ] Render service stays **live**
-- [ ] Optional: point `api.osmani.tv` CNAME to Render until APK base URL changes
+- [ ] Optional: point `api.nassanitv.com` CNAME to Render until APK base URL changes
 - [ ] Final cutover: new APK release with VPS base URL, then retire Render

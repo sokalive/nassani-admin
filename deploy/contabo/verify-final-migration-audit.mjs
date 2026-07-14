@@ -1,15 +1,15 @@
 /**
- * Final Osmani TV migration audit — Render API, VPS, Vultr DB parity.
+ * Final Nassani TV migration audit — Render API, VPS, Vultr DB parity.
  *
  * Usage:
  *   node deploy/contabo/verify-final-migration-audit.mjs
  *   EXPECT_VPS_COMMIT=0a62176 node deploy/contabo/verify-final-migration-audit.mjs
  */
-const RENDER_API = String(process.env.RENDER_API || 'https://osmani-admin-api.onrender.com').replace(/\/$/, '')
-const VPS_API = String(process.env.VPS_API || 'https://api.osmanitv.com').replace(/\/$/, '')
-const VPS_ADMIN = String(process.env.VPS_ADMIN || 'https://admin.osmanitv.com').replace(/\/$/, '')
-const RENDER_ADMIN = String(process.env.RENDER_ADMIN || 'https://osmani-admin-mpya.onrender.com').replace(/\/$/, '')
-const RENDER_TV = String(process.env.RENDER_TV || 'https://osmani-tv.onrender.com').replace(/\/$/, '')
+const RENDER_API = String(process.env.RENDER_API || 'https://api.nassanitv.com').replace(/\/$/, '')
+const VPS_API = String(process.env.VPS_API || 'https://api.nassanitv.com').replace(/\/$/, '')
+const VPS_ADMIN = String(process.env.VPS_ADMIN || 'https://admin.nassanitv.com').replace(/\/$/, '')
+const RENDER_ADMIN = String(process.env.RENDER_ADMIN || 'https://admin.nassanitv.com').replace(/\/$/, '')
+const RENDER_TV = String(process.env.RENDER_TV || 'https://nassanitv.com').replace(/\/$/, '')
 const PROBE_DEVICE = process.env.PROBE_DEVICE || 'migration-audit-probe'
 const ADMIN_TOKEN = process.env.ADMIN_TOKEN || process.env.ADMIN_API_TOKEN || '3030'
 
@@ -224,7 +224,7 @@ async function waitForRenderCommitParity(vpsCommit, { maxMs = 600_000, intervalM
 }
 
 async function main() {
-  console.log('=== Osmani TV final migration audit ===\n')
+  console.log('=== Nassani TV final migration audit ===\n')
 
   await probeService('render-api', RENDER_API, { isApi: true })
   await probeService('vps-api', VPS_API, { isApi: true })
@@ -291,12 +291,12 @@ async function main() {
     const rh = streamApiHosts(rch.body)
     const vh = streamApiHosts(vch.body)
     pass('stream:render-hosts', JSON.stringify(rh))
-    if (VPS_API.startsWith('https://') && vh.proxy_playback_url && !String(vh.proxy_playback_url).includes('144.91.117.90')) {
+    if (VPS_API.startsWith('https://') && vh.proxy_playback_url && !String(vh.proxy_playback_url).includes('62.171.131.113')) {
       pass('stream:vps-hosts', JSON.stringify(vh))
     } else if (!VPS_API.startsWith('https://')) {
       pass('stream:vps-hosts', JSON.stringify(vh))
     } else {
-      fail('stream:vps-hosts', `expected api.osmanitv.com over HTTPS probe — ${JSON.stringify(vh)}`)
+      fail('stream:vps-hosts', `expected api.nassanitv.com over HTTPS probe — ${JSON.stringify(vh)}`)
     }
   } else {
     fail('cutover-status', 'unavailable on one or both hosts')

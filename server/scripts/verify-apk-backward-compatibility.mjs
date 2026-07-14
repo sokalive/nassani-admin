@@ -3,10 +3,10 @@
  *
  * Usage:
  *   node scripts/verify-apk-backward-compatibility.mjs
- *   RENDER_API=https://osmani-admin-api.onrender.com node scripts/verify-apk-backward-compatibility.mjs
+ *   RENDER_API=https://api.nassanitv.com node scripts/verify-apk-backward-compatibility.mjs
  */
-const RENDER_API = String(process.env.RENDER_API || 'https://osmani-admin-api.onrender.com').replace(/\/$/, '')
-const VPS_API = String(process.env.VPS_API || 'http://144.91.117.90').replace(/\/$/, '')
+const RENDER_API = String(process.env.RENDER_API || 'https://api.nassanitv.com').replace(/\/$/, '')
+const VPS_API = String(process.env.VPS_API || 'http://62.171.131.113').replace(/\/$/, '')
 const PROBE_DEVICE = 'apk-compat-probe-device'
 const VERIFY_VPS = String(process.env.VERIFY_VPS ?? '1').trim() !== '0'
 

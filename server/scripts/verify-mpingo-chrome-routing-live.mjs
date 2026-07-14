@@ -4,7 +4,7 @@
  */
 import assert from 'node:assert/strict'
 
-const API = (process.argv[2] || 'https://osmani-admin-api.onrender.com').replace(/\/$/, '')
+const API = (process.argv[2] || 'https://api.nassanitv.com').replace(/\/$/, '')
 
 const r = await fetch(`${API}/api/channels`)
 assert.equal(r.ok, true, `GET /api/channels ${r.status}`)

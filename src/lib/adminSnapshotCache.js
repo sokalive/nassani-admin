@@ -1,6 +1,6 @@
 /** Session-scoped last-known-good admin snapshots (no secrets). */
 
-const NS = 'osmani_admin_snap_v2'
+const NS = 'nassani_admin_snap_v2'
 
 function key(page) {
   const host = typeof window !== 'undefined' ? window.location.host : 'server'
@@ -8,7 +8,7 @@ function key(page) {
 }
 
 /** @deprecated v1 keys — read once for migration */
-const NS_V1 = 'osmani_admin_snap_v1'
+const NS_V1 = 'nassani_admin_snap_v1'
 
 export function readAdminSnapshot(page) {
   if (typeof sessionStorage === 'undefined') return null

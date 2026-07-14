@@ -1,7 +1,7 @@
 {
   "generated_at": "2026-07-04T00:53:48.048Z",
-  "vps": "https://api.osmanitv.com",
-  "render": "https://osmani-admin-api.onrender.com",
+  "vps": "https://api.nassanitv.com",
+  "render": "https://api.nassanitv.com",
   "repair_run": false,
   "commits": {
     "vps": "6e8110dce6f033b1269a52d9253c4726a854ca2b",

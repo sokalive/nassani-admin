@@ -7,7 +7,7 @@
  *   PAID_DEVICE_ID=85970ee4273c6ca8 node scripts/capacity-regression-staged.mjs
  *   STAGES=50,100 STAGE_DURATION_SEC=60 node scripts/capacity-regression-staged.mjs
  */
-const VPS = String(process.env.VPS_API || 'https://api.osmanitv.com').replace(/\/+$/, '')
+const VPS = String(process.env.VPS_API || 'https://api.nassanitv.com').replace(/\/+$/, '')
 const STAGES = (process.env.STAGES || '50,100,200,300,500')
   .split(',')
   .map((s) => parseInt(s.trim(), 10))

@@ -24,7 +24,7 @@ export function getDirectStreamRolloutPercent() {
 }
 
 function rolloutSalt() {
-  return String(process.env.DIRECT_STREAM_ROLLOUT_SALT || 'osmani-stream-rollout-v1').trim()
+  return String(process.env.DIRECT_STREAM_ROLLOUT_SALT || 'nassani-stream-rollout-v1').trim()
 }
 
 /** @returns {Set<string>} */

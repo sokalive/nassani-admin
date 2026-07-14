@@ -168,7 +168,7 @@ function resolveNotificationImageForApi(imageField, req) {
 function toApiNotification(row, req = null) {
   if (!row) return null
   const p = sanitizePayload(row.payload)
-  const targetType = text(row.target_type, 512) || 'osmani://home'
+  const targetType = text(row.target_type, 512) || 'nassani://home'
   const destination = destinationFromPayloadAndTargetType(p, targetType)
   const recurrenceKind = text(row.recurrence_kind, 32) || 'once'
   return {
@@ -917,7 +917,7 @@ export async function recordSystemNotificationEvent(event, payload = {}) {
        severity, source_event, payload, clicks, is_active, schedule_at, sent_at, expires_at,
        created_by, updated_at
      ) VALUES (
-       'system', $1, $2, '', 'all', 'osmani://home', 'sent', 'sent',
+       'system', $1, $2, '', 'all', 'nassani://home', 'sent', 'sent',
        $3, $4, $5::jsonb, 0, true, NULL, now(), NULL,
        'system', now()
      )

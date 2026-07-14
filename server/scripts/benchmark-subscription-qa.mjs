@@ -2,12 +2,12 @@
  * QA benchmark: subscription verify + premium gate endpoints (VPS).
  *
  * Optional env:
- *   VPS_API=https://api.osmanitv.com
+ *   VPS_API=https://api.nassanitv.com
  *   BENCH_ACTIVE_DEVICE_ID=<known active subscriber>
  *   BENCH_STALE_ORDER_ID=<old pending/completed order_id stored on device>
  */
-const VPS = String(process.env.VPS_API || 'https://api.osmanitv.com').replace(/\/+$/, '')
-const RENDER = String(process.env.RENDER_API || 'https://osmani-admin-api.onrender.com').replace(/\/+$/, '')
+const VPS = String(process.env.VPS_API || 'https://api.nassanitv.com').replace(/\/+$/, '')
+const RENDER = String(process.env.RENDER_API || 'https://api.nassanitv.com').replace(/\/+$/, '')
 const ACTIVE_DEVICE = String(process.env.BENCH_ACTIVE_DEVICE_ID || '').trim()
 const STALE_ORDER = String(process.env.BENCH_STALE_ORDER_ID || 'osm_sp_fake_stale_hint').trim()
 

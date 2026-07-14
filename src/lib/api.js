@@ -7,14 +7,14 @@ const API_BASE_ENV = String(
 ).trim()
 
 /** Render static admin must call the VPS API (shared PostgreSQL; uploads live on VPS disk). */
-const VPS_PRODUCTION_API = 'https://api.osmanitv.com/api'
+const VPS_PRODUCTION_API = 'https://api.nassanitv.com/api'
 
 function resolveBrowserApiBase(origin) {
   const host = String(origin || '')
     .replace(/^https?:\/\//i, '')
     .split('/')[0]
     .toLowerCase()
-  if (host === 'osmani-admin-mpya.onrender.com') {
+  if (host === 'admin.nassanitv.com') {
     return VPS_PRODUCTION_API
   }
   return `${String(origin).replace(/\/$/, '')}/api`
@@ -486,7 +486,7 @@ export function subscriptionStreamUrl(deviceId, opts = {}) {
 export const postAcknowledgeManualGift = (body) =>
   apiPost('/subscription/acknowledge-manual-gift', body)
 
-const ADMIN_SECURITY_GATE_KEY = 'osmani_admin_security_gate'
+const ADMIN_SECURITY_GATE_KEY = 'nassani_admin_security_gate'
 
 export function getAdminSecurityGateToken() {
   if (typeof sessionStorage === 'undefined') return ''

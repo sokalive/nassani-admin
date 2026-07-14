@@ -1,6 +1,6 @@
 #!/usr/bin/env node
-const VPS = 'https://admin.osmanitv.com'
-const R = 'https://osmani-admin-mpya.onrender.com'
+const VPS = 'https://admin.nassanitv.com'
+const R = 'https://admin.nassanitv.com'
 
 async function bundle(u) {
   const html = await fetch(`${u}/`, { cache: 'no-store' }).then((r) => r.text())

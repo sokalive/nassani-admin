@@ -4,11 +4,11 @@
  *
  * Usage:
  *   node server/scripts/verify-phone-gate-transfer-production.mjs
- *   ADMIN_TOKEN=... VPS_API=https://api.osmanitv.com node server/scripts/verify-phone-gate-transfer-production.mjs
+ *   ADMIN_TOKEN=... VPS_API=https://api.nassanitv.com node server/scripts/verify-phone-gate-transfer-production.mjs
  */
 import crypto from 'node:crypto'
 
-const VPS = String(process.env.VPS_API || 'https://api.osmanitv.com').replace(/\/$/, '')
+const VPS = String(process.env.VPS_API || 'https://api.nassanitv.com').replace(/\/$/, '')
 const API = `${VPS}/api`
 const TOKEN = String(process.env.ADMIN_TOKEN || process.env.ADMIN_API_TOKEN || '3030').trim()
 const TEST_PHONE_BASE = String(process.env.TEST_PHONE_BASE || '2557123').trim()

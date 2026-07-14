@@ -3,7 +3,7 @@
  * Physical-device census dry-run: 3 deterministic runs + stability checks.
  * Usage: node server/scripts/verify-physical-device-census-dryrun.mjs
  */
-const VPS = String(process.env.VPS_API || 'https://api.osmanitv.com').replace(/\/+$/, '')
+const VPS = String(process.env.VPS_API || 'https://api.nassanitv.com').replace(/\/+$/, '')
 const TOKEN = String(process.env.ADMIN_TOKEN || '3030').trim()
 
 let failed = 0

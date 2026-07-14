@@ -4,7 +4,7 @@
  */
 import assert from 'node:assert/strict'
 
-const API = (process.argv[2] || 'https://osmani-admin-api.onrender.com').replace(/\/$/, '')
+const API = (process.argv[2] || 'https://api.nassanitv.com').replace(/\/$/, '')
 const UA =
   'Mozilla/5.0 (Android 13; Mobile) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Mobile Safari/537.36'
 
@@ -116,7 +116,7 @@ async function fetchProxiedPlayer(playbackUrl, proxyFallbackUrl) {
     packages: extractPackages(body),
     authSignals: extractAuthSignals(body),
     authBlocks: extractAuthBlocks(body),
-    hasBaseTag: /data-osmani-mpingo-base/i.test(body),
+    hasBaseTag: /data-nassani-mpingo-base/i.test(body),
   }
 }
 

@@ -5,8 +5,8 @@ import { channelToResponse } from '../src/channelNormalize.js'
 
 const req = {
   protocol: 'https',
-  get: (h) => (h === 'host' ? 'osmani-admin-api.onrender.com' : ''),
-  headers: { 'x-forwarded-proto': 'https', 'x-forwarded-host': 'osmani-admin-api.onrender.com' },
+  get: (h) => (h === 'host' ? 'api.nassanitv.com' : ''),
+  headers: { 'x-forwarded-proto': 'https', 'x-forwarded-host': 'api.nassanitv.com' },
 }
 
 process.env.DIRECT_STREAM_SIGNING_ENABLED = '1'
@@ -20,7 +20,7 @@ const prevDirect = process.env.DIRECT_STREAM_BASE_URL
 const prevStreamApi = process.env.STREAM_API_BASE_URL
 
 try {
-  process.env.BASE_URL = 'https://osmanitv.b-cdn.net'
+  process.env.BASE_URL = ''
   delete process.env.DIRECT_STREAM_BASE_URL
   delete process.env.STREAM_API_BASE_URL
 
@@ -30,13 +30,13 @@ try {
     { referer: 'https://het140c.ycn-redirect.com' },
     { channelId: 16 },
   )
-  assert.ok(direct.includes('osmani-admin-api.onrender.com/stream-direct'), `direct url: ${direct}`)
+  assert.ok(direct.includes('api.nassanitv.com/stream-direct'), `direct url: ${direct}`)
   assert.ok(!direct.includes('b-cdn.net'), `must not use bunny: ${direct}`)
 
   const proxy = buildPublicStreamProxyUrl(req, 'http://het103b.ycn-redirect.com/live/x/index.m3u8', {
     referer: 'https://het140c.ycn-redirect.com',
   })
-  assert.ok(proxy.includes('osmani-admin-api.onrender.com/stream-proxy'), `proxy url: ${proxy}`)
+  assert.ok(proxy.includes('api.nassanitv.com/stream-proxy'), `proxy url: ${proxy}`)
   assert.ok(!proxy.includes('b-cdn.net'), `proxy must not use bunny: ${proxy}`)
 
   const ycn = channelToResponse(
@@ -64,16 +64,16 @@ try {
     const v = ycn[field]
     if (typeof v === 'string' && v.includes('/stream-')) {
       assert.ok(!v.includes('b-cdn.net'), `${field} must not be bunny: ${v}`)
-      assert.ok(v.includes('osmani-admin-api.onrender.com'), `${field} must be API host`)
+      assert.ok(v.includes('api.nassanitv.com'), `${field} must be API host`)
     }
   }
   if (ycn.streamProxy?.directPrimaryUrl) {
     assert.ok(!ycn.streamProxy.directPrimaryUrl.includes('b-cdn.net'))
   }
 
-  process.env.STREAM_API_BASE_URL = 'https://osmani-admin-api.onrender.com'
+  process.env.STREAM_API_BASE_URL = 'https://api.nassanitv.com'
   const explicit = buildSignedDirectStreamPlaybackUrl(req, 'http://example.com/a.m3u8', {}, { channelId: 1 })
-  assert.ok(explicit.startsWith('https://osmani-admin-api.onrender.com/stream-direct'))
+  assert.ok(explicit.startsWith('https://api.nassanitv.com/stream-direct'))
 } finally {
   if (prevBase === undefined) delete process.env.BASE_URL
   else process.env.BASE_URL = prevBase

@@ -5,7 +5,7 @@
  *   node server/scripts/verify-subscription-expiry-incident.mjs
  *   DEVICE_ID=c172c09cedb35d39 node server/scripts/verify-subscription-expiry-incident.mjs
  */
-const VPS = String(process.env.VPS_API || 'https://api.osmanitv.com').replace(/\/$/, '')
+const VPS = String(process.env.VPS_API || 'https://api.nassanitv.com').replace(/\/$/, '')
 const API = `${VPS}/api`
 const TOKEN = String(process.env.ADMIN_TOKEN || process.env.ADMIN_API_TOKEN || '3030').trim()
 const DEVICE_ID = String(process.env.DEVICE_ID || 'c172c09cedb35d39').trim()

@@ -2,7 +2,7 @@
   "contract_version": "2026-07-04",
   "app_commit_reference": "af1b1087a40b608e04d8fbac84328fbb93ccd7e6",
   "backend_commit_reference": "cea3d5c2f3550ee7260ccad434eebdb7c3d209b5",
-  "authoritative_api": "https://api.osmanitv.com",
+  "authoritative_api": "https://api.nassanitv.com",
   "sse_endpoint": "/api/subscription-stream?device_id={device_id}",
   "verify_endpoint": "POST /api/subscription/verify",
   "ack_endpoint": "POST /api/subscription/acknowledge-manual-gift",

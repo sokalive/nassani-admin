@@ -5,7 +5,7 @@
 import https from 'node:https'
 import http from 'node:http'
 
-const API = process.env.API_BASE || 'https://osmani-admin-api.onrender.com'
+const API = process.env.API_BASE || 'https://api.nassanitv.com'
 
 const EXO_LIB_UA =
   'Mozilla/5.0 (Linux; Android 13; Pixel 7) AppleWebKit/537.36 (KHTML, like Gecko) ExoPlayerLib/2.19.1'
@@ -88,7 +88,7 @@ function buildProfiles(channel) {
 
   return [
     {
-      name: 'A_osmani_before_fix',
+      name: 'A_nassani_before_fix',
       headers: {
         'User-Agent': dbUa || CHROME_MOBILE_UA,
         Accept: '*/*',
@@ -165,7 +165,7 @@ async function testProductionProxy(channel, label) {
   if (!playback) return { label, error: 'no url' }
   const r = await fetchFollow(playback, {
     name: `PROXY_${label}`,
-    headers: { 'User-Agent': 'OsmaniAudit/1.0', Accept: '*/*' },
+    headers: { 'User-Agent': 'NassaniAudit/1.0', Accept: '*/*' },
   })
   return { label, playback: playback.slice(0, 120), ...r }
 }

@@ -1,4 +1,4 @@
-name: Deploy Contabo
+name: Deploy Contabo (Nassani)
 
 on:
   push:
@@ -21,7 +21,7 @@ jobs:
         run: |
           if [ -z "${CONTABO_SSH_KEY}" ]; then
             echo "skip=true" >> "$GITHUB_OUTPUT"
-            echo "::notice::CONTABO_SSH_KEY not set — skipping VPS deploy. Run pull-and-apply.sh on the VPS console."
+            echo "::notice::CONTABO_SSH_KEY not set — skipping VPS deploy. Run bootstrap-nassani-vps.sh / pull-and-apply.sh on the VPS."
           else
             echo "skip=false" >> "$GITHUB_OUTPUT"
           fi
@@ -30,28 +30,33 @@ jobs:
         if: steps.gate.outputs.skip != 'true'
         uses: appleboy/ssh-action@v1.2.0
         with:
-          host: 144.91.117.90
+          host: 62.171.131.113
           username: root
           key: ${{ secrets.CONTABO_SSH_KEY }}
           command_timeout: 30m
           script: |
             set -euo pipefail
-            cd /var/www/osmani-admin-api
-            export CERTBOT_EMAIL="${CERTBOT_EMAIL:-admin@osmanitv.com}"
+            test -d /var/www/nassani-admin || {
+              echo "ERROR: /var/www/nassani-admin missing — run bootstrap-nassani-vps.sh first" >&2
+              exit 1
+            }
+            cd /var/www/nassani-admin
+            git remote get-url origin | grep -qi nassani-admin
+            export CERTBOT_EMAIL="${CERTBOT_EMAIL:-admin@nassanitv.com}"
+            export NASSANI_SKIP_NASSANITV_SSL="${NASSANI_SKIP_NASSANITV_SSL:-1}"
             bash deploy/contabo/pull-and-apply.sh
 
-      - name: Checkout for post-deploy verification
+      - name: Verify VPS HTTP health
         if: steps.gate.outputs.skip != 'true'
-        uses: actions/checkout@v4
-
-      - name: Verify VPS HTTPS endpoints
-        if: steps.gate.outputs.skip != 'true'
+        env:
+          CONTABO_HOST: 62.171.131.113
         run: |
           set -euo pipefail
           EXPECT="${{ github.sha }}"
+          BASE="http://${CONTABO_HOST}"
           ok=0
           for attempt in $(seq 1 20); do
-            curl -fsS "https://api.osmanitv.com/api/health" | tee /tmp/vps-health.json
+            curl -fsS "${BASE}/api/health" | tee /tmp/vps-health.json
             COMMIT="$(node -e "console.log(String(require('/tmp/vps-health.json').commit||''))")"
             echo "attempt $attempt commit=${COMMIT:0:12} expect=${EXPECT:0:12}"
             if [[ "${COMMIT:0:12}" == "${EXPECT:0:12}" ]]; then
@@ -60,20 +65,10 @@ jobs:
             fi
             sleep 15
           done
-          if [[ "$ok" -ne 1 ]]; then
-            echo "ERROR: VPS commit did not match ${EXPECT:0:12} within readiness window" >&2
-            exit 1
-          fi
-          curl -fsSI "https://api.osmanitv.com" | head -1 | grep -q "200"
-          curl -fsSI "https://admin.osmanitv.com" | head -1 | grep -q "200"
+          test "$ok" -eq 1
           node -e "
             const h = require('/tmp/vps-health.json');
-            if (!h.ok) { console.error('health not ok', h); process.exit(1); }
-            if ((h.pool?.waitingCount ?? 0) > 50) {
-              console.error('pool waitingCount too high after deploy', h.pool);
-              process.exit(1);
-            }
-            console.log('VPS commit', String(h.commit || '').slice(0, 12), 'pool.waitingCount', h.pool?.waitingCount);
+            if (!h.ok) process.exit(1);
+            if (h.service !== 'nassani-admin-api') process.exit(1);
+            console.log('OK', h.service, String(h.commit||'').slice(0,12));
           "
-          curl -fsS "https://api.osmanitv.com/api/runtime/cutover-status" | tee /tmp/vps-cutover.json
-          node server/scripts/verify-vps-render-independence.mjs

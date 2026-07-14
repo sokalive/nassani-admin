@@ -2,7 +2,7 @@
  * Live verification for Security Center unblock propagation.
  * Usage: node server/scripts/verify-security-unblock-device.mjs [device_id]
  */
-const API = process.env.OSMANI_ADMIN_API || 'https://osmani-admin-api.onrender.com'
+const API = process.env.NASSANI_ADMIN_API || 'https://api.nassanitv.com'
 const TOKEN = process.env.ADMIN_TOKEN || '3030'
 const DEVICE_ID = process.argv[2] || '0523d797b3197a0f'
 

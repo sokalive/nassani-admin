@@ -3,11 +3,11 @@
  * Verify push notification endpoints + OneSignal health on Render and VPS.
  * Usage: node server/scripts/verify-notifications-push-live.mjs
  */
-const RENDER_API = String(process.env.RENDER_API_BASE || 'https://osmani-admin-api.onrender.com').replace(
+const RENDER_API = String(process.env.RENDER_API_BASE || 'https://api.nassanitv.com').replace(
   /\/$/,
   '',
 )
-const VPS_API = String(process.env.VPS_API_BASE || 'https://api.osmanitv.com').replace(/\/$/, '')
+const VPS_API = String(process.env.VPS_API_BASE || 'https://api.nassanitv.com').replace(/\/$/, '')
 const TOKEN = process.env.ADMIN_TOKEN || process.env.ADMIN_API_TOKEN || '3030'
 
 const checks = []

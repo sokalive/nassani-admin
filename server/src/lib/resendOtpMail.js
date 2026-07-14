@@ -17,7 +17,7 @@ export async function sendAdminOtpEmail({ to, otp }) {
 <tr><td align="center">
   <table width="560" style="background:#111827;border-radius:16px;border:1px solid #334155;overflow:hidden;max-width:100%;">
     <tr><td style="padding:28px 28px 12px;">
-      <p style="margin:0;font-size:11px;letter-spacing:0.25em;text-transform:uppercase;color:#fbbf24;">Osmani TV Admin</p>
+      <p style="margin:0;font-size:11px;letter-spacing:0.25em;text-transform:uppercase;color:#fbbf24;">Nassani TV Admin</p>
       <h1 style="margin:12px 0 8px;font-size:22px;color:#fff;">Security verification</h1>
       <p style="margin:0 0 20px;font-size:14px;color:#94a3b8;line-height:1.6;">
         Use this one-time code to verify this browser as a trusted admin device. The code expires in <strong>5 minutes</strong>.
@@ -31,7 +31,7 @@ export async function sendAdminOtpEmail({ to, otp }) {
       </p>
     </td></tr>
     <tr><td style="padding:16px 28px 28px;border-top:1px solid #1e293b;">
-      <p style="margin:0;font-size:11px;color:#64748b;">This is an automated security message from Osmani TV administration.</p>
+      <p style="margin:0;font-size:11px;color:#64748b;">This is an automated security message from Nassani TV administration.</p>
     </td></tr>
   </table>
 </td></tr></table>
@@ -46,7 +46,7 @@ export async function sendAdminOtpEmail({ to, otp }) {
     body: JSON.stringify({
       from,
       to: [to],
-      subject: 'Osmani Admin security code',
+      subject: 'Nassani Admin security code',
       html,
     }),
   })
@@ -80,7 +80,7 @@ export async function sendAnalyticsResetOtpEmail({ to, otp }) {
     body: JSON.stringify({
       from,
       to: [to],
-      subject: 'Osmani Admin — install analytics reset code',
+      subject: 'Nassani Admin — install analytics reset code',
       html: `<!DOCTYPE html><html><body style="font-family:system-ui,sans-serif;background:#0b0f1a;color:#e2e8f0;padding:24px;">
         <p style="font-size:11px;text-transform:uppercase;letter-spacing:0.2em;color:#f87171;">Danger zone</p>
         <h1 style="color:#fff;">Install analytics reset</h1>
@@ -120,7 +120,7 @@ export async function sendAdminSecurityGateOtpEmail({ to, otp }) {
     body: JSON.stringify({
       from,
       to: [to],
-      subject: 'Osmani Admin — Security page access code',
+      subject: 'Nassani Admin — Security page access code',
       html: `<!DOCTYPE html><html><body style="font-family:system-ui,sans-serif;background:#0b0f1a;color:#e2e8f0;padding:24px;">
         <p style="font-size:11px;text-transform:uppercase;letter-spacing:0.2em;color:#34d399;">Admin Security</p>
         <h1 style="color:#fff;">Trusted devices access</h1>

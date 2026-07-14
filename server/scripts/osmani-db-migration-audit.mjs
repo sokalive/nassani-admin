@@ -1,5 +1,5 @@
 /**
- * osmani-db migration feasibility audit — evidence collector.
+ * nassani-db migration feasibility audit — evidence collector.
  * No writes. Read-only queries + Render API metadata.
  *
  * Required (at least one):
@@ -11,9 +11,9 @@
  *   RENDER_BILLING_SNAPSHOT_JSON or server/scripts/billing-snapshot.json
  *
  * Usage:
- *   $env:DATABASE_URL = "postgresql://..."   # from Render → osmani-db → Connect (external)
+ *   $env:DATABASE_URL = "postgresql://..."   # from Render → nassani-db → Connect (external)
  *   $env:RENDER_API_KEY = "rnd_..."
- *   cd server && node scripts/osmani-db-migration-audit.mjs
+ *   cd server && node scripts/nassani-db-migration-audit.mjs
  */
 import pg from 'pg'
 import { readFileSync, existsSync } from 'node:fs'
@@ -24,7 +24,7 @@ const __dir = dirname(fileURLToPath(import.meta.url))
 const { Pool } = pg
 const DB_URL = String(process.env.DATABASE_URL || '').trim()
 const RENDER_KEY = String(process.env.RENDER_API_KEY || '').trim()
-const DB_NAME = 'osmani-db'
+const DB_NAME = 'nassani-db'
 
 async function renderFetch(path, params = {}) {
   const url = new URL(`https://api.render.com/v1${path}`)
@@ -125,7 +125,7 @@ async function queryRenderPostgresMeta() {
       const host = new URL(dbUrl).hostname.toLowerCase()
       const pgHost = String(pg.databaseName || pg.name || '').toLowerCase()
       if (
-        host.includes('osmani') ||
+        host.includes('nassani') ||
         host.includes(String(pg.id).slice(0, 8)) ||
         dbUrl.includes(DB_NAME)
       ) {
@@ -275,7 +275,7 @@ async function main() {
       live_database_sql: liveDb.available ? 'OK' : liveDb.reason,
       billing_snapshot: billing ? 'OK' : 'missing — paste Dashboard → Billing into billing-snapshot.json',
     },
-    '1_render_osmani_db_plan_and_cost': {
+    '1_render_nassani_db_plan_and_cost': {
       render_api: renderMeta,
       billing_snapshot: billing,
       note: 'Exact monthly $ only from Dashboard Billing or billing-snapshot.json',
@@ -290,8 +290,8 @@ async function main() {
           largest_by_est_rows: liveDb.largest_tables_by_est_rows,
         }
       : { code_estimate: codeSchema },
-    '4_production_services_using_osmani_db': renderMeta.linked_services_inferred || {
-      unverified: 'Run with RENDER_API_KEY or confirm Dashboard → osmani-db → connected services',
+    '4_production_services_using_nassani_db': renderMeta.linked_services_inferred || {
+      unverified: 'Run with RENDER_API_KEY or confirm Dashboard → nassani-db → connected services',
     },
     '5_migration_targets_feasibility': {
       note: 'Code-level feasibility; latency/cost need your Render region + target region',

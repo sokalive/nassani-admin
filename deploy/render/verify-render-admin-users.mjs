@@ -1,16 +1,16 @@
 #!/usr/bin/env node
 /**
- * Verify Render legacy admin (osmani-admin-mpya) Users / Subscriptions parity.
+ * Verify Render legacy admin (nassani-admin-mpya) Users / Subscriptions parity.
  *
  * Usage:
  *   node deploy/render/verify-render-admin-users.mjs
  *   ADMIN_TOKEN=3030 node deploy/render/verify-render-admin-users.mjs
  */
-const RENDER_ADMIN = String(process.env.RENDER_ADMIN_BASE || 'https://osmani-admin-mpya.onrender.com').replace(
+const RENDER_ADMIN = String(process.env.RENDER_ADMIN_BASE || 'https://admin.nassanitv.com').replace(
   /\/$/,
   '',
 )
-const RENDER_API = String(process.env.RENDER_API_BASE || 'https://osmani-admin-api.onrender.com').replace(
+const RENDER_API = String(process.env.RENDER_API_BASE || 'https://api.nassanitv.com').replace(
   /\/$/,
   '',
 )
@@ -61,12 +61,12 @@ async function main() {
     if (bundle.res.ok && String(bundle.text).includes('Active Paid')) {
       pass('admin-bundle-users-tabs', 'Users tab UI present in bundle')
     } else if (bundle.res.ok) {
-      fail('admin-bundle-users-tabs', 'bundle missing Active Paid tab strings — redeploy osmani-admin-mpya')
+      fail('admin-bundle-users-tabs', 'bundle missing Active Paid tab strings — redeploy nassani-admin-mpya')
     } else {
       fail('admin-bundle-fetch', `HTTP ${bundle.res.status}`)
     }
-    if (bundle.res.ok && String(bundle.text).includes('osmani-admin-api.onrender.com')) {
-      pass('admin-bundle-api-origin', 'bundle targets osmani-admin-api.onrender.com')
+    if (bundle.res.ok && String(bundle.text).includes('api.nassanitv.com')) {
+      pass('admin-bundle-api-origin', 'bundle targets api.nassanitv.com')
     } else if (bundle.res.ok) {
       fail(
         'admin-bundle-api-origin',

@@ -3,7 +3,7 @@
  * Production manual gift incident — fetch investigation + optional repair.
  * Usage: ADMIN_TOKEN=3030 node server/scripts/final-manual-gift-production-investigation.mjs
  */
-const BASE = String(process.env.VPS_API || 'https://api.osmanitv.com').replace(/\/+$/, '')
+const BASE = String(process.env.VPS_API || 'https://api.nassanitv.com').replace(/\/+$/, '')
 const TOKEN = String(process.env.ADMIN_TOKEN || '3030').trim()
 const REPAIR = String(process.env.REPAIR || '').trim() === '1'
 

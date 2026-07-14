@@ -24,3 +24,9 @@ dist-ssr
 *.sw?
 
 .vercel
+
+.env
+server/.env
+server/.env.cutover.local
+*.pem
+

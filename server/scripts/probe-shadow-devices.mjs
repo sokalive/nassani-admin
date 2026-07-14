@@ -1,7 +1,7 @@
 /**
  * Probe all shadow devices from incident audit for real subscription access.
  */
-const API = String(process.env.API_BASE || 'https://api.osmanitv.com').replace(/\/$/, '')
+const API = String(process.env.API_BASE || 'https://api.nassanitv.com').replace(/\/$/, '')
 const TOKEN = process.env.ADMIN_TOKEN || '3030'
 
 async function audit() {

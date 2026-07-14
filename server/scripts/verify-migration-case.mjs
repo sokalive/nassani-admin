@@ -2,7 +2,7 @@
  * Verify same-phone migration restore for a known old→new device_id pair.
  *
  *   node scripts/verify-migration-case.mjs c0972049aa5f862e b1f6601e048f60af
- *   API_BASE=http://144.91.117.90 node scripts/verify-migration-case.mjs <old_id> <new_id>
+ *   API_BASE=http://62.171.131.113 node scripts/verify-migration-case.mjs <old_id> <new_id>
  */
 const oldId = String(process.argv[2] || '').trim()
 const newId = String(process.argv[3] || '').trim()
@@ -11,7 +11,7 @@ if (!oldId || !newId) {
   process.exit(1)
 }
 
-const API_BASE = String(process.env.API_BASE || 'https://osmani-admin-api.onrender.com').replace(/\/$/, '')
+const API_BASE = String(process.env.API_BASE || 'https://api.nassanitv.com').replace(/\/$/, '')
 const legacyHint = oldId.slice(0, 8)
 
 async function fetchStatus(deviceId, extra = {}) {

@@ -3,8 +3,8 @@
  * Full Part A verification — VPS + Render.
  * Usage: ADMIN_API_TOKEN=... node server/scripts/verify-all-features.mjs
  */
-const VPS = String(process.env.VPS_API_BASE || 'https://api.osmanitv.com/api').replace(/\/$/, '')
-const RENDER = String(process.env.RENDER_API_BASE || 'https://osmani-admin-api.onrender.com/api').replace(/\/$/, '')
+const VPS = String(process.env.VPS_API_BASE || 'https://api.nassanitv.com/api').replace(/\/$/, '')
+const RENDER = String(process.env.RENDER_API_BASE || 'https://api.nassanitv.com/api').replace(/\/$/, '')
 const ADMIN = String(process.env.ADMIN_API_TOKEN || process.env.APP_UPDATE_ADMIN_TOKEN || '').trim()
 
 const results = []

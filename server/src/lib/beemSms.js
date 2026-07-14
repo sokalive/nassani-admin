@@ -5,7 +5,7 @@
 
 const DEFAULT_ENDPOINT = 'https://apisms.beem.africa/v1/send'
 const LOG_PREFIX = '[beem-sms]'
-const APPROVED_SENDER_DEFAULT = 'OSMANITVMAX'
+const APPROVED_SENDER_DEFAULT = 'NASSANITVMAX'
 
 /** Beem text sender IDs: max 11 alphanumeric characters, no spaces. */
 export function normalizeBeemSenderName(raw) {
@@ -223,7 +223,7 @@ export async function testBeemConnection(cred) {
         source_addr: c.senderName,
         encoding: 0,
         schedule_time: '',
-        message: 'Osmani TV Beem connectivity test',
+        message: 'Nassani TV Beem connectivity test',
         recipients: [{ recipient_id: '0', dest_addr: '255700000001' }],
       }),
     })

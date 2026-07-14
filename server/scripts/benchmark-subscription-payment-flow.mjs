@@ -1,7 +1,7 @@
 /**
  * Benchmark subscription/payment endpoints for unpaid-user flow.
  */
-const VPS_API = String(process.env.VPS_API || 'https://api.osmanitv.com').replace(/\/+$/, '')
+const VPS_API = String(process.env.VPS_API || 'https://api.nassanitv.com').replace(/\/+$/, '')
 
 async function timed(label, fn) {
   const t0 = performance.now()

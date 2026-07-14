@@ -2,10 +2,10 @@
 /**
  * Production subscription admin stability audit — VPS API vs Render API vs PostgreSQL parity.
  */
-const VPS_API = String(process.env.VPS_API || 'https://api.osmanitv.com').replace(/\/$/, '')
-const RENDER_API = String(process.env.RENDER_API || 'https://osmani-admin-api.onrender.com').replace(/\/$/, '')
-const VPS_ADMIN = String(process.env.VPS_ADMIN || 'https://admin.osmanitv.com').replace(/\/$/, '')
-const RENDER_ADMIN = String(process.env.RENDER_ADMIN || 'https://osmani-admin-mpya.onrender.com').replace(/\/$/, '')
+const VPS_API = String(process.env.VPS_API || 'https://api.nassanitv.com').replace(/\/$/, '')
+const RENDER_API = String(process.env.RENDER_API || 'https://api.nassanitv.com').replace(/\/$/, '')
+const VPS_ADMIN = String(process.env.VPS_ADMIN || 'https://admin.nassanitv.com').replace(/\/$/, '')
+const RENDER_ADMIN = String(process.env.RENDER_ADMIN || 'https://admin.nassanitv.com').replace(/\/$/, '')
 const TOKEN = process.env.ADMIN_TOKEN || process.env.ADMIN_API_TOKEN || '3030'
 const ROUNDS = Number(process.env.ROUNDS || 25)
 const headers = { 'X-Admin-Token': TOKEN, 'Cache-Control': 'no-cache' }
@@ -48,7 +48,7 @@ async function analyzeAdminBundle(admin, label) {
   const m = html.match(/src="(\/assets\/[^"]+\.js)"/)
   if (!m) return fail(`${label}-bundle`, 'no js asset')
   const js = await (await fetch(admin + m[1])).text()
-  const usesRenderAsDefault = /var \w+=`https:\/\/osmani-admin-api\.onrender\.com`/.test(js)
+  const usesRenderAsDefault = /var \w+=`https:\/\/nassani-admin-api\.onrender\.com`/.test(js)
   const usesSameOrigin = /var \w+=``/.test(js)
   if (label === 'vps-admin' && usesSameOrigin) pass(`${label}-api-target`, 'same-origin /api (B empty)')
   else if (label === 'render-admin' && usesRenderAsDefault) pass(`${label}-api-target`, 'Render API baked in')

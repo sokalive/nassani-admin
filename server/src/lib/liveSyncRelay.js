@@ -4,7 +4,7 @@ import { liveSyncBus } from './liveSyncBus.js'
 
 const { Client } = pg
 
-const PG_CHANNEL = 'osmani_live_sync'
+const PG_CHANNEL = 'nassani_live_sync'
 const INSTANCE_ORIGIN = `${process.pid}-${Date.now().toString(36)}`
 
 let wired = false

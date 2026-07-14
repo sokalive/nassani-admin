@@ -3,9 +3,9 @@
  *
  * Usage:
  *   node scripts/benchmark-vps-capacity.mjs
- *   VPS_API=https://api.osmanitv.com STAGES=200,300 node scripts/benchmark-vps-capacity.mjs
+ *   VPS_API=https://api.nassanitv.com STAGES=200,300 node scripts/benchmark-vps-capacity.mjs
  */
-const VPS = String(process.env.VPS_API || 'https://api.osmanitv.com').replace(/\/+$/, '')
+const VPS = String(process.env.VPS_API || 'https://api.nassanitv.com').replace(/\/+$/, '')
 const STAGES = (process.env.STAGES || '200,300,500,1000')
   .split(',')
   .map((s) => parseInt(s.trim(), 10))

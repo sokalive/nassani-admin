@@ -119,7 +119,7 @@ export default function AdminLoginPage() {
           <Shield className="h-7 w-7 text-amber-300" aria-hidden />
         </div>
         <div>
-          <p className="text-xs font-semibold uppercase tracking-[0.25em] text-amber-400/90">Osmani TV</p>
+          <p className="text-xs font-semibold uppercase tracking-[0.25em] text-amber-400/90">Nassani TV</p>
           <h1 className="mt-1 text-2xl font-bold text-white">Ingia Admin</h1>
         </div>
       </button>

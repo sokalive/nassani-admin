@@ -3,19 +3,19 @@
 #   bash deploy/contabo/diagnose-pm2.sh
 set -euo pipefail
 
-ROOT="${OSMANI_ADMIN_ROOT:-/var/www/osmani-admin-api}"
+ROOT="${NASSANI_ADMIN_ROOT:-/var/www/nassani-admin}"
 API_DIR="$ROOT/server"
 
 echo "=== PM2 list ==="
 pm2 list || true
 
 echo ""
-echo "=== PM2 describe osmani-admin-api ==="
-pm2 describe osmani-admin-api 2>/dev/null || true
+echo "=== PM2 describe nassani-admin-api ==="
+pm2 describe nassani-admin-api 2>/dev/null || true
 
 echo ""
 echo "=== PM2 logs (last 80 lines) ==="
-pm2 logs osmani-admin-api --lines 80 --nostream 2>/dev/null || true
+pm2 logs nassani-admin-api --lines 80 --nostream 2>/dev/null || true
 
 echo ""
 echo "=== Node loadEnv smoke test ==="

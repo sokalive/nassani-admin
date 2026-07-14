@@ -4,7 +4,7 @@
  */
 import assert from 'node:assert/strict'
 
-const API = (process.argv[2] || 'https://osmani-admin-api.onrender.com').replace(/\/$/, '')
+const API = (process.argv[2] || 'https://api.nassanitv.com').replace(/\/$/, '')
 const BUNNY = /b-cdn\.net/i
 const STREAM_PATH = /\/stream-(direct|proxy)/i
 

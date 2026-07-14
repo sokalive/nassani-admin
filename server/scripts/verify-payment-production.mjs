@@ -5,8 +5,8 @@
  *   node server/scripts/verify-payment-production.mjs
  *   INVESTIGATE_PHONE=0625884695 node server/scripts/verify-payment-production.mjs
  */
-const VPS = String(process.env.VPS_API || 'https://api.osmanitv.com').replace(/\/$/, '')
-const RENDER = String(process.env.RENDER_API || 'https://osmani-admin-api.onrender.com').replace(/\/$/, '')
+const VPS = String(process.env.VPS_API || 'https://api.nassanitv.com').replace(/\/$/, '')
+const RENDER = String(process.env.RENDER_API || 'https://api.nassanitv.com').replace(/\/$/, '')
 const TOKEN = String(process.env.ADMIN_TOKEN || process.env.ADMIN_API_TOKEN || '3030').trim()
 const PHONE = String(process.env.INVESTIGATE_PHONE || '0625884695').trim()
 const EXPECT = String(process.env.EXPECT_COMMIT || '').trim()

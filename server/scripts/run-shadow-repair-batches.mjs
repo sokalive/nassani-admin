@@ -2,7 +2,7 @@
  * Run batch shadow repair on production until remaining shadows = 0.
  *   node server/scripts/run-shadow-repair-batches.mjs
  */
-const API = String(process.env.API_BASE || process.env.VPS_API || 'https://api.osmanitv.com').replace(/\/$/, '')
+const API = String(process.env.API_BASE || process.env.VPS_API || 'https://api.nassanitv.com').replace(/\/$/, '')
 const TOKEN = process.env.ADMIN_TOKEN || '3030'
 const MAX_ROUNDS = Math.max(1, Number(process.env.MAX_ROUNDS) || 20)
 

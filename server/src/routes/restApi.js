@@ -229,7 +229,7 @@ restApi.get('/health', (_req, res) => {
   res.setHeader('Cache-Control', 'no-store, private, must-revalidate, proxy-revalidate')
   const body = {
     ok: true,
-    service: 'osmani-admin-api',
+    service: 'nassani-admin-api',
     time: new Date().toISOString(),
     commit: getServerGitCommit(),
     startup: {

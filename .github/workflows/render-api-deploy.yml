@@ -1,25 +1,17 @@
-# Render Node API (osmani-admin-api) — legacy APK backend; separate from Contabo VPS.
-name: Deploy Render API
+name: Legacy Render API (disabled)
+
+# Intentionally disabled for Nassani — production is Contabo only.
+# Do not reconnect to Osmani Render services from this repository.
 
 on:
-  push:
-    branches: [main]
-    paths:
-      - 'server/**'
-      - 'render.yaml'
   workflow_dispatch:
 
 jobs:
-  deploy:
+  disabled:
     runs-on: ubuntu-latest
     steps:
-      - name: Trigger Render osmani-admin-api deploy hook
-        env:
-          RENDER_API_DEPLOY_HOOK: ${{ secrets.RENDER_API_DEPLOY_HOOK }}
+      - name: No-op
         run: |
-          if [ -z "${RENDER_API_DEPLOY_HOOK}" ]; then
-            echo "::notice::RENDER_API_DEPLOY_HOOK not set — relying on render.yaml autoDeploy for osmani-admin-api"
-            exit 0
-          fi
-          curl -fsSL -X POST "${RENDER_API_DEPLOY_HOOK}"
-          echo "Triggered Render osmani-admin-api deploy"
+          echo "Render deploy is disabled for nassani-admin."
+          echo "Use Contabo: deploy/contabo/bootstrap-nassani-vps.sh"
+          exit 0

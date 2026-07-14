@@ -3,7 +3,7 @@
  */
 import assert from 'node:assert/strict'
 
-const API = (process.env.API_BASE || 'https://osmani-admin-api.onrender.com').replace(/\/$/, '')
+const API = (process.env.API_BASE || 'https://api.nassanitv.com').replace(/\/$/, '')
 
 const exo = {
   'User-Agent': 'ExoPlayerLib/2.19.1 (Linux;Android 13) ExoPlayer',
