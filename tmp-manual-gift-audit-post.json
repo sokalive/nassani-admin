@@ -1,0 +1,1 @@
+{"ok":true,"generated_at":"2026-07-03T22:27:18.912Z","stats":{"pending_unacked_total":14,"legacy_would_popup":14,"strict_legitimate_popup":14,"stale_false_positive_grants":0,"stale_false_positive_devices":0},"stale_reason_sample_counts":{},"stale_sample":[],"commit":"a5117c04c62bbf4d28dc013dab0619596d4cbfc1"}

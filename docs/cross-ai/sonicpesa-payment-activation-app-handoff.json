@@ -1,0 +1,65 @@
+{
+  "title": "SonicPesa payment activation result — App handoff (closure v2)",
+  "created_at": "2026-07-05",
+  "ota_recommended": true,
+  "runtime_versions_affected": ["V16–V24 and later"],
+  "endpoint": {
+    "payment_status": "GET /api/payment-status/:order_id",
+    "sonicpesa_status": "GET /api/payments/sonicpesa/status/:orderId",
+    "sonicpesa_verify": "GET /api/payments/sonicpesa/verify/:orderId",
+    "subscription_verify": "POST /api/subscription/verify",
+    "transaction_raw_field": "transactions.raw_payload.activation_result"
+  },
+  "fields": {
+    "app_waiting_state": {
+      "type": "string",
+      "enum": [
+        "PAYMENT_PENDING",
+        "PROVIDER_CONFIRMED_ACTIVATING",
+        "ACTIVE",
+        "PHONE_CONFLICT",
+        "MOVED_TO_SIBLING_DEVICE",
+        "FAILED",
+        "RETRYING",
+        "MANUAL_REVIEW_REQUIRED"
+      ]
+    },
+    "activation_state": {
+      "type": "string",
+      "enum": [
+        "ACTIVATED",
+        "ALREADY_APPLIED",
+        "MOVED_TO_SIBLING_DEVICE",
+        "PHONE_CONFLICT",
+        "RETRYABLE_DB_ERROR",
+        "INVALID_PLAN",
+        "ORDER_NOT_FOUND",
+        "PROVIDER_NOT_CONFIRMED",
+        "TERMINAL_REJECTED",
+        "NOT_COMPLETED",
+        "NO_DEVICE_ID"
+      ]
+    },
+    "entitlement_active": { "type": "boolean" },
+    "retryable": { "type": "boolean" },
+    "user_action_required": { "type": "boolean" }
+  },
+  "semantics": {
+    "PAYMENT_PENDING": "Provider has not confirmed success yet — continue bounded poll/verify.",
+    "PROVIDER_CONFIRMED_ACTIVATING": "Backend marked payment completed; entitlement applying — poll verify until ACTIVE.",
+    "ACTIVE": "Entitlement active on paying device.",
+    "PHONE_CONFLICT": "Payment succeeded; phone has active sub elsewhere — not a payment failure.",
+    "MOVED_TO_SIBLING_DEVICE": "Entitlement on linked sibling device after migration.",
+    "FAILED": "Provider or backend marked payment failed.",
+    "RETRYING": "Temporary backend issue — retry verify with backoff."
+  },
+  "app_behavior_required": [
+    "Poll GET /api/payments/sonicpesa/status/:orderId or POST /api/subscription/verify until app_waiting_state is terminal.",
+    "When transaction_status=completed and app_waiting_state=PROVIDER_CONFIRMED_ACTIVATING, show activating not payment failed.",
+    "Honor retryable=true with exponential backoff capped at 30s during first 2 minutes after pay."
+  ],
+  "backward_compatibility": {
+    "legacy_apps": "status field SUCCESS/PENDING/FAILED unchanged; new fields additive.",
+    "breaking_changes": "None"
+  }
+}

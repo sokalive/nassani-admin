@@ -1,0 +1,46 @@
+{
+  "time": "2026-07-02T22:04:16.830Z",
+  "hosts": {
+    "vps": {
+      "base": "https://api.osmanitv.com",
+      "commit": "ae23241946bb4d25502db36e1781a8820b03700c",
+      "beem": {
+        "enabled": true,
+        "effectiveSenderName": "OSMANITVMAX",
+        "rawSenderName": "OSMANITVMAX",
+        "credentialsReady": true,
+        "envOverride": {
+          "apiKey": true,
+          "secretKey": true,
+          "senderName": true
+        }
+      },
+      "test": {
+        "success": true,
+        "message": "Beem accepted sender \"OSMANITVMAX\" (HTTP 200)."
+      },
+      "recentFailures": []
+    },
+    "render": {
+      "base": "https://osmani-admin-api.onrender.com",
+      "commit": "28dbe1f447be24aabd2c81f1e5dbd2d526c73866",
+      "beem": {
+        "enabled": true,
+        "effectiveSenderName": "OSMANITVMAX",
+        "rawSenderName": "OSMANITVMAX",
+        "credentialsReady": true,
+        "envOverride": {
+          "apiKey": true,
+          "secretKey": true,
+          "senderName": true
+        }
+      },
+      "test": {
+        "success": true,
+        "message": "Beem accepted sender \"OSMANITVMAX\" (HTTP 200)."
+      },
+      "recentFailures": []
+    }
+  },
+  "pass": true
+}

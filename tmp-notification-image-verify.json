@@ -1,0 +1,71 @@
+{
+  "time": "2026-06-27T10:30:08.210Z",
+  "stressCount": 100,
+  "hosts": {
+    "vps": {
+      "base": "https://api.osmanitv.com",
+      "prepare": {
+        "status": 200,
+        "body": {
+          "ok": true,
+          "image": "/uploads/notif-1782556211252-61413d1f.jpg",
+          "imageForDb": "/uploads/notif-1782556211252-61413d1f.jpg",
+          "previewUrl": "https://api.osmanitv.com/uploads/notif-1782556211252-61413d1f.jpg",
+          "pushImageUrl": "https://api.osmanitv.com/uploads/notif-1782556211252-61413d1f.jpg",
+          "pushReady": true,
+          "storage": "vps-local",
+          "originalBytes": 306,
+          "compressedBytes": 321,
+          "width": 1,
+          "height": 1,
+          "format": "jpeg",
+          "savedPercent": 0,
+          "message": "Image optimized and ready for push delivery"
+        }
+      }
+    },
+    "render": {
+      "base": "https://osmani-admin-api.onrender.com",
+      "prepare": {
+        "status": 200,
+        "body": {
+          "ok": true,
+          "image": "/uploads/notif-1782556240817-d66832da.jpg",
+          "imageForDb": "/uploads/notif-1782556240817-d66832da.jpg",
+          "previewUrl": "https://api.osmanitv.com/uploads/notif-1782556240817-d66832da.jpg",
+          "pushImageUrl": "https://api.osmanitv.com/uploads/notif-1782556240817-d66832da.jpg",
+          "pushReady": true,
+          "storage": "vps-remote",
+          "originalBytes": 306,
+          "compressedBytes": 321,
+          "width": 1,
+          "height": 1,
+          "format": "jpeg",
+          "savedPercent": 0,
+          "message": "Image optimized and ready for push delivery"
+        }
+      }
+    }
+  },
+  "stress": {
+    "ok": 100,
+    "failed": 0,
+    "uniqueUrls": 100,
+    "ms": 27766
+  },
+  "destinations": {
+    "home": {
+      "status": 201,
+      "id": "46b362cd-eb23-45fc-a9d0-fe76769aaf19"
+    },
+    "channel": {
+      "status": 201,
+      "id": "dd27621a-7a78-4f89-bd7b-465ecba10a42"
+    },
+    "custom": {
+      "status": 201,
+      "id": "5d5f5e2b-69e2-4f1b-a2a9-201276d23b9d"
+    }
+  },
+  "pass": true
+}

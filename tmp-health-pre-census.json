@@ -1,0 +1,1 @@
+{"ok":true,"service":"osmani-admin-api","time":"2026-07-05T09:41:54.809Z","commit":"8a354243423edc32c09aca6293591bf2e6ac8131","startup":{"ready":true,"error":null,"render":false,"uptime_sec":79},"pool":{"totalCount":20,"idleCount":14,"waitingCount":0,"max":30},"verify_db":{"inFlight":0,"maxConcurrent":25,"pool":{"totalCount":20,"idleCount":14,"waitingCount":0,"max":30}}}

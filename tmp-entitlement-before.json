@@ -1,0 +1,106 @@
+{
+  "api": "https://api.osmanitv.com",
+  "capturedAt": "2026-07-07T07:33:10.280Z",
+  "health": {
+    "ok": true,
+    "service": "osmani-admin-api",
+    "time": "2026-07-07T07:33:11.196Z",
+    "commit": "97eeaf8ea125b9a39ed659a7aa1fc466496f4f38",
+    "startup": {
+      "ready": true,
+      "error": null,
+      "render": false,
+      "uptime_sec": 34173
+    },
+    "pool": {
+      "totalCount": 8,
+      "idleCount": 7,
+      "waitingCount": 0,
+      "max": 30
+    },
+    "verify_db": {
+      "inFlight": 0,
+      "maxConcurrent": 25,
+      "pool": {
+        "totalCount": 8,
+        "idleCount": 7,
+        "waitingCount": 0,
+        "max": 30
+      }
+    }
+  },
+  "cutover": {
+    "ok": true,
+    "server_time": "2026-07-07T07:33:12.235Z",
+    "commit": "97eeaf8ea125b9a39ed659a7aa1fc466496f4f38",
+    "env_files_loaded": [
+      "/var/www/osmani-admin-api/server/.env",
+      "/var/www/osmani-admin-api/.env"
+    ],
+    "database_url_configured": true,
+    "database": {
+      "configured": true,
+      "host": "155.138.223.205",
+      "port": "5432",
+      "database": "osmani_db"
+    },
+    "pool_ready": true,
+    "plan_count": 4,
+    "active_device_subscriptions": 771,
+    "cdn": {
+      "cdnEnabled": true,
+      "cdnBaseUrl": "https://osmanitv.b-cdn.net",
+      "originBaseUrl": "https://api.osmanitv.com",
+      "staticMaxAgeSec": 31536000,
+      "apkDeliveryViaCdn": true,
+      "legacyOriginHosts": [
+        "osmani-admin-api.onrender.com",
+        "osmani-admin-mpya.onrender.com",
+        "144.91.117.90",
+        "localhost",
+        "127.0.0.1",
+        "api.osmanitv.com",
+        "admin.osmanitv.com"
+      ]
+    },
+    "uploads_dir": "/var/www/osmani-admin-api/server/uploads",
+    "uploads_dir_exists": true,
+    "uploads_file_count": 658,
+    "uploads_disk": {
+      "free_bytes": 146628542464,
+      "total_bytes": 154894188544,
+      "used_percent": 5.34
+    },
+    "admin_token_configured": true,
+    "base_url": "https://api.osmanitv.com",
+    "stream_api_base_url": "https://api.osmanitv.com",
+    "admin_public_url": "https://admin.osmanitv.com"
+  },
+  "usersSummary": {
+    "active_paid": 338,
+    "expiring_24h": 25,
+    "expiring_3d": 32,
+    "expiring_7d": 137,
+    "failed_payments": 1164,
+    "all_subscriptions": 1118
+  },
+  "pool": {
+    "totalCount": 8,
+    "idleCount": 7,
+    "waitingCount": 0,
+    "max": 30
+  },
+  "commit": "97eeaf8ea125b9a39ed659a7aa1fc466496f4f38",
+  "database": {
+    "configured": true,
+    "host": "155.138.223.205",
+    "port": "5432",
+    "database": "osmani_db"
+  },
+  "subscriptions": {
+    "source": "api_skip",
+    "rows": [],
+    "note": "DATABASE_URL not set — DB row snapshot skipped",
+    "fingerprint": null
+  }
+}
