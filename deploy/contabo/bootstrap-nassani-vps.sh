@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Bootstrap a brand-new Ubuntu Contabo VPS for Nassani TV (Admin + API + PostgreSQL).
-# Clone source: sokalive/nassani-admin ONLY — never Nassani.
+# Clone source: sokalive/nassani-admin ONLY — never Osmani.
 #
 # Usage (as root on the VPS):
 #   export NASSANI_VPS_IP='YOUR.VPS.IP'
@@ -45,9 +45,11 @@ echo "    root=$NASSANI_ROOT ip=${NASSANI_VPS_IP:-unknown}"
 echo "    domains: $NASSANI_API_DOMAIN / $NASSANI_ADMIN_DOMAIN / $NASSANI_ROOT_DOMAIN"
 echo "    repo=$NASSANI_REPO_URL ($NASSANI_BRANCH)"
 
-# Refuse Nassani repos
+# Refuse Osmani repos
 case "$NASSANI_REPO_URL" in
-  *nassani*) echo "ERROR: refusing Nassani repository URL: $NASSANI_REPO_URL" >&2; exit 1 ;;
+  *osmani*) echo "ERROR: refusing Osmani repository URL: $NASSANI_REPO_URL" >&2; exit 1 ;;
+  *nassani-admin*) ;;
+  *) echo "ERROR: repo must be sokalive/nassani-admin (got: $NASSANI_REPO_URL)" >&2; exit 1 ;;
 esac
 
 echo "==> SECTION A: apt packages"
