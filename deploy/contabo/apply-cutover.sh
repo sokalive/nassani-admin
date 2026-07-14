@@ -147,6 +147,7 @@ npm ci
 VITE_API_BASE_URL= npm run build
 mkdir -p "$DIST_DIR"
 rsync -a --delete dist/ "$DIST_DIR/" 2>/dev/null || cp -a dist/. "$DIST_DIR/"
+chmod -R a+rX "$DIST_DIR"
 
 echo "==> API dependencies"
 cd "$API_DIR"

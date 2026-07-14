@@ -219,6 +219,8 @@ cd "$NASSANI_ROOT"
 # SPA talks same-origin /api via nginx
 VITE_API_BASE_URL= npm ci
 VITE_API_BASE_URL= npm run build
+# nginx www-data must read SPA assets
+chmod -R a+rX "$NASSANI_ROOT/dist"
 cd "$API_DIR"
 npm ci --omit=dev
 
