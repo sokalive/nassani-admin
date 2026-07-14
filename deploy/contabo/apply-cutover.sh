@@ -67,7 +67,7 @@ upsert_env_key STREAM_PLAYBACK_FORCE_PROXY "0"
 upsert_env_key DIRECT_STREAM_CUTOVER_ENABLED "1"
 upsert_env_key DIRECT_STREAM_ROLLOUT_PERCENT "100"
 
-VPS_IP="${NASSANI_VPS_IP:-$(curl -4 -fsS --max-time 5 ifconfig.me 2>/dev/null || echo 62.171.131.113)}"
+VPS_IP="${NASSANI_VPS_IP:-$(curl -4 -fsS --max-time 5 ifconfig.me 2>/dev/null || echo 169.58.18.86)}"
 
 if [[ -f /etc/letsencrypt/live/nassanitv.com/fullchain.pem ]] || [[ "${NASSANI_USE_BRANDED_HTTPS:-}" == "1" ]]; then
   echo "==> Branded HTTPS public URLs"

@@ -30,7 +30,7 @@ jobs:
         if: steps.gate.outputs.skip != 'true'
         uses: appleboy/ssh-action@v1.2.0
         with:
-          host: 62.171.131.113
+          host: 169.58.18.86
           username: root
           key: ${{ secrets.CONTABO_SSH_KEY }}
           command_timeout: 30m
@@ -49,7 +49,7 @@ jobs:
       - name: Verify VPS HTTP health
         if: steps.gate.outputs.skip != 'true'
         env:
-          CONTABO_HOST: 62.171.131.113
+          CONTABO_HOST: 169.58.18.86
         run: |
           set -euo pipefail
           EXPECT="${{ github.sha }}"

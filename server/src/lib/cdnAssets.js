@@ -17,7 +17,7 @@ const DEFAULT_STATIC_MAX_AGE_SEC = Math.max(
 const BUILTIN_LEGACY_HOSTS = new Set([
   'api.nassanitv.com',
   'admin.nassanitv.com',
-  '62.171.131.113',
+  '169.58.18.86',
   'localhost',
   '127.0.0.1',
 ])
@@ -82,7 +82,7 @@ export function getCdnBaseUrl() {
   // Contabo VPS cutover: thumbnails live on Bunny (origin disk is empty on Contabo).
   const uploadDir = String(process.env.UPLOAD_DIR || '').toLowerCase()
   const baseUrl = String(process.env.BASE_URL || '').toLowerCase()
-  if (uploadDir.includes('nassani-admin-api') || baseUrl.includes('62.171.131.113')) {
+  if (uploadDir.includes('nassani-admin-api') || baseUrl.includes('169.58.18.86')) {
     return ''
   }
   return ''

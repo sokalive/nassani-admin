@@ -3,7 +3,7 @@
 # Does NOT change Render production — VPS testing domains only.
 #
 # Prerequisites:
-#   A records → 62.171.131.113 for api.nassanitv.com, admin.nassanitv.com, nassanitv.com
+#   A records → 169.58.18.86 for api.nassanitv.com, admin.nassanitv.com, nassanitv.com
 #
 # Usage (on VPS as root):
 #   CERTBOT_EMAIL=you@nassanitv.com bash deploy/contabo/setup-nassanitv-ssl.sh

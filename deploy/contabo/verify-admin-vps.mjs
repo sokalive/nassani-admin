@@ -3,7 +3,7 @@
  *
  * Usage:
  *   node deploy/contabo/verify-admin-vps.mjs
- *   ADMIN_BASE=http://62.171.131.113 ADMIN_TOKEN=3030 node deploy/contabo/verify-admin-vps.mjs
+ *   ADMIN_BASE=http://169.58.18.86 ADMIN_TOKEN=3030 node deploy/contabo/verify-admin-vps.mjs
  */
 const ADMIN_BASE = String(process.env.ADMIN_BASE || 'https://admin.nassanitv.com').replace(/\/$/, '')
 const ADMIN_TOKEN = process.env.ADMIN_TOKEN || process.env.ADMIN_API_TOKEN || '3030'

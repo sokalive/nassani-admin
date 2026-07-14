@@ -182,7 +182,7 @@ async function main() {
     }
     const blob = JSON.stringify(channels.body)
     if (!hasCleartextApiUrl(blob)) pass('no-cleartext-api-urls', 'channels JSON clean')
-    else fail('no-cleartext-api-urls', 'found http://62.171.131.113 or http://api.nassanitv.com')
+    else fail('no-cleartext-api-urls', 'found http://169.58.18.86 or http://api.nassanitv.com')
   } else {
     fail('channels', 'unavailable')
   }

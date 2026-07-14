@@ -291,7 +291,7 @@ async function main() {
     const rh = streamApiHosts(rch.body)
     const vh = streamApiHosts(vch.body)
     pass('stream:render-hosts', JSON.stringify(rh))
-    if (VPS_API.startsWith('https://') && vh.proxy_playback_url && !String(vh.proxy_playback_url).includes('62.171.131.113')) {
+    if (VPS_API.startsWith('https://') && vh.proxy_playback_url && !String(vh.proxy_playback_url).includes('169.58.18.86')) {
       pass('stream:vps-hosts', JSON.stringify(vh))
     } else if (!VPS_API.startsWith('https://')) {
       pass('stream:vps-hosts', JSON.stringify(vh))

@@ -113,7 +113,7 @@ const REPLACEMENTS = [
   ['NASSANI', 'NASSANI'],
   ['nassani', 'nassani'],
   // Old Contabo IP → placeholder token (bootstrap substitutes). Keep empty string if unknown.
-  ['62.171.131.113', process.env.NASSANI_VPS_IP || '62.171.131.113'],
+  ['169.58.18.86', process.env.NASSANI_VPS_IP || '169.58.18.86'],
 ]
 
 function walk(dir, out = []) {

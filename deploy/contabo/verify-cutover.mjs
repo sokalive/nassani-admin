@@ -3,7 +3,7 @@
  *
  * Usage:
  *   node deploy/contabo/verify-cutover.mjs
- *   API_BASE=http://62.171.131.113 node deploy/contabo/verify-cutover.mjs
+ *   API_BASE=http://169.58.18.86 node deploy/contabo/verify-cutover.mjs
  */
 const API_BASE = String(process.env.API_BASE || 'https://api.nassanitv.com').replace(/\/$/, '')
 const API_PORT = String(process.env.API_PORT || '10001').trim()

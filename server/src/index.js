@@ -48,8 +48,8 @@ app.set('trust proxy', 1)
 // Primary: Android app + native HTTP clients (often no `Origin` — allowed below).
 // Secondary: admin panel + optional browser/WebView runtimes (explicit origins only).
 const allowedOrigins = [
-  'http://62.171.131.113',
-  'https://62.171.131.113',
+  'http://169.58.18.86',
+  'https://169.58.18.86',
   'https://api.nassanitv.com',
   'http://api.nassanitv.com',
   'https://admin.nassanitv.com',
