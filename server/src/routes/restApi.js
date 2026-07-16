@@ -1,6 +1,7 @@
 import { Router } from 'express'
 import { applySensitiveJsonGetNoStore } from '../middleware/sensitiveApiCacheControl.js'
 import { bannersRouter } from './banners.js'
+import { homeLogosRouter } from './homeLogos.js'
 import { channelsRouter } from './channels.js'
 import { analyticsRouter, handleLiveSessionHeartbeat } from './analytics.js'
 import { analyticsAdminRouter } from './analyticsAdmin.js'
@@ -8,6 +9,7 @@ import { ensureGlobalAppSettingsFile, globalAppSettingsRouter } from './globalAp
 import { ensureJsonFile } from '../lib/jsonFile.js'
 import { usersRouter } from './users.js'
 import { ensureBannersStorage } from '../bannerStore.js'
+import { ensureHomeLogosStorage } from '../homeLogoStore.js'
 import { ensureDataFile as ensureChannelsStorage } from '../store.js'
 import { ensureBillingStorage } from '../billingStore.js'
 import * as billing from '../billingStore.js'
@@ -99,6 +101,7 @@ restApi.get('/', (_req, res) => {
       '/users',
       '/channels',
       '/banners',
+      '/home-logos',
       '/settings/public',
       '/settings',
       '/settings/zenopay',
@@ -374,6 +377,7 @@ restApi.get('/payment-status/:order_id', async (req, res) => {
 restApi.use('/users', usersRouter)
 restApi.use('/channels', channelsRouter)
 restApi.use('/banners', bannersRouter)
+restApi.use('/home-logos', homeLogosRouter)
 restApi.use('/settings/zenopay', zenopaySettingsRouter)
 restApi.use('/settings/sonicpesa', sonicpesaSettingsRouter)
 restApi.use('/settings/auraxpay', auraxpaySettingsRouter)
@@ -424,6 +428,7 @@ restApi.use((req, res) => {
 export async function ensureAllApiDataFiles() {
   await ensureChannelsStorage()
   await ensureBannersStorage()
+  await ensureHomeLogosStorage()
   await ensureGlobalAppSettingsFile()
   await ensurePaymentProvidersFile()
   await ensureBillingStorage()

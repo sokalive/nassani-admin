@@ -331,6 +331,46 @@ export function postBannersReorder(orders) {
 
 export const deleteBanner = (id) => adminApiDelete(`/banners/${encodeURIComponent(id)}`)
 
+/** --- Home Circular Logos --- */
+export const getHomeLogos = () => apiGet('/home-logos')
+export const getHomeLogosManage = () => adminApiGet('/home-logos/manage')
+
+export function homeLogoSaveBody(body = {}) {
+  const redirectRaw = body.redirectChannelId ?? body.redirect_channel_id
+  let redirectChannelId = null
+  if (redirectRaw !== '' && redirectRaw != null) {
+    const n = Number(redirectRaw)
+    if (Number.isFinite(n)) redirectChannelId = n
+  }
+  return {
+    title: body.title ?? '',
+    subtitle: body.subtitle ?? '',
+    image: body.image ?? body.imageUrl ?? body.image_url ?? '',
+    active: body.active ?? body.isActive ?? true,
+    isActive: body.isActive ?? body.active ?? true,
+    sort_order: Number(body.sortOrder ?? body.sort_order ?? body.position ?? 0) || 0,
+    sortOrder: Number(body.sortOrder ?? body.sort_order ?? body.position ?? 0) || 0,
+    redirect_channel_id: redirectChannelId,
+    redirectChannelId,
+    link_url: body.linkUrl ?? body.link_url ?? '',
+    linkUrl: body.linkUrl ?? body.link_url ?? '',
+  }
+}
+
+export function postHomeLogo(body) {
+  return adminApiPost('/home-logos', homeLogoSaveBody(body))
+}
+
+export function putHomeLogo(id, body) {
+  return adminApiPut(`/home-logos/${encodeURIComponent(id)}`, homeLogoSaveBody(body))
+}
+
+export function postHomeLogosReorder(orders) {
+  return adminApiPost('/home-logos/reorder', { orders })
+}
+
+export const deleteHomeLogo = (id) => adminApiDelete(`/home-logos/${encodeURIComponent(id)}`)
+
 /** --- Plans --- (GET public for Android checkout; mutations require admin session/token) */
 export const getPlans = () => apiGet('/plans')
 export const postPlan = (body) => adminApiPost('/plans', body)

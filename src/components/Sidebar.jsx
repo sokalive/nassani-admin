@@ -28,6 +28,7 @@ import {
   WalletCards,
   Landmark,
   CircleDollarSign,
+  Circle,
   PanelTopOpen,
   TabletSmartphone,
 } from 'lucide-react'
@@ -37,6 +38,7 @@ const menuItems = [
   { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard, path: '/' },
   { id: 'channels', label: 'Channels', icon: Tv, path: '/channels' },
   { id: 'banners', label: 'Banners', icon: Layers, path: '/banners' },
+  { id: 'home-logos', label: 'Home Circular Logos', icon: Circle, path: '/home-logos' },
   { id: 'plans', label: 'Plans', icon: Tag, path: '/plans' },
   { id: 'manual-subscription', label: 'Toa Kifurushi', icon: Gift, path: '/manual-subscription' },
   { id: 'subscription-requests', label: 'Omba Kifurushi', icon: HandHelping, path: '/subscription-requests' },

@@ -283,6 +283,27 @@ export const uploadBannerImage = multer({
   limits: { fileSize: 8 * 1024 * 1024 },
 })
 
+function homeLogoImageFilter(_req, file, cb) {
+  const mime = String(file?.mimetype || '').toLowerCase().split(';')[0].trim()
+  const allowed = new Set(['image/png', 'image/jpeg', 'image/jpg', 'image/webp'])
+  if (!allowed.has(mime) && !mime.startsWith('image/')) {
+    cb(new multer.MulterError('LIMIT_UNEXPECTED_FILE', 'Only PNG/JPG/JPEG/WEBP logo uploads are allowed'))
+    return
+  }
+  if (!allowed.has(mime)) {
+    cb(new multer.MulterError('LIMIT_UNEXPECTED_FILE', 'Only PNG/JPG/JPEG/WEBP logo uploads are allowed'))
+    return
+  }
+  cb(null, true)
+}
+
+/** Home circular logo — multipart field name `image` (any aspect ratio; server crops to circle). */
+export const uploadHomeLogoImage = multer({
+  storage: imageDiskStorage,
+  fileFilter: homeLogoImageFilter,
+  limits: { fileSize: 12 * 1024 * 1024 },
+})
+
 function paymentProviderLogoFilter(_req, file, cb) {
   const mime = String(file?.mimetype || '').toLowerCase()
   const allowed = new Set(['image/png', 'image/jpeg', 'image/jpg', 'image/webp'])

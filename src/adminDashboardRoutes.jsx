@@ -3,6 +3,7 @@ import AnalyticsPage from './pages/AnalyticsPage'
 import AdminSecurityPage from './pages/AdminSecurityPage'
 import AppUpdatePage from './pages/AppUpdatePage'
 import BannersPage from './pages/BannersPage'
+import HomeLogosPage from './pages/HomeLogosPage'
 import ChannelsPage from './pages/ChannelsPage'
 import DashboardPage from './pages/DashboardPage'
 import DeviceControlPage from './pages/DeviceControlPage'
@@ -39,6 +40,7 @@ export const dashboardRouteElements = [
   <Route key="home" index element={<DashboardPage />} />,
   <Route key="channels" path="channels" element={<ChannelsPage />} />,
   <Route key="banners" path="banners" element={<BannersPage />} />,
+  <Route key="home-logos" path="home-logos" element={<HomeLogosPage />} />,
   <Route key="plans" path="plans" element={<PlansPage />} />,
   <Route key="transactions" path="transactions" element={<TransactionsPage />} />,
   <Route key="payment-orders" path="payment-orders" element={<PaymentOrdersPage />} />,
