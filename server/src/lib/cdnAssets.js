@@ -167,8 +167,12 @@ function rewriteLegacyAbsoluteUrl(absoluteUrl) {
   const uploadPath = extractUploadPath(absoluteUrl)
   if (!uploadPath) return absoluteUrl
   const cdn = getCdnBaseUrl()
-  if (cdn) return buildAbsoluteUrl(cdn, uploadPath)
-  return absoluteUrl
+  // VPS-hosted images must stay on api.nassanitv.online when the shared Bunny
+  // pull zone still origins elsewhere (otherwise CDN returns 404 for Nassani uploads).
+  if (cdn && !shouldDeliverUploadViaOrigin(uploadPath)) {
+    return buildAbsoluteUrl(cdn, uploadPath)
+  }
+  return buildAbsoluteUrl(getOriginBaseUrl(null), uploadPath)
 }
 
 /**
