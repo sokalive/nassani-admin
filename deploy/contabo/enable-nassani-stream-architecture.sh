@@ -149,6 +149,8 @@ fi
 # (empty secret = origin auth disabled; safe for first bring-up)
 
 echo "==> Restart nassani-admin-api only"
+# Stamp running commit for /api/health
+upsert_env NASSANI_GIT_COMMIT "$(git -C "$ROOT" rev-parse HEAD)"
 cd "$API_DIR"
 pm2 restart nassani-admin-api --update-env
 sleep 2
