@@ -144,7 +144,12 @@ console.log('BUNNY_CDN_BASE_URL', e.BUNNY_CDN_BASE_URL || '(unset)');
 echo "==> Admin SPA build (same-origin /api)"
 cd "$ROOT"
 npm ci
-VITE_API_BASE_URL= npm run build
+ADMIN_TOKEN="$(grep '^ADMIN_API_TOKEN=' "$ENV_FILE" | head -1 | cut -d= -f2- | tr -d '\r')"
+if [[ -z "${ADMIN_TOKEN:-}" ]]; then
+  echo "ERROR: ADMIN_API_TOKEN required to build admin SPA (VITE_ADMIN_API_TOKEN)" >&2
+  exit 1
+fi
+VITE_API_BASE_URL= VITE_ADMIN_API_TOKEN="$ADMIN_TOKEN" npm run build
 mkdir -p "$DIST_DIR"
 rsync -a --delete dist/ "$DIST_DIR/" 2>/dev/null || cp -a dist/. "$DIST_DIR/"
 chmod -R a+rX "$DIST_DIR"

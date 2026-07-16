@@ -25,6 +25,27 @@ export async function requireAdminPanelAccess(req, res, next) {
       if (!expected) {
         return res.status(503).json({ ok: false, error: 'ADMIN_API_TOKEN / APP_UPDATE_ADMIN_TOKEN is not configured' })
       }
+
+      // Accept valid Bearer JWT even in legacy mode (SPA built without VITE_ADMIN_API_TOKEN).
+      const auth = String(req.headers.authorization ?? '')
+      const bearer = /^Bearer\s+(.+)$/i.exec(auth)
+      if (bearer) {
+        const payload = verifyAdminJwt(bearer[1].trim())
+        if (payload?.sub && payload.fp) {
+          const rawFp = String(req.headers['x-admin-device-fingerprint'] ?? '').trim()
+          const fpHeader = authStore.hashAdminDeviceFingerprint(rawFp)
+          if (rawFp && fpHeader === payload.fp) {
+            req.adminAuth = {
+              userId: payload.sub,
+              email: payload.em,
+              emergency: payload.emerg === true,
+              jwtLegacyMode: true,
+            }
+            return next()
+          }
+        }
+      }
+
       const got = String(req.headers['x-admin-token'] ?? '').trim()
       if (got !== expected) {
         return res.status(403).json({ ok: false, error: 'Invalid admin token' })

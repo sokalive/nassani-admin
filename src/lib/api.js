@@ -505,13 +505,15 @@ export function clearAdminSecurityGateToken() {
   sessionStorage.removeItem(ADMIN_SECURITY_GATE_KEY)
 }
 
-/** Matches server ADMIN_API_TOKEN + optional Bearer session when ADMIN_PANEL_AUTH_REQUIRED=true. */
+/** Matches server ADMIN_API_TOKEN when legacy panel auth is off; Bearer JWT when ADMIN_PANEL_AUTH_REQUIRED=true. */
 export function adminPanelApiHeaders() {
-  const legacyToken = String(import.meta.env.VITE_ADMIN_API_TOKEN ?? '').trim() || '3030'
+  const legacyToken = String(import.meta.env.VITE_ADMIN_API_TOKEN ?? '').trim()
   const h = {
     'Content-Type': 'application/json',
-    'X-Admin-Token': legacyToken,
     'X-Admin-Device-Fingerprint': getAdminDeviceFingerprintRaw(),
+  }
+  if (legacyToken) {
+    h['X-Admin-Token'] = legacyToken
   }
   if (typeof localStorage !== 'undefined') {
     const jwt = getAdminSessionToken()
