@@ -152,8 +152,11 @@ export function parseChannelInput(body, file, existing = null) {
   const instruction = isInstructionVideoChannelRow(ex)
 
   let thumbnail = null
-  if (file) {
+  if (file?.filename) {
     thumbnail = `/uploads/${file.filename}`
+  } else if (file) {
+    // Multer memoryStorage before disk materialize — caller must finalize first.
+    thumbnail = null
   } else {
     const keep =
       str(b.existingThumbnail) ||

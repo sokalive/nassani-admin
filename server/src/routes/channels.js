@@ -21,7 +21,7 @@ import {
   uploadThumbnail,
 } from '../multerUpload.js'
 import { afterImageMulter } from '../lib/imageMulterPipeline.js'
-import { assertUploadedImageFileReady } from '../lib/uploadDiskSafety.js'
+import { assertUploadedImageFileReady, finalizeMemoryImageUpload } from '../lib/uploadDiskSafety.js'
 import {
   buildPublicInstructionVideoUrl,
   INSTRUCTION_VIDEO_UPLOAD_LOG,
@@ -71,7 +71,7 @@ const uploadVideo = uploadInstructionVideo.single('video')
 
 function runUpload(req, res, next) {
   upload(req, res, (err) => {
-    void afterImageMulter(req, res, next, err)
+    afterImageMulter(req, res, next, err).catch(next)
   })
 }
 
@@ -167,6 +167,9 @@ channelsRouter.get('/', apiResponseCacheExact('channels'), async (req, res) => {
 
 channelsRouter.post('/', requireAdminPanelAccess, maybeUpload, async (req, res) => {
   try {
+    if (req.file?.buffer?.length && !req.file?.filename) {
+      await finalizeMemoryImageUpload(req)
+    }
     const parsed = parseChannelInput(req.body, req.file, null)
     if (!parsed.name || !parsed.url) {
       if (req.file) {
@@ -269,6 +272,9 @@ channelsRouter.put('/:id', requireAdminPanelAccess, maybeUpload, async (req, res
     }
     const existing = migrateStoredChannel(existingRow)
     const instruction = isInstructionVideoChannelRow(existing)
+    if (req.file?.buffer?.length && !req.file?.filename) {
+      await finalizeMemoryImageUpload(req)
+    }
     const parsed = parseChannelInput(req.body, req.file, existing)
     if (!parsed.name || (!instruction && !parsed.url)) {
       if (req.file) await fs.unlink(path.join(UPLOADS_DIR, req.file.filename)).catch(() => {})

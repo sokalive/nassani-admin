@@ -12,7 +12,7 @@ import * as bannerStore from '../bannerStore.js'
 import { getChannelById } from '../store.js'
 import { UPLOADS_DIR, sendUploadError, uploadBannerImage } from '../multerUpload.js'
 import { afterImageMulter } from '../lib/imageMulterPipeline.js'
-import { persistImageBufferToUploads } from '../lib/uploadDiskSafety.js'
+import { persistImageBufferToUploads, finalizeMemoryImageUpload } from '../lib/uploadDiskSafety.js'
 import { liveSyncBus } from '../lib/liveSyncBus.js'
 import { invalidateApiCacheNamespace } from '../lib/apiResponseCache.js'
 import { notifyApiCacheBust } from '../lib/apiCacheBustRelay.js'
@@ -39,7 +39,7 @@ const upload = uploadBannerImage.single('image')
 
 function runUpload(req, res, next) {
   upload(req, res, (err) => {
-    void afterImageMulter(req, res, next, err)
+    afterImageMulter(req, res, next, err).catch(next)
   })
 }
 
@@ -174,7 +174,10 @@ async function validateRedirectChannelExists(redirectChannelId) {
 }
 
 async function resolveImagePath({ body, file, existingImage }) {
-  if (file) return `/uploads/${file.filename}`
+  if (file?.filename) return `/uploads/${file.filename}`
+  if (file) {
+    throw new Error('Uploaded image file was not saved correctly. Please try again.')
+  }
   const raw = body?.image ?? body?.imageUrl
   if (raw == null || raw === '') return existingImage ?? null
   const s = String(raw).trim()
@@ -307,6 +310,9 @@ bannersRouter.post('/reorder', requireAdminPanelAccess, async (req, res) => {
 
 bannersRouter.post('/', requireAdminPanelAccess, maybeUploadBanner, async (req, res) => {
   try {
+    if (req.file?.buffer?.length && !req.file?.filename) {
+      await finalizeMemoryImageUpload(req)
+    }
     logRuntimePositionDebug('POST body', {
       runtime_position: req.body?.runtime_position,
       runtimePosition: req.body?.runtimePosition,
@@ -370,6 +376,10 @@ bannersRouter.put('/:id', requireAdminPanelAccess, maybeUploadBanner, async (req
     if (!existing) {
       if (req.file) await unlinkUploadIfAny(`/uploads/${req.file.filename}`)
       return res.status(404).json({ error: 'Banner not found' })
+    }
+
+    if (req.file?.buffer?.length && !req.file?.filename) {
+      await finalizeMemoryImageUpload(req)
     }
 
     logRuntimePositionDebug('PUT body', {
