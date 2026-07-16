@@ -34,6 +34,7 @@ import {
 import { ensureAllApiDataFiles, restApi } from './routes/restApi.js'
 import { apiRequestTimingMiddleware } from './middleware/apiRequestTiming.js'
 import { streamDeliveryReportRouter } from './routes/streamDeliveryReport.js'
+import { getStreamDeliveryHealthSnapshot } from './lib/streamDelivery.js'
 import { streamBunnyPullRouter } from './routes/streamBunnyPull.js'
 import { streamDirectRouter } from './routes/streamDirect.js'
 import { streamProxyRouter } from './routes/streamProxy.js'
