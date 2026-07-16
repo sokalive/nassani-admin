@@ -9,9 +9,10 @@ import pg from 'pg'
 const { Pool } = pg
 
 const rows = [
-  ['update_version_code', '24'],
-  ['update_version_name', '1.8.2'],
-  ['update_package_name', 'com.burudanitv.app'],
+  ['update_version_code', '1'],
+  ['update_version_name', '1.0'],
+  ['update_package_name', 'com.sportstv.tz.app'],
+  ['update_playstore_url', 'https://play.google.com/store/apps/details?id=com.sportstv.tz.app'],
   ['update_source', 'play'],
   ['update_soft', 'false'],
   ['update_force', 'false'],

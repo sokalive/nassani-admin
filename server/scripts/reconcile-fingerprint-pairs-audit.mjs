@@ -15,8 +15,8 @@ import { isSyntheticDeviceId, syntheticSqlExclude } from '../src/lib/canonicalUn
 const __dir = dirname(fileURLToPath(import.meta.url))
 const OUT = resolve(__dir, '../../docs/cross-ai/reconciliation-fingerprint-audit.json')
 
-const PACKAGE_CURRENT = 'com.burudanitv.app'
-const PACKAGE_LEGACY = 'com.osmantv.app'
+const PACKAGE_CURRENT = 'com.sportstv.tz.app'
+const PACKAGE_LEGACY = 'com.sportstv.tz.app'
 
 function sha256Hex(input) {
   return createHash('sha256').update(String(input), 'utf8').digest('hex')

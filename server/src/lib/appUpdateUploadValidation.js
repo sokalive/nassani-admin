@@ -1,7 +1,7 @@
 import { parseVersionCode } from './appUpdateTargeting.js'
 
 /** Stable production package — same-version APK re-upload is allowed only for this id. */
-export const APP_UPDATE_STABLE_PACKAGE = 'com.burudanitv.app'
+export const APP_UPDATE_STABLE_PACKAGE = 'com.sportstv.tz.app'
 
 /**
  * Validate APK upload versionCode against stored catalog.

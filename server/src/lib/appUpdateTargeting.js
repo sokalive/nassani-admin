@@ -1,6 +1,6 @@
 /**
- * App update popup targeting — users below catalog versionCode 24 get admin SOFT/FORCE.
- * v24+: never prompted (installed stable cohort).
+ * App update popup targeting — users below catalog versionCode get admin SOFT/FORCE.
+ * Clients at or above APP_UPDATE_NEVER_MIN are never prompted.
  */
 
 export function parseVersionCode(value) {
@@ -9,10 +9,10 @@ export function parseVersionCode(value) {
   return Math.trunc(n)
 }
 
-/** v24+ never see update popup. */
+/** Clients at/above this versionCode never see update popup (Nassani catalog = 1). */
 export const APP_UPDATE_NEVER_MIN = Math.max(
   1,
-  parseVersionCode(process.env.APP_UPDATE_NEVER_MIN) || 24,
+  parseVersionCode(process.env.APP_UPDATE_NEVER_MIN) || 1,
 )
 
 export const CHANNEL_PLAYBACK_BLOCK_TITLE =

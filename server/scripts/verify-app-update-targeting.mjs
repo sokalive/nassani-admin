@@ -36,15 +36,12 @@ function pass(msg) {
   console.log('OK', msg)
 }
 
-const baseSoft = { decision: 'SOFT', version_code: 24 }
+const baseSoft = { decision: 'SOFT', version_code: 1 }
 
 for (const c of [
-  { v: 15, want: 'SOFT' },
-  { v: 16, want: 'SOFT' },
-  { v: 20, want: 'SOFT' },
-  { v: 23, want: 'SOFT' },
+  { v: 0, want: 'SOFT' },
   { v: APP_UPDATE_NEVER_MIN, want: 'NONE' },
-  { v: 14, want: 'SOFT' },
+  { v: 2, want: 'NONE' },
 ]) {
   const got = applyAppUpdateClientDecision(baseSoft, c.v)
   if (got.decision !== c.want) {
@@ -56,28 +53,28 @@ for (const c of [
 
 for (const c of [
   {
-    label: 'reupload v24 stable package',
-    meta: { versionCode: 24, packageName: 'com.burudanitv.app' },
-    stored: 24,
+    label: 'reupload v1 stable package',
+    meta: { versionCode: 1, packageName: 'com.sportstv.tz.app' },
+    stored: 1,
     wantOk: true,
     wantReupload: true,
   },
   {
-    label: 'downgrade v23',
-    meta: { versionCode: 23, packageName: 'com.burudanitv.app' },
-    stored: 24,
+    label: 'downgrade invalid',
+    meta: { versionCode: 0, packageName: 'com.sportstv.tz.app' },
+    stored: 1,
     wantOk: false,
   },
   {
-    label: 'reupload v24 wrong package',
-    meta: { versionCode: 24, packageName: 'com.other.app' },
-    stored: 24,
+    label: 'reupload v1 wrong package',
+    meta: { versionCode: 1, packageName: 'com.other.app' },
+    stored: 1,
     wantOk: false,
   },
   {
-    label: 'upgrade v25',
-    meta: { versionCode: 25, packageName: 'com.burudanitv.app' },
-    stored: 24,
+    label: 'upgrade v2',
+    meta: { versionCode: 2, packageName: 'com.sportstv.tz.app' },
+    stored: 1,
     wantOk: true,
     wantReupload: false,
   },

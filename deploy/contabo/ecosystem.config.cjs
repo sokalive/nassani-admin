@@ -3,11 +3,19 @@
  * Env is loaded from server/.env + repo .env via loadPm2Env.cjs (not shell-dependent).
  */
 const path = require('node:path')
+const { execSync } = require('node:child_process')
 const { loadContaboPm2Env } = require('./loadPm2Env.cjs')
 
 const ROOT = process.env.NASSANI_ADMIN_ROOT || '/var/www/nassani-admin'
 const API_DIR = path.join(ROOT, 'server')
 const fileEnv = loadContaboPm2Env(ROOT)
+
+let gitCommit = ''
+try {
+  gitCommit = execSync('git rev-parse HEAD', { cwd: ROOT, encoding: 'utf8' }).trim().slice(0, 40)
+} catch {
+  gitCommit = ''
+}
 
 const SECRET_ENV_KEYS = [
   'DATABASE_URL',
@@ -32,6 +40,7 @@ const pm2Env = {
   NASSANI_ADMIN_ROOT: ROOT,
   NASSANI_LOAD_CUTOVER_ENV: '1',
   ...fileEnv,
+  ...(gitCommit ? { NASSANI_GIT_COMMIT: gitCommit } : {}),
 }
 
 const VPS_POOL_DEFAULTS = {

@@ -18,14 +18,14 @@ const HOSTS = [
 ]
 
 const expectedCatalog = {
-  version_code: 24,
-  version_name: '1.8.2',
-  package_name: 'com.burudanitv.app',
+  version_code: 1,
+  version_name: '1.0',
+  package_name: 'com.sportstv.tz.app',
   source: 'play',
 }
 
 function expectedDecisionForClient(v) {
-  if (v >= 24) return 'NONE'
+  if (v >= 1) return 'NONE'
   return 'SOFT'
 }
 

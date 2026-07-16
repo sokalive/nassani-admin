@@ -6,9 +6,9 @@ const base = (process.argv[2] || process.env.API_BASE_URL || 'https://api.nassan
   .replace(/\/+$/, '')
 
 const expected = {
-  version_code: 17,
-  version_name: '1.7.0',
-  package_name: 'com.burudanitv.app',
+  version_code: 1,
+  version_name: '1.0',
+  package_name: 'com.sportstv.tz.app',
   source: 'play',
 }
 

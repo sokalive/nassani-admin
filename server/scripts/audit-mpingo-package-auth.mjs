@@ -24,8 +24,8 @@ const AUTH_SIGNAL_PATTERNS = [
   /authorized apps only/gi,
   /restricted to authorized/gi,
   /Detected ID/gi,
+  /com\.sportstv\.tz\.app/gi,
   /com\.sportstv[^'">\s]*/gi,
-  /com\.burudanitv\.app/gi,
   /com\.[^'">\s]{3,}\.app/gi,
 ]
 

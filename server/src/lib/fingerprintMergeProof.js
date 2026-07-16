@@ -4,8 +4,8 @@
  */
 import { createHash } from 'node:crypto'
 
-const PACKAGE_CURRENT = 'com.burudanitv.app'
-const PACKAGE_LEGACY = 'com.osmantv.app'
+const PACKAGE_CURRENT = 'com.sportstv.tz.app'
+const PACKAGE_LEGACY = 'com.sportstv.tz.app'
 
 export function sha256Hex(input) {
   return createHash('sha256').update(String(input), 'utf8').digest('hex')
