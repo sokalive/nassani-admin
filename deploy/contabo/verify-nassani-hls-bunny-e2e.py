@@ -36,7 +36,7 @@ def check(name, cond, detail=""):
 # Health
 st, health = get_json("/api/health")
 check("api_health", st == 200 and health.get("ok") is True and health.get("service") == "nassani-admin-api", health.get("commit"))
-st, _ = fetch(ADMIN + "/")
+st, _, _ = fetch(ADMIN + "/")
 check("admin_http", st == 200, f"status={st}")
 
 st, sd = get_json("/api/health/stream-delivery")
