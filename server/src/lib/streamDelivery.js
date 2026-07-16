@@ -38,8 +38,10 @@ export function getStreamDeliveryMode() {
 
 export function shouldExposeDirectStreamUrlInApi() {
   const mode = getStreamDeliveryMode()
-  if (!isDirectStreamSigningEnabled()) return false
   if (mode === 'proxy') return false
+  // Signed stream-direct URLs only when signing is enabled; mode=direct still
+  // returns upstream CDN URLs via resolveStreamSourceDelivery without signing.
+  if (!isDirectStreamSigningEnabled()) return false
   return mode === 'hybrid' || mode === 'direct'
 }
 
@@ -69,6 +71,7 @@ export function resolveStreamSourceDelivery(req, channel) {
   const upstream = String(channel?.upstreamUrl || channel?.url || '').trim()
   const mode = getStreamDeliveryMode()
   const channelId = channel?.channelId ?? channel?.id
+  const forceProxy = isStreamPlaybackForceProxy()
   const rollout = isChannelEligibleForDirectPlayback(channelId)
 
   const proxyUrl = upstream ? buildProxyPlayback(req, upstream, hdr) : ''
@@ -76,6 +79,45 @@ export function resolveStreamSourceDelivery(req, channel) {
   let directStreamUrl = ''
   if (shouldExposeDirectStreamUrlInApi() && upstream) {
     directStreamUrl = buildSignedDirectStreamPlaybackUrl(req, upstream, hdr, { channelId })
+  }
+
+  /**
+   * Nassani production: STREAM_DELIVERY_MODE=direct means App plays CDN HLS URLs from
+   * channel metadata. VPS must NOT become the stream origin unless force-proxy is on.
+   * Signed stream-direct remains optional when signing is configured + rollout allows it.
+   */
+  if (mode === 'direct' && !forceProxy && upstream) {
+    const canPlaySigned = rollout.eligible && Boolean(directStreamUrl)
+    if (canPlaySigned) {
+      recordPlaybackAssigned('direct')
+      return {
+        mode,
+        playbackUrl: directStreamUrl,
+        playbackSource: 'direct',
+        streamDeliveryEffective: 'direct',
+        directStreamUrl,
+        proxyUrl,
+        proxyPlaybackUrl: proxyUrl,
+        upstreamUrl: upstream,
+        headers: hdr,
+        rolloutEligible: true,
+        rolloutReason: rollout.reason,
+      }
+    }
+    recordPlaybackAssigned('direct')
+    return {
+      mode,
+      playbackUrl: upstream,
+      playbackSource: 'upstream_cdn',
+      streamDeliveryEffective: 'direct',
+      directStreamUrl: upstream,
+      proxyUrl,
+      proxyPlaybackUrl: proxyUrl,
+      upstreamUrl: upstream,
+      headers: hdr,
+      rolloutEligible: true,
+      rolloutReason: 'mode_direct_upstream_cdn',
+    }
   }
 
   const canPlayDirect = rollout.eligible && Boolean(directStreamUrl)

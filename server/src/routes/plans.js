@@ -2,6 +2,9 @@ import { Router } from 'express'
 import { planRowToApi } from '../billingNormalize.js'
 import * as billing from '../billingStore.js'
 import { liveSyncBus } from '../lib/liveSyncBus.js'
+import { invalidateApiCacheNamespace } from '../lib/apiResponseCache.js'
+import { notifyApiCacheBust } from '../lib/apiCacheBustRelay.js'
+import { notifyLiveSyncPeers } from '../lib/liveSyncRelay.js'
 import { apiResponseCacheExact } from '../middleware/apiResponseCache.js'
 import { requireAdminPanelAccess } from '../middleware/adminPanelAuthGate.js'
 
@@ -14,6 +17,14 @@ function plansSyncPayload(action, planId) {
     ...(planId != null ? { planId: Number(planId) } : {}),
     synced_at: new Date().toISOString(),
   }
+}
+
+async function publishPlansChanged(action, planId = null) {
+  invalidateApiCacheNamespace('plans')
+  const packet = liveSyncBus.publish('config.plans_changed', plansSyncPayload(action, planId))
+  await notifyApiCacheBust(['plans'])
+  await notifyLiveSyncPeers(packet)
+  return packet
 }
 
 function parsePlanBody(body) {
@@ -58,7 +69,7 @@ plansRouter.post('/', requireAdminPanelAccess, async (req, res) => {
       return res.status(400).json({ error: 'fixedExpiryTime is required when expiryType is fixed' })
     }
     const row = await billing.insertPlan(p)
-    liveSyncBus.publish('config.plans_changed', plansSyncPayload('created', row.id))
+    await publishPlansChanged('created', row.id)
     res.status(201).json(planRowToApi({ ...row, active_subscriber_count: 0 }))
   } catch (e) {
     console.error('[plans] POST / failed:', e)
@@ -84,7 +95,7 @@ plansRouter.put('/:id', requireAdminPanelAccess, async (req, res) => {
     if (!row) return res.status(404).json({ error: 'Plan not found' })
     const full = await billing.listPlansWithSubscriberCounts()
     const enriched = full.find((r) => Number(r.id) === id) || row
-    liveSyncBus.publish('config.plans_changed', plansSyncPayload('updated', id))
+    await publishPlansChanged('updated', id)
     res.json(planRowToApi(enriched))
   } catch (e) {
     console.error('[plans] PUT /:id failed:', e)
@@ -98,7 +109,7 @@ plansRouter.delete('/:id', requireAdminPanelAccess, async (req, res) => {
     if (Number.isNaN(id)) return res.status(400).json({ error: 'Invalid id' })
     const ok = await billing.softDeletePlan(id)
     if (!ok) return res.status(404).json({ error: 'Plan not found' })
-    liveSyncBus.publish('config.plans_changed', plansSyncPayload('deleted', id))
+    await publishPlansChanged('deleted', id)
     res.status(204).send()
   } catch (e) {
     console.error('[plans] DELETE /:id failed:', e)

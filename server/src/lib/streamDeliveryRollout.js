@@ -14,7 +14,8 @@ export function isDirectStreamCutoverEnabled() {
 
 /** Emergency rollback: forces all playbackUrl to proxy regardless of rollout. */
 export function isStreamPlaybackForceProxy() {
-  return envTruthy('STREAM_PLAYBACK_FORCE_PROXY', true)
+  // Default false for Nassani: App plays CDN HLS from channel metadata, not VPS proxy.
+  return envTruthy('STREAM_PLAYBACK_FORCE_PROXY', false)
 }
 
 export function getDirectStreamRolloutPercent() {
