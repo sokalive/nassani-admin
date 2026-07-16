@@ -13,14 +13,15 @@ TOK="${ADMIN_API_TOKEN:-}"
 TS=$(date +%s)
 IMG=/tmp/e2e-thumb-$TS.jpg
 curl -fsS -o "$IMG" 'https://picsum.photos/seed/e2eupload/320/180.jpg'
+echo "IMG_BYTES=$(wc -c < "$IMG")"
 
 echo "=== wrong token must fail ==="
 code=$(curl -s -o /tmp/bad.json -w '%{http_code}' -X POST "$API/api/channels" \
-  -H 'X-Admin-Token: 3030' -F "name=Bad $TS" -F 'url=https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8' -F "thumbnail=@$IMG")
+  -H 'X-Admin-Token: 3030' -F "name=Bad $TS" -F 'url=https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8' -F "thumbnail=@$IMG;type=image/jpeg")
 echo "bad=$code $(cat /tmp/bad.json)"
 
 echo "=== CREATE CHANNEL + THUMBNAIL ==="
-CREATE=$(curl -fsS -X POST "$API/api/channels" \
+CREATE=$(curl -sS -X POST "$API/api/channels" \
   -H "X-Admin-Token: $TOK" \
   -F "name=E2E Upload $TS" \
   -F 'url=https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8' \
@@ -28,6 +29,8 @@ CREATE=$(curl -fsS -X POST "$API/api/channels" \
   -F 'is_active=true' \
   -F 'show_in_app=true' \
   -F "thumbnail=@$IMG;type=image/jpeg")
+echo "$CREATE" | head -c 400
+echo
 CH_ID=$(python3 -c "import json,sys; d=json.loads(sys.argv[1]); print(d.get('id') or (d.get('channel') or {}).get('id') or '')" "$CREATE")
 echo "CH_ID=$CH_ID"
 THUMB=$(python3 -c "import json,sys; d=json.loads(sys.argv[1]); print(d.get('thumbnailUrl') or d.get('thumbnail_url') or d.get('thumbnail') or '')" "$CREATE")

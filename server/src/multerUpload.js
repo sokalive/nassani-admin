@@ -3,6 +3,7 @@ import path from 'node:path'
 import multer from 'multer'
 import { createInstructionVideoMulterStorage } from './lib/instructionVideoMulterStorage.js'
 import {
+  buildSafeImageFilename,
   finalizeMemoryImageUpload,
   isEnospcError,
   sendUploadError,
@@ -247,6 +248,20 @@ export async function getMediaHealthSnapshot() {
 /** Image uploads use memory first, then controlled disk persist (avoids multer partial ENOSPC writes). */
 const imageMemoryStorage = multer.memoryStorage()
 
+const imageDiskStorage = multer.diskStorage({
+  destination(_req, _file, cb) {
+    try {
+      ensureUploadsDir()
+      cb(null, UPLOADS_DIR)
+    } catch (e) {
+      cb(e)
+    }
+  },
+  filename(_req, file, cb) {
+    cb(null, buildSafeImageFilename(file.originalname, file.mimetype))
+  },
+})
+
 function fileFilter(_req, file, cb) {
   if (!file.mimetype.startsWith('image/')) {
     cb(new multer.MulterError('LIMIT_UNEXPECTED_FILE', 'Only image uploads are allowed'))
@@ -256,14 +271,14 @@ function fileFilter(_req, file, cb) {
 }
 
 export const uploadThumbnail = multer({
-  storage: imageMemoryStorage,
+  storage: imageDiskStorage,
   fileFilter,
   limits: { fileSize: 6 * 1024 * 1024 },
 })
 
 /** Banner hero image — multipart field name `image` */
 export const uploadBannerImage = multer({
-  storage: imageMemoryStorage,
+  storage: imageDiskStorage,
   fileFilter,
   limits: { fileSize: 8 * 1024 * 1024 },
 })
