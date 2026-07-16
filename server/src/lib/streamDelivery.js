@@ -233,7 +233,7 @@ export function getStreamDeliveryHealthSnapshot() {
     routes: {
       proxy: `/${PROXY_MOUNT_STREAM}`,
       direct: `/${STREAM_DIRECT_MOUNT}`,
-      bunny_segment_origin: `/${segments.origin_pull_route}`,
+      bunny_segment_origin: segments.origin_pull_route,
     },
     hls_note: segments.production_segment_offload_active
       ? 'Manifest via stream-direct (token); HLS segments via signed Bunny CDN URLs; Render origin-pull on Bunny cache miss only.'

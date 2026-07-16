@@ -92,7 +92,8 @@ assert.ok(rollback.playbackUrl.includes('/stream-proxy'))
 const health = getStreamDeliveryHealthSnapshot()
 assert.equal(health.cutover_enabled, true)
 
-process.env.BUNNY_STREAM_CDN_BASE_URL = ''
+process.env.BUNNY_STREAM_CDN_BASE_URL = 'https://nassani-stream.b-cdn.net'
+process.env.BUNNY_CDN_BASE_URL = ''
 process.env.STREAM_SEGMENT_DELIVERY = 'bunny'
 process.env.STREAM_SEGMENT_FORCE_PROXY = '0'
 assert.equal(getStreamSegmentDeliveryMode(), 'bunny')
@@ -114,13 +115,17 @@ const bunnyUrl = buildSignedBunnySegmentUrl(
   { referer: 'https://provider.example/' },
   { channelId: '42', sessionId: 'sess-a' },
 )
-assert.ok(bunnyUrl.startsWith('/'))
+assert.ok(bunnyUrl.startsWith('https://nassani-stream.b-cdn.net/hls/seg'))
 assert.ok(bunnyUrl.includes('tok='))
 
 const manifestOnly = verifyDirectStreamToken(segTok.token)
 assert.equal(manifestOnly.ok, false)
 
 process.env.STREAM_SEGMENT_FORCE_PROXY = '1'
+assert.equal(shouldDeliverSegmentsViaBunny({ channelId: '42', sessionId: 'sess-a' }), false)
+
+process.env.BUNNY_STREAM_CDN_BASE_URL = ''
+process.env.STREAM_SEGMENT_FORCE_PROXY = '0'
 assert.equal(shouldDeliverSegmentsViaBunny({ channelId: '42', sessionId: 'sess-a' }), false)
 
 console.log('verify-stream-delivery: OK')

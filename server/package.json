@@ -23,6 +23,7 @@
     "verify:load-pm2-env": "node scripts/verify-load-pm2-env.mjs",
     "verify:api-cache": "node scripts/verify-api-cache.mjs",
     "verify:stream-delivery": "node scripts/verify-stream-delivery.mjs",
+    "verify:nassani-stream-live": "node scripts/verify-nassani-stream-live.mjs",
     "verify:selective-segment-routing": "node scripts/verify-selective-segment-routing.mjs",
     "verify:ycn-upstream-headers": "node scripts/verify-ycn-upstream-headers.mjs",
     "verify:strict-security": "node scripts/verify-strict-security-enforcement.mjs",
