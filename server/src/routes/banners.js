@@ -44,7 +44,8 @@ function runUpload(req, res, next) {
 }
 
 function maybeUploadBanner(req, res, next) {
-  if (req.is('multipart/form-data')) {
+  const ct = String(req.headers['content-type'] || '')
+  if (ct.includes('multipart/form-data')) {
     return runUpload(req, res, next)
   }
   return next()

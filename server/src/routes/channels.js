@@ -77,7 +77,8 @@ function runUpload(req, res, next) {
 
 /** Multipart only when admin sends FormData; JSON for quick toggles. */
 function maybeUpload(req, res, next) {
-  if (req.is('multipart/form-data')) {
+  const ct = String(req.headers['content-type'] || '')
+  if (ct.includes('multipart/form-data')) {
     return runUpload(req, res, next)
   }
   return next()
@@ -169,6 +170,9 @@ channelsRouter.post('/', requireAdminPanelAccess, maybeUpload, async (req, res) 
   try {
     if (req.file?.buffer?.length && !req.file?.filename) {
       await finalizeMemoryImageUpload(req)
+    }
+    if (req.file && !req.file.filename) {
+      return res.status(400).json({ error: 'Thumbnail upload failed to save. Please try again.' })
     }
     const parsed = parseChannelInput(req.body, req.file, null)
     if (!parsed.name || !parsed.url) {
