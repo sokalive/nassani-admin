@@ -74,32 +74,62 @@ export async function ensureBillingTables(client) {
       ('update_source', 'play'),
       ('update_apk_url', ''),
       ('update_apk_hash', ''),
-      ('update_playstore_url', ''),
-      ('update_version_code', '24'),
-      ('update_version_name', '1.8.2'),
-      ('update_package_name', 'com.burudanitv.app'),
+      ('update_playstore_url', 'https://play.google.com/store/apps/details?id=com.sportstv.tz.app'),
+      ('update_version_code', '1'),
+      ('update_version_name', '1.0'),
+      ('update_package_name', 'com.sportstv.tz.app'),
       ('update_require_before_channel', 'false')
     ON CONFLICT (key) DO NOTHING;
   `)
 
-  /** One-time bump legacy Play Store pins (17/1.7.0 → 24/1.8.2). Never downgrade admin saves. */
-  const playStoreBump = await client.query(`
-    UPDATE app_settings AS vc
-    SET value = '24', updated_at = now()
-    FROM app_settings AS vn
-    WHERE vc.key = 'update_version_code'
-      AND vn.key = 'update_version_name'
-      AND vc.value = '17'
-      AND vn.value = '1.7.0'
-    RETURNING vc.key
+  /**
+   * Nassani identity cutover: rewrite Burudani/Osmani/legacy Play pins left from the fork.
+   * ON CONFLICT DO NOTHING above cannot fix rows already seeded with foreign packages.
+   */
+  const nassaniPkgCutover = await client.query(`
+    UPDATE app_settings
+    SET value = 'com.sportstv.tz.app', updated_at = now()
+    WHERE key = 'update_package_name'
+      AND (
+        value IS NULL
+        OR btrim(value) = ''
+        OR lower(value) IN (
+          'com.burudanitv.app',
+          'com.osmanitv.app',
+          'com.nassanitv.app'
+        )
+      )
+    RETURNING key
   `)
-  if (playStoreBump.rowCount > 0) {
+  if (nassaniPkgCutover.rowCount > 0) {
     await client.query(`
       UPDATE app_settings
-      SET value = '1.8.2', updated_at = now()
-      WHERE key = 'update_version_name' AND value = '1.7.0'
+      SET value = 'https://play.google.com/store/apps/details?id=com.sportstv.tz.app',
+          updated_at = now()
+      WHERE key = 'update_playstore_url'
+        AND (
+          value IS NULL
+          OR btrim(value) = ''
+          OR value ILIKE '%burudanitv%'
+          OR value ILIKE '%osmani%'
+          OR value ILIKE '%nassanitv.app%'
+        )
     `)
-    console.log('[startup-migration] Play Store app-update bumped 17/1.7.0 → 24/1.8.2')
+    await client.query(`
+      UPDATE app_settings
+      SET value = '1', updated_at = now()
+      WHERE key = 'update_version_code'
+        AND value IN ('17', '19', '24')
+    `)
+    await client.query(`
+      UPDATE app_settings
+      SET value = '1.0', updated_at = now()
+      WHERE key = 'update_version_name'
+        AND value IN ('1.7.0', '1.7.2', '1.8.2')
+    `)
+    console.log(
+      '[startup-migration] App-update identity cut over to com.sportstv.tz.app / 1.0 (1)',
+    )
   }
 
   await client.query(`

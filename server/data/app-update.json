@@ -5,10 +5,10 @@
   "source": "play",
   "apkUrl": "",
   "sha256": "",
-  "playstoreUrl": "https://play.google.com/store/apps/details?id=com.burudanitv.app",
-  "updateTitle": "Nassani APP",
+  "playstoreUrl": "https://play.google.com/store/apps/details?id=com.sportstv.tz.app",
+  "updateTitle": "Nassani TV",
   "updateMessage": "",
-  "versionCode": 24,
-  "versionName": "1.8.2",
-  "packageName": "com.burudanitv.app"
+  "versionCode": 1,
+  "versionName": "1.0",
+  "packageName": "com.sportstv.tz.app"
 }
