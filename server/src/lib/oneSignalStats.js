@@ -3,7 +3,7 @@
  * @see https://documentation.onesignal.com/reference/view-message
  */
 
-import { getOneSignalConfig, isOneSignalConfigured } from './oneSignalPush.js'
+import { buildOneSignalAuthorizationHeader, getOneSignalConfig, isOneSignalConfigured } from './oneSignalPush.js'
 
 const ONESIGNAL_API_BASE = 'https://api.onesignal.com'
 
@@ -24,7 +24,7 @@ export async function fetchOneSignalMessageStats(messageId) {
   url.searchParams.set('app_id', appId)
 
   const res = await fetch(url.toString(), {
-    headers: { Authorization: `Key ${restKey}` },
+    headers: { Authorization: buildOneSignalAuthorizationHeader(restKey) },
   })
   const raw = await res.json().catch(() => ({}))
   if (!res.ok) {

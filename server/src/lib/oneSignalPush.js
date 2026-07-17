@@ -19,6 +19,21 @@ export function getOneSignalConfig() {
   return { appId, restKey }
 }
 
+/**
+ * OneSignal auth header — supports new Key API keys and legacy REST API keys.
+ * Legacy: Authorization: Basic <REST_API_KEY>
+ * New: Authorization: Key <API_KEY>
+ * @see https://documentation.onesignal.com/docs/en/keys-and-ids
+ */
+export function buildOneSignalAuthorizationHeader(restKey) {
+  const key = String(restKey ?? '').trim()
+  const scheme = String(process.env.ONESIGNAL_AUTH_SCHEME || 'auto').trim().toLowerCase()
+  if (scheme === 'basic' || scheme === 'legacy') return `Basic ${key}`
+  if (scheme === 'key') return `Key ${key}`
+  if (key.startsWith('os_v2_')) return `Key ${key}`
+  return `Basic ${key}`
+}
+
 function getConfig() {
   return getOneSignalConfig()
 }
@@ -129,7 +144,7 @@ async function postOneSignalNotification(requestPayload, restKey, logMeta = {}) 
     method: 'POST',
     headers: {
       'Content-Type': 'application/json; charset=utf-8',
-      Authorization: `Key ${restKey}`,
+      Authorization: buildOneSignalAuthorizationHeader(restKey),
     },
     body: JSON.stringify(requestPayload),
   })
@@ -230,7 +245,7 @@ export async function sendOneSignalNotification(opts, logMeta = {}) {
     let hint = ''
     try {
       const appRes = await fetch(`https://api.onesignal.com/apps/${encodeURIComponent(appId)}`, {
-        headers: { Authorization: `Key ${restKey}` },
+        headers: { Authorization: buildOneSignalAuthorizationHeader(restKey) },
       })
       const appRaw = await appRes.json().catch(() => ({}))
       if (appRes.ok) {

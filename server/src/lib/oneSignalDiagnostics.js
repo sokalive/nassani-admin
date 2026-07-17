@@ -13,7 +13,7 @@ async function oneSignalGet(path, restKey) {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json; charset=utf-8',
-      Authorization: `Key ${restKey}`,
+      Authorization: buildOneSignalAuthorizationHeader(restKey),
     },
   })
   const raw = await res.json().catch(() => ({}))
