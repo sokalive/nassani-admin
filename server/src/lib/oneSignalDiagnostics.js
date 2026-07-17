@@ -4,7 +4,7 @@
  * @see https://documentation.onesignal.com/reference/view-segments
  */
 
-import { buildProductionOneSignalBody, getOneSignalConfig } from './oneSignalPush.js'
+import { buildOneSignalAuthorizationHeader, buildProductionOneSignalBody, getOneSignalConfig } from './oneSignalPush.js'
 
 const ONESIGNAL_API_BASE = 'https://api.onesignal.com'
 
