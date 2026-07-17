@@ -20,6 +20,31 @@ export function getOneSignalConfig() {
 }
 
 /**
+ * OneSignal dashboard "Key ID" column is NOT the REST secret.
+ * Valid secrets are either legacy long Basic keys or rich keys starting with os_v2_.
+ */
+export function classifyOneSignalRestKey(restKey) {
+  const key = String(restKey ?? '').trim()
+  if (!key) return { ok: false, kind: 'missing', hint: 'Set ONESIGNAL_REST_API_KEY to the full API key secret.' }
+  if (key.startsWith('os_v2_')) return { ok: true, kind: 'rich_v2' }
+  // Dashboard Key ID column is typically ~20-32 lowercase alphanumeric (not the secret).
+  if (/^[a-z0-9]{16,32}$/.test(key) && !key.startsWith('os_v2_')) {
+    return {
+      ok: false,
+      kind: 'key_id_not_secret',
+      hint:
+        'ONESIGNAL_REST_API_KEY looks like a OneSignal Key ID from the dashboard table, not the API key secret. Create/copy a new API key (secret shown once, usually starts with os_v2_) or copy the Legacy REST API Key full value.',
+    }
+  }
+  if (key.length >= 40) return { ok: true, kind: 'legacy_or_long' }
+  return {
+    ok: false,
+    kind: 'too_short',
+    hint: 'ONESIGNAL_REST_API_KEY is too short to be a valid OneSignal REST secret.',
+  }
+}
+
+/**
  * OneSignal auth header — supports new Key API keys and legacy REST API keys.
  * Legacy: Authorization: Basic <REST_API_KEY>
  * New: Authorization: Key <API_KEY>
@@ -40,7 +65,8 @@ function getConfig() {
 
 export function isOneSignalConfigured() {
   const { appId, restKey } = getConfig()
-  return Boolean(appId && restKey)
+  if (!appId || !restKey) return false
+  return classifyOneSignalRestKey(restKey).ok
 }
 
 export function getOneSignalApiHostLabel() {

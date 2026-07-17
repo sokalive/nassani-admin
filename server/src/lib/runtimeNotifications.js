@@ -1,6 +1,6 @@
 import { getPool } from '../db/pool.js'
 import { liveSyncBus } from './liveSyncBus.js'
-import { isOneSignalConfigured, sendOneSignalNotification } from './oneSignalPush.js'
+import { classifyOneSignalRestKey, getOneSignalConfig, isOneSignalConfigured, sendOneSignalNotification } from './oneSignalPush.js'
 import { resolvePublicAssetUrl } from './cdnAssets.js'
 import {
   isNotificationImageUploadPath,
@@ -639,8 +639,11 @@ export async function createAdminNotification(body, actor = 'Admin', req = null)
 
   if (next.kind === 'admin' && next.status === 'sent') {
     if (!isOneSignalConfigured()) {
+      const { restKey } = getOneSignalConfig()
+      const keyClass = classifyOneSignalRestKey(restKey)
       throw new Error(
-        'OneSignal is not configured. Set ONESIGNAL_APP_ID and ONESIGNAL_REST_API_KEY on the server, then retry.',
+        keyClass.hint ||
+          'OneSignal is not configured. Set ONESIGNAL_APP_ID and ONESIGNAL_REST_API_KEY on the server, then retry.',
       )
     }
     const pushData = oneSignalDataFromDestination(next.destination)

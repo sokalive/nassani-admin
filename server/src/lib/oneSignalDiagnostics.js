@@ -4,7 +4,7 @@
  * @see https://documentation.onesignal.com/reference/view-segments
  */
 
-import { buildOneSignalAuthorizationHeader, buildProductionOneSignalBody, getOneSignalConfig } from './oneSignalPush.js'
+import { buildOneSignalAuthorizationHeader, buildProductionOneSignalBody, classifyOneSignalRestKey, getOneSignalConfig } from './oneSignalPush.js'
 
 const ONESIGNAL_API_BASE = 'https://api.onesignal.com'
 
@@ -29,6 +29,16 @@ export async function fetchOneSignalSubscriptionDiagnostics() {
     return {
       configured: false,
       error: 'Set ONESIGNAL_APP_ID and ONESIGNAL_REST_API_KEY on the server.',
+    }
+  }
+
+  const keyClass = classifyOneSignalRestKey(restKey)
+  if (!keyClass.ok) {
+    return {
+      configured: false,
+      appId,
+      keyClassification: keyClass.kind,
+      error: keyClass.hint,
     }
   }
 

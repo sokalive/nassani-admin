@@ -31,8 +31,26 @@ upsert() {
 }
 
 echo "==> Configure Nassani OneSignal (VPS env only)"
+# Reject dashboard Key ID masquerading as REST secret (causes OneSignal 403 Access denied).
+case "$ONESIGNAL_REST_API_KEY" in
+  os_v2_*) ;;
+  *)
+    if [[ ${#ONESIGNAL_REST_API_KEY} -lt 40 ]]; then
+      echo "ERROR: ONESIGNAL_REST_API_KEY looks like a OneSignal Key ID (too short), not the API key secret." >&2
+      echo "Create a new API key in OneSignal → Keys & IDs and copy the secret shown once (usually starts with os_v2_)," >&2
+      echo "or copy the full Legacy REST API Key value." >&2
+      exit 2
+    fi
+    ;;
+esac
 upsert ONESIGNAL_APP_ID "$ONESIGNAL_APP_ID"
 upsert ONESIGNAL_REST_API_KEY "$ONESIGNAL_REST_API_KEY"
+# Rich keys (os_v2_) use Key scheme; long legacy keys default to Basic via auto.
+if [[ "$ONESIGNAL_REST_API_KEY" == os_v2_* ]]; then
+  upsert ONESIGNAL_AUTH_SCHEME "key"
+else
+  upsert ONESIGNAL_AUTH_SCHEME "auto"
+fi
 upsert NOTIFICATION_IMAGE_PUBLIC_ORIGIN "https://api.nassanitv.online"
 upsert NOTIFICATION_IMAGE_STORAGE "local"
 upsert NASSANI_VPS "1"
