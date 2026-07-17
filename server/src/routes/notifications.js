@@ -13,7 +13,7 @@ import {
 } from '../lib/runtimeNotifications.js'
 import { liveSyncBus } from '../lib/liveSyncBus.js'
 import { fetchOneSignalSubscriptionDiagnostics } from '../lib/oneSignalDiagnostics.js'
-import { isOneSignalConfigured } from '../lib/oneSignalPush.js'
+import { classifyOneSignalRestKey, getOneSignalConfig, isOneSignalConfigured } from '../lib/oneSignalPush.js'
 import { persistOptimizedNotificationImage } from '../lib/notificationImageOptimize.js'
 import { resolvePublicAssetUrl } from '../lib/cdnAssets.js'
 import {
@@ -60,8 +60,15 @@ notificationsRouter.get('/notifications', requireAdminPanelAccess, async (req, r
 notificationsRouter.get('/notifications/onesignal-diagnostics', requireAdminPanelAccess, async (_req, res) => {
   try {
     if (!isOneSignalConfigured()) {
+      const { appId, restKey } = getOneSignalConfig()
+      const keyClass = classifyOneSignalRestKey(restKey)
       return res.status(503).json({
-        error: 'OneSignal is not configured. Set ONESIGNAL_APP_ID and ONESIGNAL_REST_API_KEY on the server.',
+        configured: false,
+        appId: appId || null,
+        keyClassification: keyClass.kind,
+        error:
+          keyClass.hint ||
+          'OneSignal is not configured. Set ONESIGNAL_APP_ID and ONESIGNAL_REST_API_KEY on the server.',
       })
     }
     const report = await fetchOneSignalSubscriptionDiagnostics()
