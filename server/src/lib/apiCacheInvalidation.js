@@ -5,6 +5,7 @@ import { invalidateApiCacheNamespace } from './apiResponseCache.js'
 const EVENT_NAMESPACES = {
   'config.channels_changed': ['channels', 'runtime-app-modes'],
   'config.banners_changed': ['banners'],
+  'config.home_logos_changed': ['home-logos'],
   'config.plans_changed': ['plans'],
   'config.payment_providers_changed': ['payment-providers', 'checkout-providers'],
   'config.checkout_payment_provider_changed': ['checkout-providers'],

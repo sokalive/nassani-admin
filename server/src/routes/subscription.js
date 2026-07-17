@@ -1383,8 +1383,10 @@ subscriptionRouter.get('/subscription-stream', (req, res) => {
     const catalogEvents = new Set([
       'config.channels_changed',
       'config.banners_changed',
+      'config.home_logos_changed',
       'config.plans_changed',
       'config.payment_providers_changed',
+      'config.notifications_changed',
     ])
     if (!catalogEvents.has(event)) return
     try {
@@ -1393,12 +1395,15 @@ subscriptionRouter.get('/subscription-stream', (req, res) => {
         event,
         action: packet?.payload?.action ?? null,
         bannerId: packet?.payload?.bannerId ?? null,
+        homeLogoId: packet?.payload?.id ?? packet?.payload?.homeLogoId ?? null,
+        notificationId: packet?.payload?.notificationId ?? null,
         channelId: packet?.payload?.channelId ?? packet?.payload?.channel?.id ?? null,
         channel: packet?.payload?.channel ?? null,
         catalog_revision: packet?.payload?.catalog_revision ?? null,
         updatedAt: packet?.payload?.updatedAt ?? packet?.payload?.synced_at ?? null,
         reason: event,
       })
+      // Targeted refresh hint — apps refetch only the resource named in `event`, not full catalog.
       res.write(`event: catalog_refresh\ndata: ${body}\n\n`)
       if (event === 'config.channels_changed') {
         res.write(`event: channels_catalog\ndata: ${body}\n\n`)
@@ -1408,8 +1413,17 @@ subscriptionRouter.get('/subscription-stream', (req, res) => {
         res.write(`event: banners_changed\ndata: ${body}\n\n`)
         res.write(`event: banner_updated\ndata: ${body}\n\n`)
       }
+      if (event === 'config.home_logos_changed') {
+        res.write(`event: home_logos_changed\ndata: ${body}\n\n`)
+      }
       if (event === 'config.plans_changed') {
         res.write(`event: plans_changed\ndata: ${body}\n\n`)
+      }
+      if (event === 'config.payment_providers_changed') {
+        res.write(`event: payment_providers_changed\ndata: ${body}\n\n`)
+      }
+      if (event === 'config.notifications_changed') {
+        res.write(`event: notifications_changed\ndata: ${body}\n\n`)
       }
     } catch (e) {
       console.error('[subscription-stream] catalog refresh push failed:', e)
@@ -1439,6 +1453,29 @@ subscriptionRouter.get('/subscription-stream', (req, res) => {
   liveSyncBus.on('sync', appUpdateSyncHandler)
   liveSyncBus.on('sync', catalogSyncHandler)
   liveSyncBus.on('sync', phoneGateSyncHandler)
+
+  const settingsCatalogHandler = (packet) => {
+    const event = String(packet?.event || '')
+    if (event !== 'whatsapp_settings_changed' && event !== 'popup_settings_changed') return
+    try {
+      const body = JSON.stringify({
+        v: packet.configVersion,
+        event,
+        reason: event,
+        updatedAt: packet?.payload?.synced_at ?? null,
+      })
+      res.write(`event: catalog_refresh\ndata: ${body}\n\n`)
+      if (event === 'whatsapp_settings_changed') {
+        res.write(`event: whatsapp_settings_changed\ndata: ${body}\n\n`)
+      }
+      if (event === 'popup_settings_changed') {
+        res.write(`event: popup_settings_changed\ndata: ${body}\n\n`)
+      }
+    } catch (e) {
+      console.error('[subscription-stream] settings catalog push failed:', e)
+    }
+  }
+  liveSyncBus.on('sync', settingsCatalogHandler)
 
   const writeManualGiftEvent = (manualGift) => {
     if (!manualGift?.showPopup) return
@@ -1544,6 +1581,7 @@ subscriptionRouter.get('/subscription-stream', (req, res) => {
     liveSyncBus.off('sync', appUpdateSyncHandler)
     liveSyncBus.off('sync', catalogSyncHandler)
     liveSyncBus.off('sync', phoneGateSyncHandler)
+    liveSyncBus.off('sync', settingsCatalogHandler)
     liveSyncBus.off('sync', subscriptionUpdatedSyncHandler)
     liveSyncBus.off('sync', subscriptionRevokedSyncHandler)
     try {

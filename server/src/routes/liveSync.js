@@ -119,24 +119,34 @@ liveSyncRouter.get('/sync/stream', (req, res) => {
         updatedAt: packet?.payload?.synced_at ?? null,
         reason: String(packet.event || 'sync'),
       }
+      send('catalog_refresh', catalogBody)
       send('channels_catalog', catalogBody)
       send('channels_changed', catalogBody)
     }
     if (topics.includes('config') && packet?.event === 'config.banners_changed') {
-      send('banners_changed', {
+      const bannerBody = {
         v: packet.configVersion,
+        event: packet.event,
         action: packet?.payload?.action ?? null,
         bannerId: packet?.payload?.bannerId ?? null,
         updatedAt: packet?.payload?.updatedAt ?? packet?.payload?.synced_at ?? null,
         reason: String(packet.event || 'sync'),
-      })
-      send('banner_updated', {
+      }
+      send('catalog_refresh', bannerBody)
+      send('banners_changed', bannerBody)
+      send('banner_updated', bannerBody)
+    }
+    if (topics.includes('config') && packet?.event === 'config.home_logos_changed') {
+      const logoBody = {
         v: packet.configVersion,
+        event: packet.event,
         action: packet?.payload?.action ?? null,
-        bannerId: packet?.payload?.bannerId ?? null,
+        homeLogoId: packet?.payload?.id ?? packet?.payload?.homeLogoId ?? null,
         updatedAt: packet?.payload?.updatedAt ?? packet?.payload?.synced_at ?? null,
         reason: String(packet.event || 'sync'),
-      })
+      }
+      send('catalog_refresh', logoBody)
+      send('home_logos_changed', logoBody)
     }
     if (topics.includes('config') && packet?.event === 'config.plans_changed') {
       send('plans_changed', {
@@ -150,6 +160,16 @@ liveSyncRouter.get('/sync/stream', (req, res) => {
       send('payment_providers_changed', {
         v: packet.configVersion,
         action: packet?.payload?.action ?? null,
+        reason: String(packet.event || 'sync'),
+      })
+    }
+    if (topics.includes('config') && packet?.event === 'config.notifications_changed') {
+      send('notifications_changed', {
+        v: packet.configVersion,
+        event: packet.event,
+        action: packet?.payload?.action ?? null,
+        notificationId: packet?.payload?.notificationId ?? null,
+        updatedAt: packet?.payload?.synced_at ?? null,
         reason: String(packet.event || 'sync'),
       })
     }
