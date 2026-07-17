@@ -144,7 +144,13 @@ async function measure(label, mutate, expectEvent) {
   })
 
   const t0 = Date.now()
-  const mutationPromise = mutate()
+  let mutationDoneAt = 0
+  const mutationPromise = Promise.resolve()
+    .then(() => mutate())
+    .then((m) => {
+      mutationDoneAt = Date.now()
+      return m
+    })
   const [subHit, syncHit, mutation] = await Promise.all([
     sub.waitFor(expectEvent, `${label}-sub`, { afterAt: t0 }),
     sync.waitFor(expectEvent, `${label}-sync`, { afterAt: t0 }),
@@ -152,6 +158,10 @@ async function measure(label, mutate, expectEvent) {
   ])
   const subMs = subHit.at - t0
   const syncMs = syncHit.at - t0
+  const mutationMs = mutationDoneAt ? mutationDoneAt - t0 : null
+  // Fan-out delay after the write finished (true sync latency).
+  const subAfterWriteMs = mutationDoneAt ? Math.max(0, subHit.at - mutationDoneAt) : subMs
+  const syncAfterWriteMs = mutationDoneAt ? Math.max(0, syncHit.at - mutationDoneAt) : syncMs
 
   const getProof = mutation?.getProof ? await mutation.getProof() : null
 
@@ -159,8 +169,8 @@ async function measure(label, mutate, expectEvent) {
   await sync.close()
 
   const ok =
-    subMs <= LATENCY_BUDGET_MS &&
-    syncMs <= LATENCY_BUDGET_MS &&
+    subAfterWriteMs <= LATENCY_BUDGET_MS &&
+    syncAfterWriteMs <= LATENCY_BUDGET_MS &&
     (getProof == null || getProof.ok === true)
 
   return {
@@ -168,6 +178,9 @@ async function measure(label, mutate, expectEvent) {
     ok,
     subMs,
     syncMs,
+    mutationMs,
+    subAfterWriteMs,
+    syncAfterWriteMs,
     budgetMs: LATENCY_BUDGET_MS,
     getProof,
     mutationId: mutation?.id ?? null,

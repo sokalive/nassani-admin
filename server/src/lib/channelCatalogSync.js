@@ -21,12 +21,16 @@ export function invalidateChannelCatalogCaches() {
  */
 export async function publishChannelCatalogChange(action, channelId = null, extra = {}) {
   invalidateChannelCatalogCaches()
-  const modesPayload = await loadGlobalAppModesPayload()
-  let channelPatch = null
+
+  // Build optional channel patch without blocking SSE if DB is slow.
+  let channelPatch = extra.channel ?? null
   const cid = channelId != null ? Number(channelId) : null
-  if (cid != null && Number.isFinite(cid)) {
+  if (!channelPatch && cid != null && Number.isFinite(cid)) {
     try {
-      const row = await getChannelById(cid)
+      const row = await Promise.race([
+        getChannelById(cid),
+        new Promise((resolve) => setTimeout(() => resolve(null), 250)),
+      ])
       if (row) {
         const accessType = row.accessType === 'premium' ? 'premium' : 'free'
         const updatedAt =
@@ -50,6 +54,27 @@ export async function publishChannelCatalogChange(action, channelId = null, extr
       /* optional patch */
     }
   }
+
+  // Modes are optional; never await a full settings reload before fan-out.
+  let modes = extra.modes ?? null
+  if (!modes) {
+    try {
+      const modesPayload = await Promise.race([
+        loadGlobalAppModesPayload(),
+        new Promise((resolve) => setTimeout(() => resolve(null), 250)),
+      ])
+      if (modesPayload) {
+        modes = {
+          free_mode: modesPayload.free_mode === true,
+          emergency_mode: modesPayload.emergency_mode === true,
+          maintenance_mode: modesPayload.maintenance_mode === true,
+        }
+      }
+    } catch {
+      /* optional */
+    }
+  }
+
   const catalogRevision = liveSyncBus.snapshot().configVersion + 1
   const packet = liveSyncBus.publish('config.channels_changed', {
     topics: ['config'],
@@ -58,17 +83,14 @@ export async function publishChannelCatalogChange(action, channelId = null, extr
     channel: channelPatch,
     catalog_revision: catalogRevision,
     ...extra,
-    modes: {
-      free_mode: modesPayload.free_mode === true,
-      emergency_mode: modesPayload.emergency_mode === true,
-      maintenance_mode: modesPayload.maintenance_mode === true,
-    },
+    ...(modes ? { modes } : {}),
     synced_at: new Date().toISOString(),
   })
   if (packet?.payload && packet.configVersion != null) {
     packet.payload.catalog_revision = packet.configVersion
   }
-  await notifyApiCacheBust(CHANNEL_CACHE_NAMESPACES)
-  await notifyLiveSyncPeers(packet)
+  // Relay in background so HTTP + local SSE are not gated on PG NOTIFY RTT.
+  void notifyApiCacheBust(CHANNEL_CACHE_NAMESPACES)
+  void notifyLiveSyncPeers(packet)
   return packet
 }
