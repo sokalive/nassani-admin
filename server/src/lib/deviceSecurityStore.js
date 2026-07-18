@@ -598,9 +598,14 @@ export async function reconcileStrictSecurityLevels(pool) {
        AND security_level IN ('warning', 'limited')
        AND (
          frida = true
-         OR tampered_apk = true
          OR debugger = true
          OR clone_detected = true
+         OR (
+           tampered_apk = true
+           AND signals::text NOT ILIKE '%signing_cert_mismatch%'
+           AND signals::text NOT ILIKE '%resigned_apk%'
+           AND signals::text NOT ILIKE '%re_signed_or_modified%'
+         )
        )`,
   )
   // Clear false-positive hard-blocks (score-only / Play App Signing / empty severe flags).
