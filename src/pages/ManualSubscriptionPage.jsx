@@ -342,43 +342,46 @@ function ManualSubscriptionPage() {
   }
 
   async function handleOfferBlock(code) {
-    setOfferBusyCode(`b:${code}`)
-    try {
-      await postOfferCodeBlock(code)
-      showToast('success', 'Code imezuiwa')
-      await loadOfferHistory()
-    } catch (err) {
-      showToast('error', err?.message || 'Imeshindikana')
-    } finally {
-      setOfferBusyCode(null)
-    }
+    setBulkPinError('')
+    setBulkPinExec(() => async (securityPin) => {
+      setOfferBusyCode(`b:${code}`)
+      try {
+        await postOfferCodeBlock(code, { securityPin })
+        showToast('success', 'Code imezuiwa')
+        await loadOfferHistory()
+      } finally {
+        setOfferBusyCode(null)
+      }
+    })
   }
 
   async function handleOfferUnblock(code) {
-    setOfferBusyCode(`u:${code}`)
-    try {
-      await postOfferCodeUnblock(code)
-      showToast('success', 'Code imefunguliwa')
-      await loadOfferHistory()
-    } catch (err) {
-      showToast('error', err?.message || 'Imeshindikana')
-    } finally {
-      setOfferBusyCode(null)
-    }
+    setBulkPinError('')
+    setBulkPinExec(() => async (securityPin) => {
+      setOfferBusyCode(`u:${code}`)
+      try {
+        await postOfferCodeUnblock(code, { securityPin })
+        showToast('success', 'Code imefunguliwa')
+        await loadOfferHistory()
+      } finally {
+        setOfferBusyCode(null)
+      }
+    })
   }
 
   async function handleOfferDelete(code) {
     if (!window.confirm(`Futa code ${code}?`)) return
-    setOfferBusyCode(`d:${code}`)
-    try {
-      await deleteOfferCode(code)
-      showToast('success', 'Code imefutwa')
-      await loadOfferHistory()
-    } catch (err) {
-      showToast('error', err?.message || 'Imeshindikana')
-    } finally {
-      setOfferBusyCode(null)
-    }
+    setBulkPinError('')
+    setBulkPinExec(() => async (securityPin) => {
+      setOfferBusyCode(`d:${code}`)
+      try {
+        await deleteOfferCode(code, { securityPin })
+        showToast('success', 'Code imefutwa')
+        await loadOfferHistory()
+      } finally {
+        setOfferBusyCode(null)
+      }
+    })
   }
 
   function offerStatusStyle(status) {
@@ -485,29 +488,31 @@ function ManualSubscriptionPage() {
   }
 
   async function handleBlock(device_id) {
-    setHistoryBusyId(`b:${device_id}`)
-    try {
-      await postManualSubscriptionBlock(device_id)
-      showToast('success', 'Kifurushi kimezuiwa')
-      await loadHistory()
-    } catch (err) {
-      showToast('error', err?.message || 'Imeshindikana')
-    } finally {
-      setHistoryBusyId(null)
-    }
+    setBulkPinError('')
+    setBulkPinExec(() => async (securityPin) => {
+      setHistoryBusyId(`b:${device_id}`)
+      try {
+        await postManualSubscriptionBlock(device_id, { securityPin })
+        showToast('success', 'Kifurushi kimezuiwa')
+        await loadHistory()
+      } finally {
+        setHistoryBusyId(null)
+      }
+    })
   }
 
   async function handleUnblock(device_id) {
-    setHistoryBusyId(`u:${device_id}`)
-    try {
-      await postManualSubscriptionUnblock(device_id)
-      showToast('success', 'Kifurushi kimeruhusiwa tena')
-      await loadHistory()
-    } catch (err) {
-      showToast('error', err?.message || 'Imeshindikana')
-    } finally {
-      setHistoryBusyId(null)
-    }
+    setBulkPinError('')
+    setBulkPinExec(() => async (securityPin) => {
+      setHistoryBusyId(`u:${device_id}`)
+      try {
+        await postManualSubscriptionUnblock(device_id, { securityPin })
+        showToast('success', 'Kifurushi kimeruhusiwa tena')
+        await loadHistory()
+      } finally {
+        setHistoryBusyId(null)
+      }
+    })
   }
 
   async function handleDeleteGrant(grantId, securityPin) {

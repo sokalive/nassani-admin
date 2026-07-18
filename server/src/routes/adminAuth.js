@@ -16,11 +16,12 @@ import {
   CHALLENGE_TTL_MINUTES,
 } from '../lib/adminOtpChallengeStore.js'
 import { liveSyncBus } from '../lib/liveSyncBus.js'
-import { isAdminPanelAuthRequired } from '../middleware/adminPanelAuthGate.js'
+import { isAdminPanelAuthRequired, requireAdminPanelAccess } from '../middleware/adminPanelAuthGate.js'
 import {
   adminSecurityPinFromBody,
   verifyAdminSecurityPin,
 } from '../lib/adminSecurityPin.js'
+import { mintSecurityCenterUnlockToken } from '../lib/adminPinGuards.js'
 
 export const adminAuthRouter = Router()
 
@@ -511,17 +512,41 @@ adminAuthRouter.post('/refresh', attachAdminReq, async (req, res) => {
   }
 })
 
-adminAuthRouter.post('/verify-security-pin', attachAdminReq, (req, res) => {
-  const pin = adminSecurityPinFromBody(req)
-  if (!pin) {
-    return res.status(400).json({ ok: false, error: 'security_pin required' })
-  }
-  if (!verifyAdminSecurityPin(pin)) {
-    adminAuthAudit('security_pin_denied', { email: req.adminEmail, gate: 'admin_security_page' })
-    return res.status(403).json({ ok: false, error: 'Security PIN si sahihi' })
-  }
-  adminAuthAudit('security_pin_gate_ok', { email: req.adminEmail })
-  res.json({ ok: true })
+adminAuthRouter.post('/verify-security-pin', async (req, res, next) => {
+  // Prefer JWT session when panel auth is on; otherwise allow X-Admin-Token.
+  const gate = isAdminPanelAuthRequired() ? attachAdminReq : requireAdminPanelAccess
+  return gate(req, res, (err) => {
+    if (err) return next(err)
+    try {
+      const pin = adminSecurityPinFromBody(req)
+      if (!pin) {
+        return res.status(400).json({ ok: false, error: 'security_pin required' })
+      }
+      if (!verifyAdminSecurityPin(pin)) {
+        adminAuthAudit('security_pin_denied', { email: req.adminEmail || req.adminAuth?.email, gate: 'security_center' })
+        return res.status(403).json({ ok: false, error: 'Security PIN si sahihi' })
+      }
+      adminAuthAudit('security_pin_gate_ok', { email: req.adminEmail || req.adminAuth?.email, gate: 'security_center' })
+      let unlockToken = null
+      try {
+        unlockToken = mintSecurityCenterUnlockToken({
+          adminUserId: req.adminUserId || req.adminAuth?.userId || 'admin',
+          adminEmail: req.adminEmail || req.adminAuth?.email || '',
+        })
+      } catch (e) {
+        // ADMIN_JWT_SECRET missing — callers must send security_pin on each mutation.
+        console.warn('[verify-security-pin] unlock token unavailable:', e?.message || e)
+      }
+      res.json({
+        ok: true,
+        unlock_token: unlockToken,
+        unlockToken,
+        expires_in_sec: Number(process.env.SECURITY_CENTER_UNLOCK_TTL_SEC) || 1800,
+      })
+    } catch (e) {
+      next(e)
+    }
+  })
 })
 
 /** Admin Security page: PIN ok → email OTP challenge (does not unlock page alone). */

@@ -1,6 +1,7 @@
 /**
  * Shared password gate for admin-sensitive UI actions only (not login / OTP).
- * Used by: Toa Kifurushi (grant), Security Center, Admin Security.
+ * Used by: Toa Kifurushi (grant), Device Control force transfer, customer investigation force transfer.
+ * Security Center uses ADMIN_SECURITY_PIN (see adminSecurityPin.js), not this password.
  */
 import crypto from 'node:crypto'
 

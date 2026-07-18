@@ -22,6 +22,7 @@ import {
   listRiskDevices,
 } from '../lib/deviceSecurityStore.js'
 import { requireAdminPanelAccess } from '../middleware/adminPanelAuthGate.js'
+import { requireSecurityCenterCapability } from '../lib/adminPinGuards.js'
 
 export const deviceSecurityReportsRouter = Router()
 
@@ -283,7 +284,10 @@ const AUDIT_EVENT_BY_ACTION = {
   disable_smart_monitor: 'Security smart monitor disable',
 }
 
-deviceSecurityReportsRouter.post('/security/devices/:deviceId/action', async (req, res) => {
+deviceSecurityReportsRouter.post(
+  '/security/devices/:deviceId/action',
+  requireSecurityCenterCapability,
+  async (req, res) => {
   try {
     const pool = getPool()
     if (!pool) return res.status(503).json({ error: 'Database not configured' })
@@ -341,9 +345,13 @@ deviceSecurityReportsRouter.post('/security/devices/:deviceId/action', async (re
     console.error('[security/devices/action]', e)
     res.status(500).json({ error: String(e.message || e) })
   }
-})
+},
+)
 
-deviceSecurityReportsRouter.post('/security/devices/bulk-action', async (req, res) => {
+deviceSecurityReportsRouter.post(
+  '/security/devices/bulk-action',
+  requireSecurityCenterCapability,
+  async (req, res) => {
   try {
     const pool = getPool()
     if (!pool) return res.status(503).json({ error: 'Database not configured' })
@@ -374,4 +382,5 @@ deviceSecurityReportsRouter.post('/security/devices/bulk-action', async (req, re
     console.error('[security/devices/bulk-action]', e)
     res.status(500).json({ error: String(e.message || e) })
   }
-})
+},
+)

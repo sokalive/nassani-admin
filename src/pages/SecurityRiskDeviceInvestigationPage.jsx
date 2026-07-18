@@ -2,8 +2,14 @@ import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { ArrowLeft, ChevronDown, ChevronRight, Loader2, Shield, ShieldAlert, ShieldCheck } from 'lucide-react'
 import Topbar from '../components/Topbar'
+import SecurityPinModal from '../components/SecurityPinModal'
 import { useToast } from '../context/ToastContext.jsx'
-import { getSecurityDeviceInvestigation, getSecurityDeviceVerification, postSecurityDeviceAction } from '../lib/api'
+import {
+  getSecurityCenterUnlockToken,
+  getSecurityDeviceInvestigation,
+  getSecurityDeviceVerification,
+  postSecurityDeviceAction,
+} from '../lib/api'
 import { formatReadableDateTime } from '../lib/formatTxDisplay'
 import { levelBadgeClass } from '../lib/securityLevels'
 
@@ -171,22 +177,41 @@ export default function SecurityRiskDeviceInvestigationPage() {
   const smartMonitorOn = info?.smart_monitor_enabled === true || summary?.smart_monitor_enabled === true
 
   const runAction = useCallback(
-    async (action) => {
+    async (action, securityPin) => {
       if (!deviceId) return
       setActionLoading(true)
       try {
-        const res = await postSecurityDeviceAction(deviceId, { action })
+        const body = { action }
+        if (securityPin) body.security_pin = String(securityPin).trim()
+        const res = await postSecurityDeviceAction(deviceId, body)
         setVerification(res?.verification ?? null)
         showToast('success', 'Enforcement action applied')
         await load()
       } catch (e) {
         showToast('error', e?.message || 'Action failed')
+        throw e
       } finally {
         setActionLoading(false)
         setConfirm(null)
       }
     },
     [deviceId, load, showToast],
+  )
+
+  const [pinAction, setPinAction] = useState(null)
+  const [pinBusy, setPinBusy] = useState(false)
+  const [pinError, setPinError] = useState('')
+
+  const requestAction = useCallback(
+    (action) => {
+      if (getSecurityCenterUnlockToken()) {
+        void runAction(action)
+        return
+      }
+      setPinError('')
+      setPinAction(action)
+    },
+    [runAction],
   )
 
   const enforcementActions = useMemo(
@@ -518,7 +543,29 @@ export default function SecurityRiskDeviceInvestigationPage() {
         tone={confirm?.tone}
         loading={actionLoading}
         onCancel={() => setConfirm(null)}
-        onConfirm={() => confirm?.action && runAction(confirm.action)}
+        onConfirm={() => confirm?.action && requestAction(confirm.action)}
+      />
+      <SecurityPinModal
+        open={Boolean(pinAction)}
+        title="Security PIN"
+        description="Enter Security Center PIN to apply this enforcement action."
+        busy={pinBusy}
+        error={pinError}
+        onClose={() => {
+          if (pinBusy) return
+          setPinAction(null)
+          setPinError('')
+        }}
+        onSubmit={(securityPin) => {
+          const action = pinAction
+          if (!action) return
+          setPinBusy(true)
+          setPinError('')
+          void runAction(action, securityPin)
+            .then(() => setPinAction(null))
+            .catch((err) => setPinError(err?.message || 'Imeshindikana'))
+            .finally(() => setPinBusy(false))
+        }}
       />
     </>
   )

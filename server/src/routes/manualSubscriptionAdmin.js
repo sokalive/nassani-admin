@@ -189,6 +189,11 @@ manualSubscriptionAdminRouter.get('/history', async (_req, res) => {
 
 manualSubscriptionAdminRouter.post('/block', async (req, res) => {
   try {
+    const pin = adminSecurityPinFromBody(req)
+    if (!pin) return res.status(400).json({ ok: false, error: 'security_pin required' })
+    if (!verifyAdminSecurityPin(pin)) {
+      return res.status(403).json({ ok: false, error: 'Security PIN si sahihi' })
+    }
     const body = req.body && typeof req.body === 'object' ? req.body : {}
     const deviceId = String(body.device_id ?? body.deviceId ?? '').trim()
     if (!deviceId) {
@@ -214,6 +219,11 @@ manualSubscriptionAdminRouter.post('/block', async (req, res) => {
 
 manualSubscriptionAdminRouter.post('/unblock', async (req, res) => {
   try {
+    const pin = adminSecurityPinFromBody(req)
+    if (!pin) return res.status(400).json({ ok: false, error: 'security_pin required' })
+    if (!verifyAdminSecurityPin(pin)) {
+      return res.status(403).json({ ok: false, error: 'Security PIN si sahihi' })
+    }
     const body = req.body && typeof req.body === 'object' ? req.body : {}
     const deviceId = String(body.device_id ?? body.deviceId ?? '').trim()
     if (!deviceId) {

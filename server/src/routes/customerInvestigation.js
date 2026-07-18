@@ -4,6 +4,10 @@ import { investigateCustomerPayment } from '../lib/customerPaymentInvestigation.
 import { reconcileOrderWithZenoPay } from '../paymentReconcile.js'
 import * as billing from '../billingStore.js'
 import { getPool } from '../db/pool.js'
+import {
+  sensitiveActionPasswordFromBody,
+  verifyAdminSensitiveActionPassword,
+} from '../lib/adminSensitiveActionPassword.js'
 import { executeAdminForceTransfer } from './deviceSecurity.js'
 
 export const customerInvestigationRouter = Router()
@@ -105,6 +109,13 @@ customerInvestigationRouter.post('/actions/force-transfer', async (req, res) => 
     const b = req.body && typeof req.body === 'object' ? req.body : {}
     if (b.confirm !== true) {
       return res.status(400).json({ ok: false, error: 'confirm:true is required' })
+    }
+    const pin = sensitiveActionPasswordFromBody(req)
+    if (!pin) {
+      return res.status(400).json({ ok: false, error: 'security_pin required' })
+    }
+    if (!verifyAdminSensitiveActionPassword(pin)) {
+      return res.status(403).json({ ok: false, error: 'Security PIN si sahihi' })
     }
     const paymentPhone = String(b.payment_phone ?? b.phone ?? '').trim()
     const targetDeviceId = String(b.target_device_id ?? b.device_id ?? '').trim()

@@ -2,6 +2,7 @@ import { Router } from 'express'
 import * as billing from '../billingStore.js'
 import { requireAdminPanelAccess } from '../middleware/adminPanelAuthGate.js'
 import { adminSecurityPinFromBody, verifyAdminSecurityPin } from '../lib/adminSecurityPin.js'
+import { verifyAdminSensitiveActionPassword } from '../lib/adminSensitiveActionPassword.js'
 import { liveSyncBus } from '../lib/liveSyncBus.js'
 
 export const offerCodesAdminRouter = Router()
@@ -19,11 +20,14 @@ function publishOfferCodesSync(action, extra = {}) {
 offerCodesAdminRouter.post('/generate', async (req, res) => {
   try {
     const body = req.body && typeof req.body === 'object' ? req.body : {}
-    const pin = String(body.pin ?? '').trim()
+    const pin = String(body.pin ?? body.security_pin ?? body.securityPin ?? '').trim()
     if (!pin) {
       return res.status(400).json({ ok: false, error: 'PIN is required' })
     }
-    if (!(await billing.verifyManualSubscriptionGrantPin(pin))) {
+    // Prefer shared sensitive-action password (same as manual grant); legacy DB/env PIN still accepted.
+    const okShared = verifyAdminSensitiveActionPassword(pin)
+    const okLegacy = okShared ? false : await billing.verifyManualSubscriptionGrantPin(pin)
+    if (!okShared && !okLegacy) {
       return res.status(403).json({ ok: false, error: 'Invalid PIN' })
     }
     const durationDays = Number(body.duration_days ?? body.durationDays)
@@ -166,6 +170,11 @@ offerCodesAdminRouter.post('/bulk-delete', async (req, res) => {
 
 offerCodesAdminRouter.post('/block', async (req, res) => {
   try {
+    const pin = adminSecurityPinFromBody(req)
+    if (!pin) return res.status(400).json({ ok: false, error: 'security_pin required' })
+    if (!verifyAdminSecurityPin(pin)) {
+      return res.status(403).json({ ok: false, error: 'Security PIN si sahihi' })
+    }
     const body = req.body && typeof req.body === 'object' ? req.body : {}
     const raw = String(body.code ?? '').trim()
     if (!raw) {
@@ -186,6 +195,11 @@ offerCodesAdminRouter.post('/block', async (req, res) => {
 
 offerCodesAdminRouter.post('/unblock', async (req, res) => {
   try {
+    const pin = adminSecurityPinFromBody(req)
+    if (!pin) return res.status(400).json({ ok: false, error: 'security_pin required' })
+    if (!verifyAdminSecurityPin(pin)) {
+      return res.status(403).json({ ok: false, error: 'Security PIN si sahihi' })
+    }
     const body = req.body && typeof req.body === 'object' ? req.body : {}
     const raw = String(body.code ?? '').trim()
     if (!raw) {
@@ -206,6 +220,11 @@ offerCodesAdminRouter.post('/unblock', async (req, res) => {
 
 offerCodesAdminRouter.delete('/:code', async (req, res) => {
   try {
+    const pin = adminSecurityPinFromBody(req)
+    if (!pin) return res.status(400).json({ ok: false, error: 'security_pin required' })
+    if (!verifyAdminSecurityPin(pin)) {
+      return res.status(403).json({ ok: false, error: 'Security PIN si sahihi' })
+    }
     const raw = String(req.params.code ?? '').trim()
     if (!raw) {
       return res.status(400).json({ ok: false, error: 'code is required' })

@@ -23,6 +23,7 @@ import {
   postSecurityDevicesBulkAction,
   postSecurityLogsBulkDelete,
   postVerifyAdminSecurityPin,
+  clearSecurityCenterUnlockToken,
   putSecuritySuite,
   syncStreamUrl,
 } from '../lib/api'
@@ -138,6 +139,7 @@ function SecurityDashboardPage() {
   useEffect(() => {
     setPageUnlocked(false)
     setPinError('')
+    clearSecurityCenterUnlockToken()
   }, [location.pathname])
 
   async function handleGatePinSubmit(pin) {

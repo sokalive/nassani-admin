@@ -527,6 +527,7 @@ export const postAcknowledgeManualGift = (body) =>
   apiPost('/subscription/acknowledge-manual-gift', body)
 
 const ADMIN_SECURITY_GATE_KEY = 'nassani_admin_security_gate'
+const SECURITY_CENTER_UNLOCK_KEY = 'nassani_security_center_unlock'
 
 export function getAdminSecurityGateToken() {
   if (typeof sessionStorage === 'undefined') return ''
@@ -545,6 +546,23 @@ export function clearAdminSecurityGateToken() {
   sessionStorage.removeItem(ADMIN_SECURITY_GATE_KEY)
 }
 
+export function getSecurityCenterUnlockToken() {
+  if (typeof sessionStorage === 'undefined') return ''
+  return sessionStorage.getItem(SECURITY_CENTER_UNLOCK_KEY) || ''
+}
+
+export function setSecurityCenterUnlockToken(token) {
+  if (typeof sessionStorage === 'undefined') return
+  const t = String(token ?? '').trim()
+  if (t) sessionStorage.setItem(SECURITY_CENTER_UNLOCK_KEY, t)
+  else sessionStorage.removeItem(SECURITY_CENTER_UNLOCK_KEY)
+}
+
+export function clearSecurityCenterUnlockToken() {
+  if (typeof sessionStorage === 'undefined') return
+  sessionStorage.removeItem(SECURITY_CENTER_UNLOCK_KEY)
+}
+
 /** Matches server ADMIN_API_TOKEN when legacy panel auth is off; Bearer JWT when ADMIN_PANEL_AUTH_REQUIRED=true. */
 export function adminPanelApiHeaders() {
   const legacyToken = String(import.meta.env.VITE_ADMIN_API_TOKEN ?? '').trim()
@@ -559,6 +577,8 @@ export function adminPanelApiHeaders() {
     const jwt = getAdminSessionToken()
     if (jwt) h.Authorization = `Bearer ${jwt}`
   }
+  const unlock = getSecurityCenterUnlockToken()
+  if (unlock) h['X-Security-Unlock-Token'] = unlock
   return h
 }
 
@@ -665,7 +685,7 @@ export async function getAdminAuthDevices() {
   return body
 }
 
-/** Security Dashboard PIN gate only — does not send email OTP. */
+/** Security Dashboard PIN gate — returns unlock_token for subsequent Security Center mutations. */
 export async function postVerifyAdminSecurityPin(securityPin) {
   const res = await fetch(joinPath('/admin/auth/verify-security-pin'), {
     ...ADMIN_FETCH_DEFAULTS,
@@ -675,6 +695,8 @@ export async function postVerifyAdminSecurityPin(securityPin) {
   })
   const body = await parseJsonSafe(res)
   if (!res.ok) throw new ApiError(msgFromBody(body, res.status), res.status, body)
+  const unlock = String(body?.unlock_token ?? body?.unlockToken ?? '').trim()
+  if (unlock) setSecurityCenterUnlockToken(unlock)
   return body
 }
 
@@ -898,24 +920,30 @@ export async function getManualSubscriptionHistory() {
   return body
 }
 
-export async function postManualSubscriptionBlock(deviceId) {
+export async function postManualSubscriptionBlock(deviceId, { securityPin } = {}) {
   const res = await fetch(joinPath('/admin/manual-subscription/block'), {
     ...ADMIN_FETCH_DEFAULTS,
     method: 'POST',
     headers: adminPanelApiHeaders(),
-    body: JSON.stringify({ device_id: String(deviceId ?? '').trim() }),
+    body: JSON.stringify({
+      device_id: String(deviceId ?? '').trim(),
+      security_pin: String(securityPin ?? '').trim(),
+    }),
   })
   const body = await parseJsonSafe(res)
   if (!res.ok) throw new ApiError(msgFromBody(body, res.status), res.status, body)
   return body
 }
 
-export async function postManualSubscriptionUnblock(deviceId) {
+export async function postManualSubscriptionUnblock(deviceId, { securityPin } = {}) {
   const res = await fetch(joinPath('/admin/manual-subscription/unblock'), {
     ...ADMIN_FETCH_DEFAULTS,
     method: 'POST',
     headers: adminPanelApiHeaders(),
-    body: JSON.stringify({ device_id: String(deviceId ?? '').trim() }),
+    body: JSON.stringify({
+      device_id: String(deviceId ?? '').trim(),
+      security_pin: String(securityPin ?? '').trim(),
+    }),
   })
   const body = await parseJsonSafe(res)
   if (!res.ok) throw new ApiError(msgFromBody(body, res.status), res.status, body)
@@ -975,36 +1003,43 @@ export async function getOfferCodesHistory() {
   return body
 }
 
-export async function postOfferCodeBlock(code) {
+export async function postOfferCodeBlock(code, { securityPin } = {}) {
   const res = await fetch(joinPath('/admin/offer-codes/block'), {
     ...ADMIN_FETCH_DEFAULTS,
     method: 'POST',
     headers: adminPanelApiHeaders(),
-    body: JSON.stringify({ code: String(code ?? '').trim() }),
+    body: JSON.stringify({
+      code: String(code ?? '').trim(),
+      security_pin: String(securityPin ?? '').trim(),
+    }),
   })
   const body = await parseJsonSafe(res)
   if (!res.ok) throw new ApiError(msgFromBody(body, res.status), res.status, body)
   return body
 }
 
-export async function postOfferCodeUnblock(code) {
+export async function postOfferCodeUnblock(code, { securityPin } = {}) {
   const res = await fetch(joinPath('/admin/offer-codes/unblock'), {
     ...ADMIN_FETCH_DEFAULTS,
     method: 'POST',
     headers: adminPanelApiHeaders(),
-    body: JSON.stringify({ code: String(code ?? '').trim() }),
+    body: JSON.stringify({
+      code: String(code ?? '').trim(),
+      security_pin: String(securityPin ?? '').trim(),
+    }),
   })
   const body = await parseJsonSafe(res)
   if (!res.ok) throw new ApiError(msgFromBody(body, res.status), res.status, body)
   return body
 }
 
-export async function deleteOfferCode(code) {
+export async function deleteOfferCode(code, { securityPin } = {}) {
   const c = String(code ?? '').trim()
   const res = await fetch(joinPath(`/admin/offer-codes/${encodeURIComponent(c)}`), {
     ...ADMIN_FETCH_DEFAULTS,
     method: 'DELETE',
     headers: adminPanelApiHeaders(),
+    body: JSON.stringify({ security_pin: String(securityPin ?? '').trim() }),
   })
   const body = await parseJsonSafe(res)
   if (!res.ok) throw new ApiError(msgFromBody(body, res.status), res.status, body)

@@ -17,6 +17,7 @@ import {
   verifyAdminSensitiveActionPassword,
   sensitiveActionPasswordFromBody,
 } from '../lib/adminSensitiveActionPassword.js'
+import { requireSecurityCenterCapability } from '../lib/adminPinGuards.js'
 import {
   commitSubscriptionTransfer,
   publishTransferConfirmationRequired,
@@ -696,7 +697,7 @@ deviceSecurityRouter.get('/settings/security-suite', async (_req, res) => {
   }
 })
 
-deviceSecurityRouter.put('/settings/security-suite', async (req, res) => {
+deviceSecurityRouter.put('/settings/security-suite', requireSecurityCenterCapability, async (req, res) => {
   const pool = getPool()
   const client = (await pool?.connect?.()) || null
   try {
@@ -861,7 +862,10 @@ deviceSecurityRouter.delete('/settings/security-suite/alerts/:id', async (req, r
   }
 })
 
-deviceSecurityRouter.post('/settings/security-suite/alerts/bulk-delete', async (req, res) => {
+deviceSecurityRouter.post(
+  '/settings/security-suite/alerts/bulk-delete',
+  requireSecurityCenterCapability,
+  async (req, res) => {
   try {
     const pool = getPool()
     if (!pool) return res.status(503).json({ error: 'Database not configured' })
@@ -911,7 +915,8 @@ deviceSecurityRouter.post('/settings/security-suite/alerts/bulk-delete', async (
     console.error('[security-suite] alert bulk-delete', e)
     return res.status(500).json({ error: String(e.message || e) })
   }
-})
+},
+)
 
 deviceSecurityRouter.get('/security-logs', async (_req, res) => {
   try {
@@ -959,7 +964,7 @@ deviceSecurityRouter.delete('/security-logs/:id', async (req, res) => {
   }
 })
 
-deviceSecurityRouter.post('/security-logs/bulk-delete', async (req, res) => {
+deviceSecurityRouter.post('/security-logs/bulk-delete', requireSecurityCenterCapability, async (req, res) => {
   try {
     const pool = getPool()
     if (!pool) return res.status(503).json({ error: 'Database not configured' })
