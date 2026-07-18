@@ -80,6 +80,24 @@ WHERE admin_status = 'monitoring'
   AND COALESCE(debugger, false) = false
   AND COALESCE(clone_detected, false) = false;
 
+-- Force Play-signing Smart Monitor profiles to warning level (score must not re-block).
+UPDATE device_security_profiles
+SET security_level = 'warning',
+    tampered_apk = false,
+    blocked = false,
+    blocked_at = NULL,
+    blocked_by = '',
+    updated_at = now()
+WHERE admin_status = 'smart_monitor'
+  AND (
+    signals::text ILIKE '%signing_cert_mismatch%'
+    OR signals::text ILIKE '%resigned_apk%'
+    OR signals::text ILIKE '%re_signed_or_modified%'
+  )
+  AND COALESCE(frida, false) = false
+  AND COALESCE(debugger, false) = false
+  AND COALESCE(clone_detected, false) = false;
+
 -- Ensure admin_devices layer is not falsely blocking
 UPDATE admin_devices SET is_blocked = false, block_reason = NULL, updated_at = now()
 WHERE is_blocked = true

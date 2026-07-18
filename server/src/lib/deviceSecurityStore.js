@@ -224,12 +224,39 @@ export function resolveStrictSecurityLevel({ score, signals, flags, prev, adminS
 }
 
 /**
- * Smart Monitor Mode — only for manually unblocked devices (admin_status smart_monitor).
+ * Smart Monitor Mode — only for manually unblocked / auto-promoted low-risk devices.
  * Collects signals but requires elevated combined score before re-blocking.
+ * Play App Signing alone never re-blocks (Google Play Closed Testing).
  */
 export function resolveSmartMonitorSecurityLevel({ score, signals, flags }) {
+  const playOnly =
+    flags?.play_app_signing === true &&
+    flags?.frida !== true &&
+    flags?.debugger !== true &&
+    flags?.clone_detected !== true &&
+    flags?.tampered_apk !== true
+  if (playOnly) return 'warning'
+
   const s = Number(score) || 0
-  if (s >= SMART_MONITOR_REBLOCK_SCORE) return 'blocked'
+  // Ignore Play signing score contribution when deciding re-block.
+  let effective = s
+  if (Array.isArray(signals) && signals.length) {
+    const playScore = signals
+      .filter((x) => {
+        const t = String(x?.risk_type || '').toLowerCase()
+        const d = String(x?.detail || '').toLowerCase()
+        return (
+          d.includes('signing_cert_mismatch') ||
+          d.includes('re_signed_or_modified') ||
+          t.includes('resign')
+        )
+      })
+      .reduce((a, x) => a + (Number(x?.risk_score) || 0), 0)
+    if (playScore > 0 && playScore >= s) return 'warning'
+    effective = Math.max(0, s - playScore)
+  }
+
+  if (effective >= SMART_MONITOR_REBLOCK_SCORE) return 'blocked'
   if (flags?.tampered_apk && (flags?.frida || flags?.clone_detected)) return 'blocked'
   if (flags?.frida && flags?.emulator) return 'blocked'
   if (flags?.frida && flags?.debugger && flags?.clone_detected) return 'blocked'
@@ -907,7 +934,17 @@ export async function getPlaybackSecurityPolicy(deviceId) {
     level === 'critical'
 
   if (adminStatus === 'smart_monitor') {
-    deny = adminBlocked || level === 'blocked' || level === 'critical'
+    // Smart Monitor may still store a high Play-signing score; deny only on severe levels
+    // with real anti-tamper columns — not Play App Signing alone.
+    const severe =
+      r.frida === true ||
+      r.debugger === true ||
+      r.clone_detected === true ||
+      (r.tampered_apk === true &&
+        !(String(r.signals || '').includes('signing_cert_mismatch') ||
+          String(r.signals || '').includes('resigned_apk') ||
+          String(r.signals || '').includes('re_signed_or_modified')))
+    deny = adminBlocked || ((level === 'blocked' || level === 'critical') && severe)
   }
 
   if (adminStatus === 'temp_block') {
