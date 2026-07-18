@@ -64,23 +64,35 @@ export function computeRiskFromSignals(signals) {
     debugger: false,
     frida: false,
     tampered_apk: false,
+    /** Google Play App Signing / cert mismatch — common Closed Testing false positive. */
+    play_app_signing: false,
   }
 
-  const markFlag = (riskType) => {
+  const markFlag = (riskType, detail = '') => {
     const t = String(riskType || '').toLowerCase()
+    const d = String(detail || '').toLowerCase()
     if (t.includes('root') || t === 'jailbreak_ios') flags.rooted = true
     if (t.includes('emulator')) flags.emulator = true
     if (t.includes('clone')) flags.clone_detected = true
     if (t.includes('debug') || t.includes('debugger')) flags.debugger = true
     if (t.includes('frida') || t.includes('hook')) flags.frida = true
+    const playSigning =
+      d.includes('signing_cert_mismatch') ||
+      d.includes('re_signed_or_modified') ||
+      (t.includes('resign') && !d.includes('frida') && !d.includes('hook'))
+    if (playSigning) {
+      flags.play_app_signing = true
+      return
+    }
     if (t.includes('resign') || t.includes('tamper')) flags.tampered_apk = true
   }
 
   for (const raw of signals ?? []) {
     const risk_type = text(raw?.risk_type ?? raw?.riskType, 64)
+    const detail = text(raw?.detail ?? raw?.message, 500)
     if (!risk_type || seen.has(risk_type)) continue
     seen.add(risk_type)
-    markFlag(risk_type)
+    markFlag(risk_type, detail)
     const weight = RISK_WEIGHTS[risk_type] ?? RISK_WEIGHTS[risk_type.replace(/_detected$/, '')] ?? 1
     const risk_score =
       typeof raw?.risk_score === 'number' && Number.isFinite(raw.risk_score)
@@ -90,8 +102,13 @@ export function computeRiskFromSignals(signals) {
     merged.push({
       risk_type,
       risk_score,
-      ...(raw?.detail != null ? { detail: text(raw.detail, 500) } : {}),
+      ...(detail ? { detail } : {}),
     })
+  }
+
+  // Play App Signing alone must not count as hard APK tamper.
+  if (flags.play_app_signing && !flags.frida && !flags.debugger && !flags.clone_detected) {
+    flags.tampered_apk = false
   }
 
   const primary =
@@ -117,9 +134,11 @@ export function classifyAutomaticThreatEnforcement(flags) {
   const tampered = flags?.tampered_apk === true
   const debuggerOn = flags?.debugger === true
   const clone = flags?.clone_detected === true
+  const playSigning = flags?.play_app_signing === true
 
   if (frida || tampered || debuggerOn || clone) return 'block'
-  if (rooted || emulator) return 'smart_monitor'
+  // Play App Signing cert mismatch alone → Smart Monitor (Closed Testing / Play Store).
+  if (playSigning || rooted || emulator) return 'smart_monitor'
   return 'none'
 }
 
@@ -557,20 +576,52 @@ export async function reconcileStrictSecurityLevels(pool) {
          OR clone_detected = true
        )`,
   )
-  // Clear false-positive hard-blocks (score-only / empty flags) left by the old default-block path.
+  // Clear false-positive hard-blocks (score-only / Play App Signing / empty severe flags).
   const cleared = await pool.query(
     `UPDATE device_security_profiles
      SET security_level = 'warning',
+         admin_status = CASE
+           WHEN COALESCE(rooted, false) = true
+             OR COALESCE(emulator, false) = true
+             OR signals::text ILIKE '%signing_cert_mismatch%'
+             OR signals::text ILIKE '%resigned_apk%'
+             OR signals::text ILIKE '%re_signed_or_modified%'
+           THEN 'smart_monitor'
+           ELSE admin_status
+         END,
+         smart_monitor_enabled = CASE
+           WHEN COALESCE(rooted, false) = true
+             OR COALESCE(emulator, false) = true
+             OR signals::text ILIKE '%signing_cert_mismatch%'
+             OR signals::text ILIKE '%resigned_apk%'
+             OR signals::text ILIKE '%re_signed_or_modified%'
+           THEN true
+           ELSE smart_monitor_enabled
+         END,
+         tampered_apk = CASE
+           WHEN signals::text ILIKE '%signing_cert_mismatch%'
+             OR signals::text ILIKE '%resigned_apk%'
+             OR signals::text ILIKE '%re_signed_or_modified%'
+           THEN false
+           ELSE tampered_apk
+         END,
          blocked = false,
          blocked_at = NULL,
          blocked_by = '',
+         unblocked_at = COALESCE(unblocked_at, now()),
+         unblocked_by = CASE WHEN unblocked_at IS NULL THEN 'system:play_signing_remediation' ELSE unblocked_by END,
          updated_at = now()
      WHERE admin_status = 'monitoring'
        AND security_level IN ('blocked', 'critical')
        AND COALESCE(frida, false) = false
-       AND COALESCE(tampered_apk, false) = false
        AND COALESCE(debugger, false) = false
-       AND COALESCE(clone_detected, false) = false`,
+       AND COALESCE(clone_detected, false) = false
+       AND (
+         COALESCE(tampered_apk, false) = false
+         OR signals::text ILIKE '%signing_cert_mismatch%'
+         OR signals::text ILIKE '%resigned_apk%'
+         OR signals::text ILIKE '%re_signed_or_modified%'
+       )`,
   )
   // ROOT/EMULATOR-only → Smart Monitor (collect, do not hard-block Closed Testers).
   const smart = await pool.query(

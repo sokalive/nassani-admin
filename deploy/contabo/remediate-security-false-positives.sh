@@ -15,20 +15,52 @@ WHERE event_type = 'Security level changed'
   AND status = 'warning';
 SQL
 
-echo "=== CLEAR FALSE-POSITIVE HARD BLOCKS (no severe anti-tamper flags) ==="
+echo "=== CLEAR FALSE-POSITIVE HARD BLOCKS (score-only + Play App Signing) ==="
 sudo -u postgres psql -d nassani_db -v ON_ERROR_STOP=1 <<'SQL'
 UPDATE device_security_profiles
 SET security_level = 'warning',
+    admin_status = CASE
+      WHEN COALESCE(rooted, false) = true
+        OR COALESCE(emulator, false) = true
+        OR signals::text ILIKE '%signing_cert_mismatch%'
+        OR signals::text ILIKE '%resigned_apk%'
+        OR signals::text ILIKE '%re_signed_or_modified%'
+      THEN 'smart_monitor'
+      ELSE 'monitoring'
+    END,
+    smart_monitor_enabled = CASE
+      WHEN COALESCE(rooted, false) = true
+        OR COALESCE(emulator, false) = true
+        OR signals::text ILIKE '%signing_cert_mismatch%'
+        OR signals::text ILIKE '%resigned_apk%'
+        OR signals::text ILIKE '%re_signed_or_modified%'
+      THEN true
+      ELSE smart_monitor_enabled
+    END,
+    tampered_apk = CASE
+      WHEN signals::text ILIKE '%signing_cert_mismatch%'
+        OR signals::text ILIKE '%resigned_apk%'
+        OR signals::text ILIKE '%re_signed_or_modified%'
+      THEN false
+      ELSE tampered_apk
+    END,
     blocked = false,
     blocked_at = NULL,
     blocked_by = '',
+    unblocked_at = COALESCE(unblocked_at, now()),
+    unblocked_by = CASE WHEN unblocked_at IS NULL THEN 'system:closed_test_remediation' ELSE unblocked_by END,
     updated_at = now()
 WHERE admin_status = 'monitoring'
   AND security_level IN ('blocked', 'critical')
   AND COALESCE(frida, false) = false
-  AND COALESCE(tampered_apk, false) = false
   AND COALESCE(debugger, false) = false
-  AND COALESCE(clone_detected, false) = false;
+  AND COALESCE(clone_detected, false) = false
+  AND (
+    COALESCE(tampered_apk, false) = false
+    OR signals::text ILIKE '%signing_cert_mismatch%'
+    OR signals::text ILIKE '%resigned_apk%'
+    OR signals::text ILIKE '%re_signed_or_modified%'
+  );
 
 -- ROOT/EMULATOR-only monitoring → Smart Monitor
 UPDATE device_security_profiles

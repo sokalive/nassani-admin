@@ -42,4 +42,19 @@ assert.equal(formatReadableDateTime(0), '—')
 assert.equal(formatReadableDateTime(''), '—')
 assert.match(formatReadableDateTime('2026-07-18T12:00:00.000Z'), /2026/)
 
+assert.equal(classifyAutomaticThreatEnforcement({ play_app_signing: true }), 'smart_monitor')
+assert.equal(
+  classifyAutomaticThreatEnforcement({ play_app_signing: true, frida: true }),
+  'block',
+)
+
+import { computeRiskFromSignals } from '../src/lib/deviceSecurityStore.js'
+const play = computeRiskFromSignals([
+  { risk_type: 'resigned_apk', risk_score: 8, detail: 'signing_cert_mismatch' },
+  { risk_type: 'tampered_apk', risk_score: 8, detail: 're_signed_or_modified' },
+])
+assert.equal(play.flags.play_app_signing, true)
+assert.equal(play.flags.tampered_apk, false)
+assert.equal(classifyAutomaticThreatEnforcement(play.flags), 'smart_monitor')
+
 console.log('verify-security-false-positive-policy: PASS')
