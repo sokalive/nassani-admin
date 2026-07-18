@@ -862,6 +862,24 @@ export async function getSecurityStats() {
   await reconcileStrictSecurityLevels(pool).catch((e) => {
     console.error('[security] reconcileStrictSecurityLevels failed:', e)
   })
+  // Keep Play-signing Smart Monitor rows at warning even if an ingest race flipped level.
+  await pool
+    .query(
+      `UPDATE device_security_profiles
+       SET security_level = 'warning', blocked = false, blocked_at = NULL, blocked_by = '', updated_at = now()
+       WHERE admin_status = 'smart_monitor'
+         AND security_level IN ('blocked', 'critical')
+         AND COALESCE(frida, false) = false
+         AND COALESCE(debugger, false) = false
+         AND COALESCE(clone_detected, false) = false
+         AND (
+           signals::text ILIKE '%signing_cert_mismatch%'
+           OR signals::text ILIKE '%resigned_apk%'
+           OR signals::text ILIKE '%re_signed_or_modified%'
+           OR COALESCE(tampered_apk, false) = false
+         )`,
+    )
+    .catch((e) => console.error('[security] play-signing smart_monitor level fix failed:', e))
   const { rows } = await pool.query(
     `SELECT security_level, COUNT(*)::int AS n
      FROM device_security_profiles
