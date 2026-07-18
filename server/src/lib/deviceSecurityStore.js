@@ -567,10 +567,10 @@ export async function reconcileStrictSecurityLevels(pool) {
          updated_at = now()
      WHERE admin_status = 'monitoring'
        AND security_level IN ('blocked', 'critical')
-       AND frida = false
-       AND tampered_apk = false
-       AND debugger = false
-       AND clone_detected = false`,
+       AND COALESCE(frida, false) = false
+       AND COALESCE(tampered_apk, false) = false
+       AND COALESCE(debugger, false) = false
+       AND COALESCE(clone_detected, false) = false`,
   )
   // ROOT/EMULATOR-only → Smart Monitor (collect, do not hard-block Closed Testers).
   const smart = await pool.query(
@@ -585,11 +585,11 @@ export async function reconcileStrictSecurityLevels(pool) {
          unblocked_by = CASE WHEN unblocked_at IS NULL THEN 'system:auto_smart_monitor' ELSE unblocked_by END,
          updated_at = now()
      WHERE admin_status = 'monitoring'
-       AND (rooted = true OR emulator = true)
-       AND frida = false
-       AND tampered_apk = false
-       AND debugger = false
-       AND clone_detected = false`,
+       AND (COALESCE(rooted, false) = true OR COALESCE(emulator, false) = true)
+       AND COALESCE(frida, false) = false
+       AND COALESCE(tampered_apk, false) = false
+       AND COALESCE(debugger, false) = false
+       AND COALESCE(clone_detected, false) = false`,
   )
   return {
     updated: Number(blocked.rowCount) || 0,

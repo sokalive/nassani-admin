@@ -25,10 +25,10 @@ SET security_level = 'warning',
     updated_at = now()
 WHERE admin_status = 'monitoring'
   AND security_level IN ('blocked', 'critical')
-  AND frida = false
-  AND tampered_apk = false
-  AND debugger = false
-  AND clone_detected = false;
+  AND COALESCE(frida, false) = false
+  AND COALESCE(tampered_apk, false) = false
+  AND COALESCE(debugger, false) = false
+  AND COALESCE(clone_detected, false) = false;
 
 -- ROOT/EMULATOR-only monitoring → Smart Monitor
 UPDATE device_security_profiles
@@ -42,11 +42,11 @@ SET admin_status = 'smart_monitor',
     unblocked_by = CASE WHEN unblocked_at IS NULL THEN 'system:closed_test_remediation' ELSE unblocked_by END,
     updated_at = now()
 WHERE admin_status = 'monitoring'
-  AND (rooted = true OR emulator = true)
-  AND frida = false
-  AND tampered_apk = false
-  AND debugger = false
-  AND clone_detected = false;
+  AND (COALESCE(rooted, false) = true OR COALESCE(emulator, false) = true)
+  AND COALESCE(frida, false) = false
+  AND COALESCE(tampered_apk, false) = false
+  AND COALESCE(debugger, false) = false
+  AND COALESCE(clone_detected, false) = false;
 
 -- Ensure admin_devices layer is not falsely blocking
 UPDATE admin_devices SET is_blocked = false, block_reason = NULL, updated_at = now()
