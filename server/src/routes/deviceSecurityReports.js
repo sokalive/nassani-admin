@@ -91,16 +91,15 @@ async function handleSecurityReport(req, res) {
 
     const shouldLog =
       result.is_new ||
-      result.level_changed ||
-      result.detected_now ||
-      result.security_level === 'blocked'
+      (result.level_changed && result.security_level === 'blocked') ||
+      (result.detected_now && result.security_level === 'blocked')
 
     if (shouldLog) {
       await logSecurityEvent(pool, {
         actor: result.device_id,
         eventType: result.is_new ? 'Security detection' : 'Security level changed',
-        status: result.security_level === 'blocked' ? 'blocked' : 'warning',
-        detail: `strict block device:${result.device_id} phone:${result.phone_user || '—'} score:${result.risk_score} level:${result.security_level}`,
+        status: result.security_level === 'blocked' ? 'blocked' : 'completed',
+        detail: `device:${result.device_id} score:${result.risk_score} level:${result.security_level}`,
         metadata: {
           kind: 'anti_tamper',
           device_id: result.device_id,
@@ -109,7 +108,7 @@ async function handleSecurityReport(req, res) {
           security_level: result.security_level,
           security_blocked: denied,
           signals: result.signals,
-          strict_enforcement: true,
+          strict_enforcement: result.strict_enforcement === true,
         },
       })
       emitSync('security_detection_new', {

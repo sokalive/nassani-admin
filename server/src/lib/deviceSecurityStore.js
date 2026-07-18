@@ -105,9 +105,10 @@ export function computeRiskFromSignals(signals) {
 
 /**
  * Automatic enforcement tier for monitoring devices (strict / automatic mode).
- * ROOT-only, EMULATOR-only, and ROOT+EMULATOR-only → Smart Monitor (warning, not block).
- * FRIDA, APK tampering, debugger, clone, and severe combos → block.
- * @returns {'block'|'smart_monitor'}
+ * Severe anti-tamper (FRIDA, APK tamper, debugger, clone) → block.
+ * ROOT / EMULATOR alone → Smart Monitor (collect signals, do not hard-block).
+ * Score-only / unknown / empty flags → warning only (Closed Testing reinstalls must not auto-block).
+ * @returns {'block'|'smart_monitor'|'none'}
  */
 export function classifyAutomaticThreatEnforcement(flags) {
   const rooted = flags?.rooted === true
@@ -119,7 +120,7 @@ export function classifyAutomaticThreatEnforcement(flags) {
 
   if (frida || tampered || debuggerOn || clone) return 'block'
   if (rooted || emulator) return 'smart_monitor'
-  return 'block'
+  return 'none'
 }
 
 /** True when any anti-tamper signal is present in this report. */
@@ -194,7 +195,11 @@ export function resolveStrictSecurityLevel({ score, signals, flags, prev, adminS
     if (enforcement === 'smart_monitor') {
       return resolveSmartMonitorSecurityLevel({ score, signals, flags: effectiveFlags })
     }
-    return 'blocked'
+    if (enforcement === 'block') {
+      return 'blocked'
+    }
+    // Score-only / unknown signals: elevate visibility but do not hard-block testers.
+    return 'warning'
   }
   return 'warning'
 }
@@ -537,10 +542,10 @@ export async function getRiskDevice(deviceId) {
   return { ...device, block_reason: rows[0]?.block_reason ? String(rows[0].block_reason) : '' }
 }
 
-/** One-shot reconcile: block severe threats only; ROOT/EMULATOR-only stay on Smart Monitor path. */
+/** One-shot reconcile: block only severe anti-tamper; never score-only / unknown. */
 export async function reconcileStrictSecurityLevels(pool) {
-  if (!(await isStrictEnforcementEnabled(pool))) return { updated: 0 }
-  const out = await pool.query(
+  if (!(await isStrictEnforcementEnabled(pool))) return { updated: 0, cleared: 0, smart_monitor: 0 }
+  const blocked = await pool.query(
     `UPDATE device_security_profiles
      SET security_level = 'blocked', updated_at = now()
      WHERE admin_status = 'monitoring'
@@ -550,19 +555,47 @@ export async function reconcileStrictSecurityLevels(pool) {
          OR tampered_apk = true
          OR debugger = true
          OR clone_detected = true
-         OR (
-           (risk_score > 0 OR rooted = true OR emulator = true)
-           AND NOT (
-             (rooted = true OR emulator = true)
-             AND frida = false
-             AND tampered_apk = false
-             AND debugger = false
-             AND clone_detected = false
-           )
-         )
        )`,
   )
-  return { updated: Number(out.rowCount) || 0 }
+  // Clear false-positive hard-blocks (score-only / empty flags) left by the old default-block path.
+  const cleared = await pool.query(
+    `UPDATE device_security_profiles
+     SET security_level = 'warning',
+         blocked = false,
+         blocked_at = NULL,
+         blocked_by = '',
+         updated_at = now()
+     WHERE admin_status = 'monitoring'
+       AND security_level IN ('blocked', 'critical')
+       AND frida = false
+       AND tampered_apk = false
+       AND debugger = false
+       AND clone_detected = false`,
+  )
+  // ROOT/EMULATOR-only → Smart Monitor (collect, do not hard-block Closed Testers).
+  const smart = await pool.query(
+    `UPDATE device_security_profiles
+     SET admin_status = 'smart_monitor',
+         smart_monitor_enabled = true,
+         security_level = 'warning',
+         blocked = false,
+         blocked_at = NULL,
+         blocked_by = '',
+         unblocked_at = COALESCE(unblocked_at, now()),
+         unblocked_by = CASE WHEN unblocked_at IS NULL THEN 'system:auto_smart_monitor' ELSE unblocked_by END,
+         updated_at = now()
+     WHERE admin_status = 'monitoring'
+       AND (rooted = true OR emulator = true)
+       AND frida = false
+       AND tampered_apk = false
+       AND debugger = false
+       AND clone_detected = false`,
+  )
+  return {
+    updated: Number(blocked.rowCount) || 0,
+    cleared: Number(cleared.rowCount) || 0,
+    smart_monitor: Number(smart.rowCount) || 0,
+  }
 }
 
 function isLowRiskRootEmulatorProfile(row) {
@@ -731,7 +764,17 @@ export async function auditAndMigrateLowRiskSmartMonitor({ execute = false, acto
 
 export async function getSecurityStats() {
   const pool = getPool()
-  if (!pool) return { byLevel: {}, total: 0, flagged24h: 0 }
+  if (!pool) {
+    return {
+      byLevel: {},
+      total: 0,
+      flagged24h: 0,
+      alertsTotal: 0,
+      alertsTruncated: false,
+      logsTotal: 0,
+      logsTruncated: false,
+    }
+  }
   await ensureDeviceSecurityTables(pool)
   await reconcileStrictSecurityLevels(pool).catch((e) => {
     console.error('[security] reconcileStrictSecurityLevels failed:', e)
@@ -751,7 +794,24 @@ export async function getSecurityStats() {
     `SELECT COUNT(*)::int AS n FROM device_security_profiles
      WHERE last_seen_at > now() - interval '24 hours' AND risk_score > 0`,
   )
-  return { byLevel, total, flagged24h: Number(flagged.rows[0]?.n) || 0 }
+  // Active alerts = real detections / blocks only (not spam "level changed" warnings).
+  const alerts = await pool.query(
+    `SELECT COUNT(*)::int AS n FROM security_events
+     WHERE status IN ('failed', 'blocked', 'pending')
+        OR (status = 'warning' AND event_type = 'Security detection')`,
+  )
+  const logs = await pool.query(`SELECT COUNT(*)::int AS n FROM security_events`)
+  const alertsTotal = Number(alerts.rows[0]?.n) || 0
+  const logsTotal = Number(logs.rows[0]?.n) || 0
+  return {
+    byLevel,
+    total,
+    flagged24h: Number(flagged.rows[0]?.n) || 0,
+    alertsTotal,
+    alertsTruncated: alertsTotal > 200,
+    logsTotal,
+    logsTruncated: logsTotal > 1000,
+  }
 }
 
 export async function getPlaybackSecurityPolicy(deviceId) {
@@ -789,14 +849,11 @@ export async function getPlaybackSecurityPolicy(deviceId) {
   const adminBlocked = r.is_blocked === true
   const level = String(r.security_level || 'warning')
   const adminStatus = String(r.admin_status || 'monitoring')
-  const strictEnabled = await isStrictEnforcementEnabled(pool)
-  const hasThreat = rowHasStoredThreat(r)
 
   let deny =
     adminBlocked ||
     level === 'blocked' ||
-    level === 'critical' ||
-    (strictEnabled && hasThreat && adminStatus === 'monitoring')
+    level === 'critical'
 
   if (adminStatus === 'smart_monitor') {
     deny = adminBlocked || level === 'blocked' || level === 'critical'

@@ -18,7 +18,7 @@ function SecurityLogsPage() {
   const refresh = useCallback(async () => {
     try {
       const list = await getSecurityLogs()
-      setLogs(Array.isArray(list) ? list : [])
+      setLogs(Array.isArray(list) ? list : Array.isArray(list?.logs) ? list.logs : [])
     } catch (e) {
       showToast('error', e?.message || 'Could not load security logs')
       setLogs([])

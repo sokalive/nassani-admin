@@ -24,6 +24,7 @@
     "verify:api-cache": "node scripts/verify-api-cache.mjs",
     "verify:instant-sync": "node scripts/verify-instant-sync.mjs",
     "verify:security-pin-e2e": "node scripts/verify-security-pin-e2e.mjs",
+    "verify:security-fp-policy": "node scripts/verify-security-false-positive-policy.mjs",
     "verify:stream-delivery": "node scripts/verify-stream-delivery.mjs",
     "verify:nassani-stream-live": "node scripts/verify-nassani-stream-live.mjs",
     "verify:selective-segment-routing": "node scripts/verify-selective-segment-routing.mjs",

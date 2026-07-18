@@ -668,10 +668,17 @@ deviceSecurityRouter.get('/settings/security-suite', async (_req, res) => {
     const alertRows = await pool.query(
       `SELECT id, actor, event_type, detail, status, created_at, metadata
        FROM security_events
-       WHERE status IN ('failed', 'blocked', 'warning', 'pending')
+       WHERE status IN ('failed', 'blocked', 'pending')
+          OR (status = 'warning' AND event_type = 'Security detection')
        ORDER BY created_at DESC
        LIMIT 200`,
     )
+    const alertCount = await pool.query(
+      `SELECT COUNT(*)::int AS n FROM security_events
+       WHERE status IN ('failed', 'blocked', 'pending')
+          OR (status = 'warning' AND event_type = 'Security detection')`,
+    )
+    const alertsTotal = Number(alertCount.rows[0]?.n) || 0
     return res.json({
       protectionMode: suiteSettings.protectionMode,
       whitelist: whitelistRows.rows.map((r) => ({ id: String(r.device_id), value: String(r.device_id) })),
@@ -680,6 +687,8 @@ deviceSecurityRouter.get('/settings/security-suite', async (_req, res) => {
         value: String(r.device_id),
         reason: String(r.block_reason || ''),
       })),
+      alertsTotal,
+      alertsTruncated: alertsTotal > 200,
       alerts: alertRows.rows.map((r) => ({
         id: String(r.id),
         actor: String(r.actor || ''),
@@ -923,22 +932,26 @@ deviceSecurityRouter.get('/security-logs', async (_req, res) => {
     const pool = getPool()
     if (!pool) return res.status(503).json({ error: 'Database not configured' })
     await ensureSecurityTables(pool)
+    const totalRes = await pool.query(`SELECT COUNT(*)::int AS n FROM security_events`)
+    const logsTotal = Number(totalRes.rows[0]?.n) || 0
     const { rows } = await pool.query(
       `SELECT id, actor, event_type, status, detail, created_at
        FROM security_events
        ORDER BY created_at DESC
        LIMIT 1000`,
     )
-    return res.json(
-      rows.map((r) => ({
-        id: String(r.id),
-        actor: String(r.actor || ''),
-        eventType: String(r.event_type || ''),
-        status: String(r.status || 'completed'),
-        detail: String(r.detail || ''),
-        timestamp: r.created_at instanceof Date ? r.created_at.toISOString() : String(r.created_at),
-      })),
-    )
+    const logs = rows.map((r) => ({
+      id: String(r.id),
+      actor: String(r.actor || ''),
+      eventType: String(r.event_type || ''),
+      status: String(r.status || 'completed'),
+      detail: String(r.detail || ''),
+      timestamp: r.created_at instanceof Date ? r.created_at.toISOString() : String(r.created_at),
+    }))
+    res.setHeader('X-Security-Logs-Total', String(logsTotal))
+    res.setHeader('X-Security-Logs-Truncated', logsTotal > 1000 ? '1' : '0')
+    // Object envelope (preferred) + array-compatible `logs` field.
+    return res.json({ ok: true, logsTotal, logsTruncated: logsTotal > 1000, logs })
   } catch (e) {
     console.error('[security-logs] GET', e)
     return res.status(500).json({ error: String(e.message || e) })

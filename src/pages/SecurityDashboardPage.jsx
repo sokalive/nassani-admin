@@ -174,8 +174,17 @@ function SecurityDashboardPage() {
       setAlerts(Array.isArray(suite?.alerts) ? suite.alerts : [])
       setProtectionMode(suite?.protectionMode === 'automatic' ? 'automatic' : 'manual')
       setDevices(Array.isArray(riskRes?.devices) ? riskRes.devices : [])
-      setLogs(Array.isArray(logsRes) ? logsRes : [])
-      setStats(statsRes || { byLevel: {}, total: 0, flagged24h: 0 })
+      const logList = Array.isArray(logsRes) ? logsRes : Array.isArray(logsRes?.logs) ? logsRes.logs : []
+      setLogs(logList)
+      setStats({
+        byLevel: statsRes?.byLevel || {},
+        total: Number(statsRes?.total) || 0,
+        flagged24h: Number(statsRes?.flagged24h) || 0,
+        alertsTotal: Number(statsRes?.alertsTotal ?? suite?.alertsTotal) || 0,
+        alertsTruncated: statsRes?.alertsTruncated === true || suite?.alertsTruncated === true,
+        logsTotal: Number(statsRes?.logsTotal ?? logsRes?.logsTotal) || logList.length,
+        logsTruncated: statsRes?.logsTruncated === true || logsRes?.logsTruncated === true,
+      })
     } catch (e) {
       showToast('error', e?.message || 'Failed to load security dashboard')
     } finally {
@@ -309,8 +318,8 @@ function SecurityDashboardPage() {
             </div>
             <h1 className="mt-1 text-2xl font-bold text-white sm:text-3xl">Security Center</h1>
             <p className="mt-1 text-sm text-slate-400">
-              Strict enforcement: any root, emulator, clone, debugger, Frida, or tampered APK report
-              blocks playback immediately until you whitelist or reset the device.
+              Severe threats (Frida, tampered APK, debugger, clone) block playback. Root/emulator-only
+              devices use Smart Monitor. Normal Closed Testing installs are not auto-blocked.
             </p>
           </div>
           <button
@@ -328,8 +337,18 @@ function SecurityDashboardPage() {
           {[
             { label: 'Risk devices', value: stats.total, sub: 'tracked profiles' },
             { label: 'Flagged 24h', value: stats.flagged24h, sub: 'recent signals' },
-            { label: 'Active alerts', value: filteredAlerts.length, sub: 'needs review' },
-            { label: 'Audit logs', value: logs.length, sub: 'events stored' },
+            {
+              label: 'Active alerts',
+              value: Number(stats.alertsTotal) || filteredAlerts.length,
+              sub: stats.alertsTruncated
+                ? `showing ${filteredAlerts.length} of total`
+                : 'detections needing review',
+            },
+            {
+              label: 'Audit logs',
+              value: Number(stats.logsTotal) || logs.length,
+              sub: stats.logsTruncated ? `showing latest ${logs.length}` : 'events stored',
+            },
           ].map((c) => (
             <div
               key={c.label}
